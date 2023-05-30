@@ -1,12 +1,12 @@
 package ep33
 
 import (
-	"MyGateway_go/parse"
+	"MyGateway_go/support_parse/parse"
 	"MyGateway_go/util"
 	"encoding/hex"
 )
 
-func ToEvts(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) []any {
+func ToEvts(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) any {
 	evts := make([]any, 0)
 	for _byteBuf.Readable() {
 		evtId := _byteBuf.Get_uint16(true)
@@ -76,7 +76,8 @@ func ToEvts(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) []
 	return evts
 }
 
-func WriteEvts(_byteBuf *parse.ByteBuf, evts []any, _parentParseContext *parse.ParseContext) {
+func WriteEvts(_byteBuf *parse.ByteBuf, __instance any, _parentParseContext *parse.ParseContext) {
+	evts := __instance.([]any)
 	for _, e := range evts {
 		e.(parse.Writeable).Write(_byteBuf, _parentParseContext)
 	}

@@ -44,7 +44,6 @@ func (e *BitBuf_reader) Read(bit int, bigEndian bool, unsigned bool) int64 {
 
 	//如果是小端模式、则翻转bit
 	var cRight int64
-
 	if bigEndian {
 		cRight = l >> (byteLen*8 - bitOffset - bit)
 	} else {

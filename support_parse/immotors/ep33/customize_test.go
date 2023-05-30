@@ -1,7 +1,7 @@
 package ep33
 
 import (
-	"MyGateway_go/parse"
+	"MyGateway_go/support_parse/parse"
 	"encoding/hex"
 	"strings"
 	"testing"
@@ -14,6 +14,7 @@ func BenchmarkToPacket(b *testing.B) {
 	if err != nil {
 		b.Errorf("%+v", err)
 	}
+
 	byteBuf := parse.ToByteBuf(decodeString)
 	byteBuf.MarkReaderIndex()
 	byteBuf.MarkWriterIndex()

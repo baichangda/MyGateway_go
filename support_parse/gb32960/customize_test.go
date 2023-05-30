@@ -1,7 +1,7 @@
 package gb32960
 
 import (
-	"MyGateway_go/parse"
+	"MyGateway_go/support_parse/parse"
 	"encoding/hex"
 	"strings"
 	"testing"
