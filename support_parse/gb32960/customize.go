@@ -50,14 +50,14 @@ func ToVehicleCommonData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Par
 			_instance.VehicleStorageTemperatureData = ToVehicleStorageTemperatureData(_byteBuf, _parseContext)
 		default:
 			util.Log.Warnf("Parse VehicleCommonData Interrupted,Unknown Flag[%d]", flag)
-			return _instance
+			return &_instance
 		}
 	}
-	return _instance
+	return &_instance
 }
 
 func WriteVehicleCommonData(_byteBuf *parse.ByteBuf, __instance any, _parentParseContext *parse.ParseContext) {
-	_instance := __instance.(VehicleCommonData)
+	_instance := __instance.(*VehicleCommonData)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 
 	if _instance.VehicleBaseData != nil {

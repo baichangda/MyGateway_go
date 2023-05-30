@@ -10,7 +10,6 @@ func ToEvts(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) an
 	evts := make([]any, 0)
 	for _byteBuf.Readable() {
 		evtId := _byteBuf.Get_uint16(true)
-
 		var evt any
 		switch evtId {
 		case 0x0001:
