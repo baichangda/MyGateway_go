@@ -2,10 +2,7 @@ package parse
 
 import (
 	"MyGateway_go/util"
-	"os"
-	"os/signal"
 	"sync/atomic"
-	"syscall"
 	"time"
 )
 
@@ -28,14 +25,8 @@ func TestMultiThreadPerformance_parse(bytes []byte, threadNum int, num int, fn f
 		}()
 	}
 
-	c := make(chan os.Signal)
-	signal.Notify(c, os.Interrupt, os.Kill, syscall.SIGUSR1, syscall.SIGUSR2)
-	go func() {
-		for v := range c {
-			util.Log.Infof("----signal %+v", v)
-			os.Exit(0)
-		}
-	}()
+	util.ExitOnKill()
+
 	for {
 		time.Sleep(3 * time.Second)
 		if atomic.LoadInt32(&runNum) == 0 {
@@ -64,14 +55,8 @@ func TestMultiThreadPerformance_deParse(byteBuf *ByteBuf, threadNum int, num int
 		}()
 	}
 
-	c := make(chan os.Signal)
-	signal.Notify(c, os.Interrupt, os.Kill, syscall.SIGUSR1, syscall.SIGUSR2)
-	go func() {
-		for v := range c {
-			util.Log.Infof("----signal %+v", v)
-			os.Exit(0)
-		}
-	}()
+	util.ExitOnKill()
+
 	for {
 		time.Sleep(3 * time.Second)
 		if atomic.LoadInt32(&runNum) == 0 {
