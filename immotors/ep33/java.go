@@ -1515,8 +1515,7 @@ func ToEvt_0007(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 func (_instance Evt_0007) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_byteBuf.Write_uint16(_instance.EvtId, true)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
-	round := parse.Round(float64(_instance.AcceX / 0.0009765625))
-	_bitBuf.Write(int64(round), 14, true, false)
+	_bitBuf.Write(int64(parse.Round(float64(_instance.AcceX/0.0009765625))), 14, true, false)
 	_bitBuf.Finish()
 	_bitBuf.Write(int64(parse.Round(float64(_instance.AcceY/0.0009765625))), 14, true, false)
 	_bitBuf.Finish()
@@ -1600,19 +1599,19 @@ func (_instance Evt_0005) Write(_byteBuf *parse.ByteBuf, _parentParseContext *pa
 }
 
 type Packet struct {
-	evts []any
+	Evts any
 }
 
 func ToPacket(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Packet {
 	_instance := Packet{}
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
-	_instance.evts = ToEvts(_byteBuf, _parseContext)
+	_instance.Evts = ToEvts(_byteBuf, _parseContext)
 	return _instance
 }
 
 func (_instance Packet) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
-	WriteEvts(_byteBuf, _instance.evts, _parseContext)
+	WriteEvts(_byteBuf, _instance.Evts, _parseContext)
 }
 
 type Evt_D00B_BMSCellVol struct {
