@@ -3,16 +3,21 @@ package util
 import (
 	"bytes"
 	gzip2 "compress/gzip"
+	"github.com/pkg/errors"
 	"io"
 )
 
 func Gzip(b []byte) ([]byte, error) {
 	reader, err := gzip2.NewReader(bytes.NewReader(b))
 	if err != nil {
-		return nil, err
+		return nil, errors.WithStack(err)
 	}
 	defer reader.Close()
-	return io.ReadAll(reader)
+	all, err := io.ReadAll(reader)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+	return all, nil
 }
 
 func UnGzip(b []byte) ([]byte, error) {
@@ -21,7 +26,7 @@ func UnGzip(b []byte) ([]byte, error) {
 	defer writer.Close()
 	_, err := writer.Write(b)
 	if err != nil {
-		return nil, err
+		return nil, errors.WithStack(err)
 	}
 	return res.Bytes(), nil
 }
