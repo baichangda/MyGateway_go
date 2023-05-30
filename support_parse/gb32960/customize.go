@@ -31,32 +31,23 @@ func ToVehicleCommonData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Par
 		flag := _byteBuf.Read_uint8()
 		switch flag {
 		case 1:
-			data := ToVehicleBaseData(_byteBuf, _parseContext)
-			_instance.VehicleBaseData = &data
+			_instance.VehicleBaseData = ToVehicleBaseData(_byteBuf, _parseContext)
 		case 2:
-			data := ToVehicleMotorData(_byteBuf, _parseContext)
-			_instance.VehicleMotorData = &data
+			_instance.VehicleMotorData = ToVehicleMotorData(_byteBuf, _parseContext)
 		case 3:
-			data := ToVehicleFuelBatteryData(_byteBuf, _parseContext)
-			_instance.VehicleFuelBatteryData = &data
+			_instance.VehicleFuelBatteryData = ToVehicleFuelBatteryData(_byteBuf, _parseContext)
 		case 4:
-			data := ToVehicleEngineData(_byteBuf, _parseContext)
-			_instance.VehicleEngineData = &data
+			_instance.VehicleEngineData = ToVehicleEngineData(_byteBuf, _parseContext)
 		case 5:
-			data := ToVehiclePositionData(_byteBuf, _parseContext)
-			_instance.VehiclePositionData = &data
+			_instance.VehiclePositionData = ToVehiclePositionData(_byteBuf, _parseContext)
 		case 6:
-			data := ToVehicleLimitValueData(_byteBuf, _parseContext)
-			_instance.VehicleLimitValueData = &data
+			_instance.VehicleLimitValueData = ToVehicleLimitValueData(_byteBuf, _parseContext)
 		case 7:
-			data := ToVehicleAlarmData(_byteBuf, _parseContext)
-			_instance.VehicleAlarmData = &data
+			_instance.VehicleAlarmData = ToVehicleAlarmData(_byteBuf, _parseContext)
 		case 8:
-			data := ToVehicleStorageVoltageData(_byteBuf, _parseContext)
-			_instance.VehicleStorageVoltageData = &data
+			_instance.VehicleStorageVoltageData = ToVehicleStorageVoltageData(_byteBuf, _parseContext)
 		case 9:
-			data := ToVehicleStorageTemperatureData(_byteBuf, _parseContext)
-			_instance.VehicleStorageTemperatureData = &data
+			_instance.VehicleStorageTemperatureData = ToVehicleStorageTemperatureData(_byteBuf, _parseContext)
 		default:
 			util.Log.Warnf("Parse VehicleCommonData Interrupted,Unknown Flag[%d]", flag)
 			return _instance
@@ -111,23 +102,17 @@ func ToData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) an
 	packet := _parentParseContext.Instance.(*Packet)
 	switch packet.Flag {
 	case 1:
-		data := ToVehicleLoginData(_byteBuf, _parentParseContext)
-		return data
+		return ToVehicleLoginData(_byteBuf, _parentParseContext)
 	case 2:
-		data := ToVehicleRunData(_byteBuf, _parentParseContext)
-		return data
+		return ToVehicleRunData(_byteBuf, _parentParseContext)
 	case 3:
-		data := ToVehicleSupplementData(_byteBuf, _parentParseContext)
-		return data
+		return ToVehicleSupplementData(_byteBuf, _parentParseContext)
 	case 4:
-		data := ToVehicleLogoutData(_byteBuf, _parentParseContext)
-		return data
+		return ToVehicleLogoutData(_byteBuf, _parentParseContext)
 	case 5:
-		data := ToPlatformLoginData(_byteBuf, _parentParseContext)
-		return data
+		return ToPlatformLoginData(_byteBuf, _parentParseContext)
 	case 6:
-		data := ToPlatformLogoutData(_byteBuf, _parentParseContext)
-		return data
+		return ToPlatformLogoutData(_byteBuf, _parentParseContext)
 	default:
 		util.Log.Warnf("Parse PacketData Interrupted,Unknown Flag[%d]", packet.Flag)
 		return nil

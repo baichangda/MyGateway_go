@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-var _location0, _ = time.LoadLocation("Asia/Shanghai")
+var _Location0, _ = time.LoadLocation("Asia/Shanghai")
 
 type VehicleBaseData struct {
 	VehicleStatus uint8
@@ -23,7 +23,7 @@ type VehicleBaseData struct {
 	PedalStatus   uint8
 }
 
-func ToVehicleBaseData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) VehicleBaseData {
+func ToVehicleBaseData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleBaseData {
 	_instance := VehicleBaseData{}
 	VehicleStatus_v := _byteBuf.Read_uint8()
 	_instance.VehicleStatus = VehicleStatus_v
@@ -64,10 +64,11 @@ func ToVehicleBaseData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Parse
 	PedalStatus_v := _byteBuf.Read_uint8()
 	_instance.PedalStatus = PedalStatus_v
 
-	return _instance
+	return &_instance
 }
 
-func (_instance VehicleBaseData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *VehicleBaseData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.VehicleStatus)
 	_byteBuf.Write_uint8(_instance.ChargeStatus)
 	_byteBuf.Write_uint8(_instance.RunMode)
@@ -88,17 +89,18 @@ type PlatformLogoutData struct {
 	Sn          uint16
 }
 
-func ToPlatformLogoutData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) PlatformLogoutData {
+func ToPlatformLogoutData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *PlatformLogoutData {
 	_instance := PlatformLogoutData{}
 	CollectTime_bytes := _byteBuf.Read_bytes(6)
-	_instance.CollectTime = time.Date(2000+int(CollectTime_bytes[0]), time.Month(int(CollectTime_bytes[1])), int(CollectTime_bytes[2]), int(CollectTime_bytes[3]), int(CollectTime_bytes[4]), int(CollectTime_bytes[5]), 0, _location0)
+	_instance.CollectTime = time.Date(2000+int(CollectTime_bytes[0]), time.Month(int(CollectTime_bytes[1])), int(CollectTime_bytes[2]), int(CollectTime_bytes[3]), int(CollectTime_bytes[4]), int(CollectTime_bytes[5]), 0, _Location0)
 	Sn_v := _byteBuf.Read_uint16(true)
 	_instance.Sn = Sn_v
 
-	return _instance
+	return &_instance
 }
 
-func (_instance PlatformLogoutData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *PlatformLogoutData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	CollectTime_v := _instance.CollectTime
 	_byteBuf.Write_bytes([]byte{byte(CollectTime_v.Year() - 2000), byte(CollectTime_v.Month()), byte(CollectTime_v.Day()), byte(CollectTime_v.Hour()), byte(CollectTime_v.Minute()), byte(CollectTime_v.Second())})
 	_byteBuf.Write_uint16(_instance.Sn, true)
@@ -119,7 +121,7 @@ type VehicleFuelBatteryData struct {
 	DcStatus             uint8
 }
 
-func ToVehicleFuelBatteryData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) VehicleFuelBatteryData {
+func ToVehicleFuelBatteryData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleFuelBatteryData {
 	_instance := VehicleFuelBatteryData{}
 	Voltage_v := _byteBuf.Read_uint16(true)
 	_instance.Voltage = float32(Voltage_v) / 10
@@ -161,10 +163,11 @@ func ToVehicleFuelBatteryData(_byteBuf *parse.ByteBuf, _parentParseContext *pars
 	DcStatus_v := _byteBuf.Read_uint8()
 	_instance.DcStatus = DcStatus_v
 
-	return _instance
+	return &_instance
 }
 
-func (_instance VehicleFuelBatteryData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *VehicleFuelBatteryData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_byteBuf.Write_uint16(uint16(parse.Round(_instance.Voltage*10)), true)
 	_byteBuf.Write_uint16(uint16(parse.Round(_instance.Current*10)), true)
 	_byteBuf.Write_uint16(uint16(parse.Round(_instance.ConsumptionRate*100)), true)
@@ -195,7 +198,7 @@ type VehicleAlarmData struct {
 	OtherBadCodes  []uint32
 }
 
-func ToVehicleAlarmData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) VehicleAlarmData {
+func ToVehicleAlarmData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleAlarmData {
 	_instance := VehicleAlarmData{}
 	MaxAlarmLevel_v := _byteBuf.Read_uint8()
 	_instance.MaxAlarmLevel = MaxAlarmLevel_v
@@ -239,10 +242,11 @@ func ToVehicleAlarmData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 		OtherBadCodes_arr[i] = e
 	}
 	_instance.OtherBadCodes = OtherBadCodes_arr
-	return _instance
+	return &_instance
 }
 
-func (_instance VehicleAlarmData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *VehicleAlarmData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.MaxAlarmLevel)
 	_byteBuf.Write_uint32(_instance.AlarmFlag, true)
 	_byteBuf.Write_uint8(_instance.ChargeBadNum)
@@ -270,19 +274,20 @@ type VehicleSupplementData struct {
 	VehicleCommonData any
 }
 
-func ToVehicleSupplementData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) VehicleSupplementData {
+func ToVehicleSupplementData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleSupplementData {
 	_instance := VehicleSupplementData{}
 	CollectTime_bytes := _byteBuf.Read_bytes(6)
-	_instance.CollectTime = time.Date(2000+int(CollectTime_bytes[0]), time.Month(int(CollectTime_bytes[1])), int(CollectTime_bytes[2]), int(CollectTime_bytes[3]), int(CollectTime_bytes[4]), int(CollectTime_bytes[5]), 0, _location0)
+	_instance.CollectTime = time.Date(2000+int(CollectTime_bytes[0]), time.Month(int(CollectTime_bytes[1])), int(CollectTime_bytes[2]), int(CollectTime_bytes[3]), int(CollectTime_bytes[4]), int(CollectTime_bytes[5]), 0, _Location0)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	_instance.VehicleCommonData = ToVehicleCommonData(_byteBuf, _parseContext)
-	return _instance
+	return &_instance
 }
 
-func (_instance VehicleSupplementData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *VehicleSupplementData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	CollectTime_v := _instance.CollectTime
 	_byteBuf.Write_bytes([]byte{byte(CollectTime_v.Year() - 2000), byte(CollectTime_v.Month()), byte(CollectTime_v.Day()), byte(CollectTime_v.Hour()), byte(CollectTime_v.Minute()), byte(CollectTime_v.Second())})
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	WriteVehicleCommonData(_byteBuf, _instance.VehicleCommonData, _parseContext)
 }
 
@@ -295,10 +300,10 @@ type VehicleLoginData struct {
 	SystemCode    string
 }
 
-func ToVehicleLoginData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) VehicleLoginData {
+func ToVehicleLoginData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleLoginData {
 	_instance := VehicleLoginData{}
 	CollectTime_bytes := _byteBuf.Read_bytes(6)
-	_instance.CollectTime = time.Date(2000+int(CollectTime_bytes[0]), time.Month(int(CollectTime_bytes[1])), int(CollectTime_bytes[2]), int(CollectTime_bytes[3]), int(CollectTime_bytes[4]), int(CollectTime_bytes[5]), 0, _location0)
+	_instance.CollectTime = time.Date(2000+int(CollectTime_bytes[0]), time.Month(int(CollectTime_bytes[1])), int(CollectTime_bytes[2]), int(CollectTime_bytes[3]), int(CollectTime_bytes[4]), int(CollectTime_bytes[5]), 0, _Location0)
 	Sn_v := _byteBuf.Read_uint16(true)
 	_instance.Sn = Sn_v
 
@@ -332,10 +337,11 @@ func ToVehicleLoginData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 	}
 	_instance.SystemCode = string(SystemCode_v[:(SystemCode_len - SystemCode_count)])
 
-	return _instance
+	return &_instance
 }
 
-func (_instance VehicleLoginData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *VehicleLoginData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	CollectTime_v := _instance.CollectTime
 	_byteBuf.Write_bytes([]byte{byte(CollectTime_v.Year() - 2000), byte(CollectTime_v.Month()), byte(CollectTime_v.Day()), byte(CollectTime_v.Hour()), byte(CollectTime_v.Minute()), byte(CollectTime_v.Second())})
 	_byteBuf.Write_uint16(_instance.Sn, true)
@@ -359,10 +365,10 @@ type PlatformLoginData struct {
 	Encode      uint8
 }
 
-func ToPlatformLoginData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) PlatformLoginData {
+func ToPlatformLoginData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *PlatformLoginData {
 	_instance := PlatformLoginData{}
 	CollectTime_bytes := _byteBuf.Read_bytes(6)
-	_instance.CollectTime = time.Date(2000+int(CollectTime_bytes[0]), time.Month(int(CollectTime_bytes[1])), int(CollectTime_bytes[2]), int(CollectTime_bytes[3]), int(CollectTime_bytes[4]), int(CollectTime_bytes[5]), 0, _location0)
+	_instance.CollectTime = time.Date(2000+int(CollectTime_bytes[0]), time.Month(int(CollectTime_bytes[1])), int(CollectTime_bytes[2]), int(CollectTime_bytes[3]), int(CollectTime_bytes[4]), int(CollectTime_bytes[5]), 0, _Location0)
 	Sn_v := _byteBuf.Read_uint16(true)
 	_instance.Sn = Sn_v
 
@@ -393,10 +399,11 @@ func ToPlatformLoginData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Par
 	Encode_v := _byteBuf.Read_uint8()
 	_instance.Encode = Encode_v
 
-	return _instance
+	return &_instance
 }
 
-func (_instance PlatformLoginData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *PlatformLoginData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	CollectTime_v := _instance.CollectTime
 	_byteBuf.Write_bytes([]byte{byte(CollectTime_v.Year() - 2000), byte(CollectTime_v.Month()), byte(CollectTime_v.Day()), byte(CollectTime_v.Hour()), byte(CollectTime_v.Minute()), byte(CollectTime_v.Second())})
 	_byteBuf.Write_uint16(_instance.Sn, true)
@@ -416,7 +423,7 @@ type VehicleStorageVoltageData struct {
 	Content []StorageVoltageData
 }
 
-func ToVehicleStorageVoltageData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) VehicleStorageVoltageData {
+func ToVehicleStorageVoltageData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleStorageVoltageData {
 	_instance := VehicleStorageVoltageData{}
 	Num_v := _byteBuf.Read_uint8()
 	_instance.Num = Num_v
@@ -428,12 +435,13 @@ func ToVehicleStorageVoltageData(_byteBuf *parse.ByteBuf, _parentParseContext *p
 		Content_arr[i] = ToStorageVoltageData(_byteBuf, _parseContext)
 	}
 	_instance.Content = Content_arr
-	return _instance
+	return &_instance
 }
 
-func (_instance VehicleStorageVoltageData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *VehicleStorageVoltageData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.Num)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	Content_arr := _instance.Content
 	for i := 0; i < len(Content_arr); i++ {
 		Content_arr[i].Write(_byteBuf, _parseContext)
@@ -445,19 +453,20 @@ type VehicleRunData struct {
 	VehicleCommonData any
 }
 
-func ToVehicleRunData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) VehicleRunData {
+func ToVehicleRunData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleRunData {
 	_instance := VehicleRunData{}
 	CollectTime_bytes := _byteBuf.Read_bytes(6)
-	_instance.CollectTime = time.Date(2000+int(CollectTime_bytes[0]), time.Month(int(CollectTime_bytes[1])), int(CollectTime_bytes[2]), int(CollectTime_bytes[3]), int(CollectTime_bytes[4]), int(CollectTime_bytes[5]), 0, _location0)
+	_instance.CollectTime = time.Date(2000+int(CollectTime_bytes[0]), time.Month(int(CollectTime_bytes[1])), int(CollectTime_bytes[2]), int(CollectTime_bytes[3]), int(CollectTime_bytes[4]), int(CollectTime_bytes[5]), 0, _Location0)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	_instance.VehicleCommonData = ToVehicleCommonData(_byteBuf, _parseContext)
-	return _instance
+	return &_instance
 }
 
-func (_instance VehicleRunData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *VehicleRunData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	CollectTime_v := _instance.CollectTime
 	_byteBuf.Write_bytes([]byte{byte(CollectTime_v.Year() - 2000), byte(CollectTime_v.Month()), byte(CollectTime_v.Day()), byte(CollectTime_v.Hour()), byte(CollectTime_v.Minute()), byte(CollectTime_v.Second())})
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	WriteVehicleCommonData(_byteBuf, _instance.VehicleCommonData, _parseContext)
 }
 
@@ -467,7 +476,7 @@ type VehiclePositionData struct {
 	Lat    float64
 }
 
-func ToVehiclePositionData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) VehiclePositionData {
+func ToVehiclePositionData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehiclePositionData {
 	_instance := VehiclePositionData{}
 	Status_v := _byteBuf.Read_uint8()
 	_instance.Status = Status_v
@@ -478,10 +487,11 @@ func ToVehiclePositionData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.P
 	Lat_v := _byteBuf.Read_uint32(true)
 	_instance.Lat = float64(Lat_v) / 1000000
 
-	return _instance
+	return &_instance
 }
 
-func (_instance VehiclePositionData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *VehiclePositionData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.Status)
 	_byteBuf.Write_uint32(uint32(parse.Round(_instance.Lng*1000000)), true)
 	_byteBuf.Write_uint32(uint32(parse.Round(_instance.Lat*1000000)), true)
@@ -493,7 +503,7 @@ type VehicleEngineData struct {
 	Rate   float32
 }
 
-func ToVehicleEngineData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) VehicleEngineData {
+func ToVehicleEngineData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleEngineData {
 	_instance := VehicleEngineData{}
 	Status_v := _byteBuf.Read_uint8()
 	_instance.Status = Status_v
@@ -504,10 +514,11 @@ func ToVehicleEngineData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Par
 	Rate_v := _byteBuf.Read_uint16(true)
 	_instance.Rate = float32(Rate_v) / 100
 
-	return _instance
+	return &_instance
 }
 
-func (_instance VehicleEngineData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *VehicleEngineData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.Status)
 	_byteBuf.Write_uint16(_instance.Speed, true)
 	_byteBuf.Write_uint16(uint16(parse.Round(_instance.Rate*100)), true)
@@ -518,17 +529,18 @@ type VehicleLogoutData struct {
 	Sn          uint16
 }
 
-func ToVehicleLogoutData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) VehicleLogoutData {
+func ToVehicleLogoutData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleLogoutData {
 	_instance := VehicleLogoutData{}
 	CollectTime_bytes := _byteBuf.Read_bytes(6)
-	_instance.CollectTime = time.Date(2000+int(CollectTime_bytes[0]), time.Month(int(CollectTime_bytes[1])), int(CollectTime_bytes[2]), int(CollectTime_bytes[3]), int(CollectTime_bytes[4]), int(CollectTime_bytes[5]), 0, _location0)
+	_instance.CollectTime = time.Date(2000+int(CollectTime_bytes[0]), time.Month(int(CollectTime_bytes[1])), int(CollectTime_bytes[2]), int(CollectTime_bytes[3]), int(CollectTime_bytes[4]), int(CollectTime_bytes[5]), 0, _Location0)
 	Sn_v := _byteBuf.Read_uint16(true)
 	_instance.Sn = Sn_v
 
-	return _instance
+	return &_instance
 }
 
-func (_instance VehicleLogoutData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *VehicleLogoutData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	CollectTime_v := _instance.CollectTime
 	_byteBuf.Write_bytes([]byte{byte(CollectTime_v.Year() - 2000), byte(CollectTime_v.Month()), byte(CollectTime_v.Day()), byte(CollectTime_v.Hour()), byte(CollectTime_v.Minute()), byte(CollectTime_v.Second())})
 	_byteBuf.Write_uint16(_instance.Sn, true)
@@ -590,7 +602,7 @@ type VehicleMotorData struct {
 	Content []MotorData
 }
 
-func ToVehicleMotorData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) VehicleMotorData {
+func ToVehicleMotorData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleMotorData {
 	_instance := VehicleMotorData{}
 	Num_v := _byteBuf.Read_uint8()
 	_instance.Num = Num_v
@@ -602,12 +614,13 @@ func ToVehicleMotorData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 		Content_arr[i] = ToMotorData(_byteBuf, _parseContext)
 	}
 	_instance.Content = Content_arr
-	return _instance
+	return &_instance
 }
 
-func (_instance VehicleMotorData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *VehicleMotorData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.Num)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	Content_arr := _instance.Content
 	for i := 0; i < len(Content_arr); i++ {
 		Content_arr[i].Write(_byteBuf, _parseContext)
@@ -629,7 +642,7 @@ type VehicleLimitValueData struct {
 	MinTemperature         uint8
 }
 
-func ToVehicleLimitValueData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) VehicleLimitValueData {
+func ToVehicleLimitValueData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleLimitValueData {
 	_instance := VehicleLimitValueData{}
 	MaxVoltageSystemNo_v := _byteBuf.Read_uint8()
 	_instance.MaxVoltageSystemNo = MaxVoltageSystemNo_v
@@ -667,10 +680,11 @@ func ToVehicleLimitValueData(_byteBuf *parse.ByteBuf, _parentParseContext *parse
 	MinTemperature_v := _byteBuf.Read_uint8()
 	_instance.MinTemperature = MinTemperature_v - 40
 
-	return _instance
+	return &_instance
 }
 
-func (_instance VehicleLimitValueData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *VehicleLimitValueData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.MaxVoltageSystemNo)
 	_byteBuf.Write_uint8(_instance.MaxVoltageCode)
 	_byteBuf.Write_uint16(uint16(parse.Round(_instance.MaxVoltage*1000)), true)
@@ -696,7 +710,7 @@ type Packet struct {
 	Code          uint8
 }
 
-func ToPacket(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Packet {
+func ToPacket(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Packet {
 	_instance := Packet{}
 	Header_len := 2
 	Header_arr := _byteBuf.Read_bytes(Header_len)
@@ -730,10 +744,11 @@ func ToPacket(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) 
 	Code_v := _byteBuf.Read_uint8()
 	_instance.Code = Code_v
 
-	return _instance
+	return &_instance
 }
 
-func (_instance Packet) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Packet) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	Header_arr := _instance.Header
 	_byteBuf.Write_bytes(Header_arr)
 	_byteBuf.Write_uint8(_instance.Flag)
@@ -744,7 +759,7 @@ func (_instance Packet) Write(_byteBuf *parse.ByteBuf, _parentParseContext *pars
 	_byteBuf.Write_zero(Vin_len - len(Vin_v))
 	_byteBuf.Write_uint8(_instance.EncodeWay)
 	_byteBuf.Write_uint16(_instance.ContentLength, true)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	WriteData(_byteBuf, _instance.Data, _parseContext)
 	_byteBuf.Write_uint8(_instance.Code)
 }
@@ -807,7 +822,7 @@ type VehicleStorageTemperatureData struct {
 	Content []StorageTemperatureData
 }
 
-func ToVehicleStorageTemperatureData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) VehicleStorageTemperatureData {
+func ToVehicleStorageTemperatureData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleStorageTemperatureData {
 	_instance := VehicleStorageTemperatureData{}
 	Num_v := _byteBuf.Read_uint8()
 	_instance.Num = Num_v
@@ -819,12 +834,13 @@ func ToVehicleStorageTemperatureData(_byteBuf *parse.ByteBuf, _parentParseContex
 		Content_arr[i] = ToStorageTemperatureData(_byteBuf, _parseContext)
 	}
 	_instance.Content = Content_arr
-	return _instance
+	return &_instance
 }
 
-func (_instance VehicleStorageTemperatureData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *VehicleStorageTemperatureData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.Num)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	Content_arr := _instance.Content
 	for i := 0; i < len(Content_arr); i++ {
 		Content_arr[i].Write(_byteBuf, _parseContext)

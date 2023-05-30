@@ -10,7 +10,7 @@ func ToEvts(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) an
 	evts := make([]any, 0)
 	for _byteBuf.Readable() {
 		evtId := _byteBuf.Get_uint16(true)
-		evtIdHex := hex.EncodeToString([]byte{uint8(evtId >> 8), uint8(evtId)})
+
 		var evt any
 		switch evtId {
 		case 0x0001:
@@ -67,6 +67,7 @@ func ToEvts(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) an
 			} else if evtId >= 0xD000 && evtId <= 0xDFFF {
 				evt = ToEvt_4_x_unknown(_byteBuf, _parentParseContext)
 			} else {
+				evtIdHex := hex.EncodeToString([]byte{uint8(evtId >> 8), uint8(evtId)})
 				util.Log.Warnf("evtId[%s] not support", evtIdHex)
 			}
 
