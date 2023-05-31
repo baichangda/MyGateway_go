@@ -42,16 +42,16 @@ func (e *BitBuf_reader) Read(bit int, bigEndian bool, unsigned bool) int64 {
 		l |= (int64(b) << ((byteLen - 1 - i) << 3))
 	}
 
+	e.bitOffset = temp & 7
+	e.b = b
+
 	//如果是小端模式、则翻转bit
 	var cRight int64
 	if bigEndian {
-		cRight = l >> (byteLen*8 - bitOffset - bit)
+		cRight = l >> ((byteLen << 3) - bitOffset - bit)
 	} else {
 		cRight = int64(bits.Reverse64(uint64(l))) >> (64 - (byteLen << 3) + bitOffset)
 	}
-
-	e.bitOffset = temp & 7
-	e.b = b
 
 	if !unsigned && ((cRight>>(bit-1))&0x01) == 1 {
 		return cRight | (int64(-1) << bit)
