@@ -8,25 +8,24 @@ import (
 )
 
 func Gzip(b []byte) ([]byte, error) {
+	res := bytes.Buffer{}
+	writer := gzip2.NewWriter(&res)
+	_, err := writer.Write(b)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+	err = writer.Close()
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+	return res.Bytes(), nil
+}
+
+func UnGzip(b []byte) ([]byte, error) {
 	reader, err := gzip2.NewReader(bytes.NewReader(b))
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 	defer reader.Close()
-	all, err := io.ReadAll(reader)
-	if err != nil {
-		return nil, errors.WithStack(err)
-	}
-	return all, nil
-}
-
-func UnGzip(b []byte) ([]byte, error) {
-	res := bytes.Buffer{}
-	writer := gzip2.NewWriter(&res)
-	defer writer.Close()
-	_, err := writer.Write(b)
-	if err != nil {
-		return nil, errors.WithStack(err)
-	}
-	return res.Bytes(), nil
+	return io.ReadAll(reader)
 }
