@@ -29,20 +29,24 @@ func (e *BitBuf_reader) Read(bit int, bigEndian bool, unsigned bool) int64 {
 	}
 
 	temp := bit + bitOffset
+	finalBitOffset := temp & 7
 	var byteLen int
+	var l int64
 	if (temp & 7) == 0 {
 		byteLen = (temp >> 3)
+		byteLen = temp >> 3
+		l = int64(b) << (temp - 8)
 	} else {
 		byteLen = (temp >> 3) + 1
+		l = int64(b) << (temp - finalBitOffset)
 	}
 
-	var l int64 = int64(b) << ((byteLen - 1) << 3)
 	for i := 1; i < byteLen; i++ {
 		b = byteBuf.Read_uint8()
 		l |= (int64(b) << ((byteLen - 1 - i) << 3))
 	}
 
-	e.bitOffset = temp & 7
+	e.bitOffset = finalBitOffset
 	e.b = b
 
 	//如果是小端模式、则翻转bit
@@ -66,7 +70,8 @@ func (e *BitBuf_reader) Skip(bit int) {
 	b := e.b
 
 	temp := bit + bitOffset
-	newBitOffsetZero := (temp & 7) == 0
+	finalBitOffset := temp & 7
+	newBitOffsetZero := finalBitOffset == 0
 	var byteLen int
 	if newBitOffsetZero {
 		byteLen = (temp >> 3)
@@ -94,7 +99,7 @@ func (e *BitBuf_reader) Skip(bit int) {
 			}
 		}
 	}
-	e.bitOffset = temp & 7
+	e.bitOffset = finalBitOffset
 	e.b = b
 }
 
@@ -117,35 +122,37 @@ func ToBitBuf_writer(byteBuf *ByteBuf) *BitBuf_writer {
 	}
 }
 
-func (e *BitBuf_writer) Write(l int64, bit int, bigEndian bool, unsigned bool) {
+func (e *BitBuf_writer) Write(v int64, bit int, bigEndian bool, unsigned bool) {
 	byteBuf := e.byteBuf
 	bitOffset := e.bitOffset
 	b := e.b
-	if !unsigned && l < 0 {
-		l = l & ((0x01 << bit) - 1)
+	if !unsigned && v < 0 {
+		v = v & ((0x01 << bit) - 1)
 	}
 	if !bigEndian {
-		l = int64(bits.Reverse64(uint64(l))) >> (64 - bit)
+		v = int64(bits.Reverse64(uint64(v))) >> (64 - bit)
 	}
 	temp := bit + bitOffset
+	finalBitOffset := temp & 7
 	var byteLen int
-	if (temp & 7) == 0 {
+	var newV int64
+	if finalBitOffset == 0 {
 		byteLen = (temp >> 3)
+		newV = v
 	} else {
 		byteLen = (temp >> 3) + 1
+		newV = v << (8 - finalBitOffset)
 	}
-	left := (byteLen << 3) - temp
-	newL := l << left
 	if bitOffset == 0 {
-		b = (byte)(newL >> ((byteLen - 1) << 3))
+		b = (byte)(newV >> ((byteLen - 1) << 3))
 	} else {
-		b |= (byte)(newL >> ((byteLen - 1) << 3))
+		b |= (byte)(newV >> ((byteLen - 1) << 3))
 	}
 	for i := 1; i < byteLen; i++ {
 		byteBuf.Write_uint8(b)
-		b = (byte)(newL >> ((byteLen - i - 1) << 3))
+		b = (byte)(newV >> ((byteLen - i - 1) << 3))
 	}
-	bitOffset = temp & 7
+	bitOffset = finalBitOffset
 	if bitOffset == 0 {
 		byteBuf.Write_uint8(b)
 	}
