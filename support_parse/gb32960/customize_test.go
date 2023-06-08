@@ -12,7 +12,7 @@ func BenchmarkToPacket(b *testing.B) {
 	hexStr = strings.ToUpper(hexStr)
 	decodeString, err := hex.DecodeString(hexStr)
 	if err != nil {
-		b.Errorf("%+v", err)
+		b.Fatalf("%+v", err)
 	}
 	byteBuf := parse.ToByteBuf(decodeString)
 	byteBuf.MarkReaderIndex()
@@ -29,7 +29,7 @@ func BenchmarkPacket_Write(b *testing.B) {
 	hexStr = strings.ToUpper(hexStr)
 	decodeString, err := hex.DecodeString(hexStr)
 	if err != nil {
-		b.Errorf("%+v", err)
+		b.Fatalf("%+v", err)
 	}
 	byteBuf := parse.ToByteBuf(decodeString)
 	packet := ToPacket(byteBuf, nil)
@@ -48,12 +48,12 @@ func TestPacket_Write(t *testing.T) {
 	hexStr = strings.ToUpper(hexStr)
 	decodeString, err := hex.DecodeString(hexStr)
 	if err != nil {
-		t.Errorf("%+v", err)
+		t.Fatalf("%+v", err)
 	}
 	byteBuf := parse.ToByteBuf(decodeString)
 	packet := ToPacket(byteBuf, nil)
 	if err != nil {
-		t.Errorf("%+v", err)
+		t.Fatalf("%+v", err)
 	}
 	res := parse.ToByteBuf_empty()
 	packet.Write(res, nil)
@@ -72,7 +72,7 @@ func TestPerformance_parse(t *testing.T) {
 	hexStr = strings.ToUpper(hexStr)
 	decodeString, err := hex.DecodeString(hexStr)
 	if err != nil {
-		t.Errorf("%+v", err)
+		t.Fatalf("%+v", err)
 	}
 	parse.TestMultiThreadPerformance_parse(decodeString, 1, 1000000000, func(byteBuf *parse.ByteBuf) {
 		ToPacket(byteBuf, nil)
@@ -85,7 +85,7 @@ func TestPerformance_deParse(t *testing.T) {
 	hexStr = strings.ToUpper(hexStr)
 	decodeString, err := hex.DecodeString(hexStr)
 	if err != nil {
-		t.Errorf("%+v", err)
+		t.Fatalf("%+v", err)
 	}
 	packet := ToPacket(parse.ToByteBuf(decodeString), nil)
 	buf := parse.ToByteBuf_capacity(1024)
