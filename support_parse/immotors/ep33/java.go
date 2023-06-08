@@ -4,7 +4,7 @@ import "MyGateway_go/support_parse/parse"
 
 type Evt_2_6_unknown struct {
 	EvtId uint16
-	Data  []uint8
+	Data  [6]uint8
 }
 
 func ToEvt_2_6_unknown(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_2_6_unknown {
@@ -12,8 +12,7 @@ func ToEvt_2_6_unknown(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Parse
 	EvtId_v := _byteBuf.Read_uint16(true)
 	_instance.EvtId = EvtId_v
 
-	Data_len := 6
-	Data_arr := _byteBuf.Read_bytes(Data_len)
+	Data_arr := [6]uint8(_byteBuf.Read_bytes(6))
 	_instance.Data = Data_arr
 	return &_instance
 }
@@ -22,7 +21,7 @@ func (__instance *Evt_2_6_unknown) Write(_byteBuf *parse.ByteBuf, _parentParseCo
 	_instance := *__instance
 	_byteBuf.Write_uint16(_instance.EvtId, true)
 	Data_arr := _instance.Data
-	_byteBuf.Write_bytes(Data_arr)
+	_byteBuf.Write_bytes(Data_arr[:])
 }
 
 type Evt_D00B struct {

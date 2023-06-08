@@ -700,7 +700,7 @@ func (__instance *VehicleLimitValueData) Write(_byteBuf *parse.ByteBuf, _parentP
 }
 
 type Packet struct {
-	Header        []uint8
+	Header        [2]uint8
 	Flag          uint8
 	ReplyFlag     uint8
 	Vin           string
@@ -712,8 +712,7 @@ type Packet struct {
 
 func ToPacket(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Packet {
 	_instance := Packet{}
-	Header_len := 2
-	Header_arr := _byteBuf.Read_bytes(Header_len)
+	Header_arr := [2]uint8(_byteBuf.Read_bytes(2))
 	_instance.Header = Header_arr
 	Flag_v := _byteBuf.Read_uint8()
 	_instance.Flag = Flag_v
@@ -750,7 +749,7 @@ func ToPacket(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) 
 func (__instance *Packet) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	Header_arr := _instance.Header
-	_byteBuf.Write_bytes(Header_arr)
+	_byteBuf.Write_bytes(Header_arr[:])
 	_byteBuf.Write_uint8(_instance.Flag)
 	_byteBuf.Write_uint8(_instance.ReplyFlag)
 	Vin_len := 17
