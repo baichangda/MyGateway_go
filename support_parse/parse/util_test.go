@@ -36,6 +36,8 @@ func Test_slice_to_struct(t *testing.T) {
 	bytes := []byte{0x01, 0x02, 0x03, 0x04}
 	a := (*A)(unsafe.Pointer(unsafe.SliceData(bytes)))
 	t.Logf("%+v", a)
+	bytes[0] = 0x02
+	t.Logf("%+v", a)
 }
 
 func Test_struct_to_slice(t *testing.T) {
@@ -50,6 +52,8 @@ func Test_struct_to_slice(t *testing.T) {
 		Cap:  4,
 	}))
 	t.Logf("%+v", b)
+	(*b)[0] = 2
+	t.Logf("%+v", &a)
 }
 
 func Test_slice_to_array(t *testing.T) {
