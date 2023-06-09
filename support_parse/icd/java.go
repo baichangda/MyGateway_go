@@ -2,7 +2,9 @@ package icd
 
 import (
 	"MyGateway_go/support_parse/parse"
+	"reflect"
 	"time"
+	"unsafe"
 )
 
 type Event_target struct {
@@ -125,20 +127,14 @@ type Msg_tailer struct {
 }
 
 func ToMsg_tailer(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Msg_tailer {
-	_instance := Msg_tailer{}
-	Check_sum_v := _byteBuf.Read_uint32(true)
-	_instance.Check_sum = Check_sum_v
-
-	Tail_arr := [4]uint8(_byteBuf.Read_bytes(4))
-	_instance.Tail = Tail_arr
-	return &_instance
+	return (*Msg_tailer)(unsafe.Pointer(unsafe.SliceData(_byteBuf.Read_bytes(8))))
 }
-
 func (__instance *Msg_tailer) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
-	_instance := *__instance
-	_byteBuf.Write_uint32(_instance.Check_sum, true)
-	Tail_arr := _instance.Tail
-	_byteBuf.Write_bytes(Tail_arr[:])
+	_byteBuf.Write_bytes(*(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
+		Data: uintptr(unsafe.Pointer(__instance)),
+		Len:  8,
+		Cap:  8,
+	})))
 }
 
 type Lane_info_area struct {
@@ -1413,16 +1409,14 @@ type Target_info_extras_barrier struct {
 }
 
 func ToTarget_info_extras_barrier(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Target_info_extras_barrier {
-	_instance := Target_info_extras_barrier{}
-	Type_v := _byteBuf.Read_uint16(true)
-	_instance.Type = Type_v
-
-	return &_instance
+	return (*Target_info_extras_barrier)(unsafe.Pointer(unsafe.SliceData(_byteBuf.Read_bytes(2))))
 }
-
 func (__instance *Target_info_extras_barrier) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
-	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.Type, true)
+	_byteBuf.Write_bytes(*(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
+		Data: uintptr(unsafe.Pointer(__instance)),
+		Len:  2,
+		Cap:  2,
+	})))
 }
 
 type Msg_body_cycle_statistics_info struct {
@@ -1511,20 +1505,14 @@ type Target_info_extras_person struct {
 }
 
 func ToTarget_info_extras_person(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Target_info_extras_person {
-	_instance := Target_info_extras_person{}
-	Type_v := _byteBuf.Read_uint8()
-	_instance.Type = Type_v
-
-	Behavior_v := _byteBuf.Read_uint8()
-	_instance.Behavior = Behavior_v
-
-	return &_instance
+	return (*Target_info_extras_person)(unsafe.Pointer(unsafe.SliceData(_byteBuf.Read_bytes(2))))
 }
-
 func (__instance *Target_info_extras_person) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
-	_instance := *__instance
-	_byteBuf.Write_uint8(_instance.Type)
-	_byteBuf.Write_uint8(_instance.Behavior)
+	_byteBuf.Write_bytes(*(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
+		Data: uintptr(unsafe.Pointer(__instance)),
+		Len:  2,
+		Cap:  2,
+	})))
 }
 
 type Msg_body_lane_detect_info struct {

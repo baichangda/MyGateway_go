@@ -1,6 +1,10 @@
 package ep33
 
-import "MyGateway_go/support_parse/parse"
+import (
+	"MyGateway_go/support_parse/parse"
+	"reflect"
+	"unsafe"
+)
 
 type Evt_2_6_unknown struct {
 	EvtId uint16
@@ -8,20 +12,14 @@ type Evt_2_6_unknown struct {
 }
 
 func ToEvt_2_6_unknown(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_2_6_unknown {
-	_instance := Evt_2_6_unknown{}
-	EvtId_v := _byteBuf.Read_uint16(true)
-	_instance.EvtId = EvtId_v
-
-	Data_arr := [6]uint8(_byteBuf.Read_bytes(6))
-	_instance.Data = Data_arr
-	return &_instance
+	return (*Evt_2_6_unknown)(unsafe.Pointer(unsafe.SliceData(_byteBuf.Read_bytes(8))))
 }
-
 func (__instance *Evt_2_6_unknown) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
-	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
-	Data_arr := _instance.Data
-	_byteBuf.Write_bytes(Data_arr[:])
+	_byteBuf.Write_bytes(*(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
+		Data: uintptr(unsafe.Pointer(__instance)),
+		Len:  8,
+		Cap:  8,
+	})))
 }
 
 type Evt_D00B struct {
