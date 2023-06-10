@@ -31,17 +31,17 @@ type Evt_D00B struct {
 
 func ToEvt_D00B(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_D00B {
 	_instance := Evt_D00B{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
-	EvtLen_v := _byteBuf.Read_uint16(true)
+	EvtLen_v := _byteBuf.Read_uint16()
 	_instance.EvtLen = EvtLen_v
 
 	BMSCellVolSumNum_v := _byteBuf.Read_uint8()
 	_instance.BMSCellVolSumNum = BMSCellVolSumNum_v
 
 	BMSCellVols_len := (int)(BMSCellVolSumNum_v)
-	BMSCellVols_arr := make([]Evt_D00B_BMSCellVol, BMSCellVols_len)
+	BMSCellVols_arr := make([]Evt_D00B_BMSCellVol, BMSCellVols_len, BMSCellVols_len)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
 	_parseContext.BitBuf_reader = _bitBuf
@@ -54,8 +54,8 @@ func ToEvt_D00B(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_D00B) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
-	_byteBuf.Write_uint16(_instance.EvtLen, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
+	_byteBuf.Write_uint16(_instance.EvtLen)
 	_byteBuf.Write_uint8(_instance.BMSCellVolSumNum)
 	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	BMSCellVols_arr := _instance.BMSCellVols
@@ -94,10 +94,10 @@ type Evt_D00F struct {
 
 func ToEvt_D00F(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_D00F {
 	_instance := Evt_D00F{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
-	EvtLen_v := _byteBuf.Read_uint16(true)
+	EvtLen_v := _byteBuf.Read_uint16()
 	_instance.EvtLen = EvtLen_v
 
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
@@ -170,8 +170,8 @@ func ToEvt_D00F(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_D00F) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
-	_byteBuf.Write_uint16(_instance.EvtLen, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
+	_byteBuf.Write_uint16(_instance.EvtLen)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(_instance.BMSWrnngInfoCRC), 8, true, true)
 	_bitBuf.Write(int64(parse.Round(float64((_instance.BMSBusbarTempMax+40)/0.5))), 8, true, true)
@@ -240,10 +240,10 @@ type Evt_D009 struct {
 
 func ToEvt_D009(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_D009 {
 	_instance := Evt_D009{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
-	EvtLen_v := _byteBuf.Read_uint16(true)
+	EvtLen_v := _byteBuf.Read_uint16()
 	_instance.EvtLen = EvtLen_v
 
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
@@ -362,8 +362,8 @@ func ToEvt_D009(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_D009) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
-	_byteBuf.Write_uint16(_instance.EvtLen, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
+	_byteBuf.Write_uint16(_instance.EvtLen)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(_instance.BMSCMUFlt), 2, true, true)
 	_bitBuf.Write(int64(_instance.BMSCellVoltFlt), 2, true, true)
@@ -413,7 +413,7 @@ type Evt_0009 struct {
 
 func ToEvt_0009(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_0009 {
 	_instance := Evt_0009{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
@@ -429,7 +429,7 @@ func ToEvt_0009(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_0009) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(_instance.CellLAC), 16, true, true)
 	_bitBuf.Write(int64(_instance.CellID), 32, true, true)
@@ -470,17 +470,17 @@ type Evt_D00D struct {
 
 func ToEvt_D00D(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_D00D {
 	_instance := Evt_D00D{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
-	EvtLen_v := _byteBuf.Read_uint16(true)
+	EvtLen_v := _byteBuf.Read_uint16()
 	_instance.EvtLen = EvtLen_v
 
 	BMSBusbarTemSumNum_v := _byteBuf.Read_uint8()
 	_instance.BMSBusbarTemSumNum = BMSBusbarTemSumNum_v
 
 	BMSBusbarTems_len := (int)(BMSBusbarTemSumNum_v)
-	BMSBusbarTems_arr := make([]Evt_D00D_BMSBusbarTem, BMSBusbarTems_len)
+	BMSBusbarTems_arr := make([]Evt_D00D_BMSBusbarTem, BMSBusbarTems_len, BMSBusbarTems_len)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
 	_parseContext.BitBuf_reader = _bitBuf
@@ -493,8 +493,8 @@ func ToEvt_D00D(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_D00D) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
-	_byteBuf.Write_uint16(_instance.EvtLen, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
+	_byteBuf.Write_uint16(_instance.EvtLen)
 	_byteBuf.Write_uint8(_instance.BMSBusbarTemSumNum)
 	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	BMSBusbarTems_arr := _instance.BMSBusbarTems
@@ -514,17 +514,17 @@ type Evt_D00C struct {
 
 func ToEvt_D00C(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_D00C {
 	_instance := Evt_D00C{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
-	EvtLen_v := _byteBuf.Read_uint16(true)
+	EvtLen_v := _byteBuf.Read_uint16()
 	_instance.EvtLen = EvtLen_v
 
 	BMSCellTemSumNum_v := _byteBuf.Read_uint8()
 	_instance.BMSCellTemSumNum = BMSCellTemSumNum_v
 
 	BMSCellTems_len := (int)(BMSCellTemSumNum_v)
-	BMSCellTems_arr := make([]Evt_D00C_BMSCellTem, BMSCellTems_len)
+	BMSCellTems_arr := make([]Evt_D00C_BMSCellTem, BMSCellTems_len, BMSCellTems_len)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
 	_parseContext.BitBuf_reader = _bitBuf
@@ -537,8 +537,8 @@ func ToEvt_D00C(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_D00C) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
-	_byteBuf.Write_uint16(_instance.EvtLen, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
+	_byteBuf.Write_uint16(_instance.EvtLen)
 	_byteBuf.Write_uint8(_instance.BMSCellTemSumNum)
 	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	BMSCellTems_arr := _instance.BMSCellTems
@@ -585,10 +585,10 @@ type Evt_D00A struct {
 
 func ToEvt_D00A(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_D00A {
 	_instance := Evt_D00A{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
-	EvtLen_v := _byteBuf.Read_uint16(true)
+	EvtLen_v := _byteBuf.Read_uint16()
 	_instance.EvtLen = EvtLen_v
 
 	VIN_len := 17
@@ -612,8 +612,8 @@ func ToEvt_D00A(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_D00A) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
-	_byteBuf.Write_uint16(_instance.EvtLen, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
+	_byteBuf.Write_uint16(_instance.EvtLen)
 	_byteBuf.Write_string_utf8(_instance.VIN)
 	_byteBuf.Write_string_utf8(_instance.IAMSN)
 	_byteBuf.Write_string_utf8(_instance.EsimIccid)
@@ -631,7 +631,7 @@ type Evt_000A struct {
 
 func ToEvt_000A(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_000A {
 	_instance := Evt_000A{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
@@ -658,7 +658,7 @@ func ToEvt_000A(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_000A) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(_instance.CellSignalStrength), 8, true, true)
 	_bitBuf.Write(int64(_instance.CellRAT), 3, true, true)
@@ -679,10 +679,10 @@ type Evt_4_x_unknown struct {
 
 func ToEvt_4_x_unknown(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_4_x_unknown {
 	_instance := Evt_4_x_unknown{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
-	EvtLen_v := _byteBuf.Read_uint16(true)
+	EvtLen_v := _byteBuf.Read_uint16()
 	_instance.EvtLen = EvtLen_v
 
 	Data_len := (int)(EvtLen_v)
@@ -693,8 +693,8 @@ func ToEvt_4_x_unknown(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Parse
 
 func (__instance *Evt_4_x_unknown) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
-	_byteBuf.Write_uint16(_instance.EvtLen, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
+	_byteBuf.Write_uint16(_instance.EvtLen)
 	Data_arr := _instance.Data
 	_byteBuf.Write_bytes(Data_arr)
 }
@@ -708,10 +708,10 @@ type Evt_D00E struct {
 
 func ToEvt_D00E(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_D00E {
 	_instance := Evt_D00E{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
-	EvtLen_v := _byteBuf.Read_uint16(true)
+	EvtLen_v := _byteBuf.Read_uint16()
 	_instance.EvtLen = EvtLen_v
 
 	BMSRptBatCodeNum_v := _byteBuf.Read_uint8()
@@ -719,7 +719,7 @@ func ToEvt_D00E(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
 	BMSRptBatCodeAsc_len := (int)(BMSRptBatCodeNum_v)
-	BMSRptBatCodeAsc_arr := make([]uint8, BMSRptBatCodeAsc_len)
+	BMSRptBatCodeAsc_arr := make([]uint8, BMSRptBatCodeAsc_len, BMSRptBatCodeAsc_len)
 	for i := 0; i < BMSRptBatCodeAsc_len; i++ {
 		e := _bitBuf.Read(8, true, true)
 		BMSRptBatCodeAsc_arr[i] = uint8(e)
@@ -730,8 +730,8 @@ func ToEvt_D00E(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_D00E) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
-	_byteBuf.Write_uint16(_instance.EvtLen, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
+	_byteBuf.Write_uint16(_instance.EvtLen)
 	_byteBuf.Write_uint8(_instance.BMSRptBatCodeNum)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	BMSRptBatCodeAsc_arr := _instance.BMSRptBatCodeAsc
@@ -757,10 +757,10 @@ type Evt_D008 struct {
 
 func ToEvt_D008(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_D008 {
 	_instance := Evt_D008{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
-	EvtLen_v := _byteBuf.Read_uint16(true)
+	EvtLen_v := _byteBuf.Read_uint16()
 	_instance.EvtLen = EvtLen_v
 
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
@@ -800,8 +800,8 @@ func ToEvt_D008(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_D008) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
-	_byteBuf.Write_uint16(_instance.EvtLen, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
+	_byteBuf.Write_uint16(_instance.EvtLen)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(_instance.DTCInfomationBMS), 56, true, true)
 	_bitBuf.Write(int64(_instance.DTCInfomationECM), 56, true, true)
@@ -824,7 +824,7 @@ type Evt_0008 struct {
 
 func ToEvt_0008(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_0008 {
 	_instance := Evt_0008{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
@@ -842,7 +842,7 @@ func ToEvt_0008(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_0008) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(_instance.CellMCC), 16, true, true)
 	_bitBuf.Write(int64(_instance.CellMNC), 16, true, true)
@@ -861,7 +861,7 @@ type Evt_0004 struct {
 
 func ToEvt_0004(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_0004 {
 	_instance := Evt_0004{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
@@ -880,7 +880,7 @@ func ToEvt_0004(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_0004) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(parse.Round(float64((_instance.GnssAlt+500)/0.1))), 16, true, true)
 	_bitBuf.Write(int64(parse.Round(float64(_instance.Longitude/0.000001))), 29, true, true)
@@ -896,7 +896,7 @@ type Evt_0802 struct {
 
 func ToEvt_0802(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_0802 {
 	_instance := Evt_0802{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
@@ -914,7 +914,7 @@ func ToEvt_0802(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_0802) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(parse.Round(float64(_instance.VehSpdAvgDrvn/0.015625))), 15, true, true)
 	_bitBuf.Write(int64(_instance.VehSpdAvgDrvnV), 1, true, true)
@@ -1017,10 +1017,10 @@ type Evt_D006 struct {
 
 func ToEvt_D006(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_D006 {
 	_instance := Evt_D006{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
-	EvtLen_v := _byteBuf.Read_uint16(true)
+	EvtLen_v := _byteBuf.Read_uint16()
 	_instance.EvtLen = EvtLen_v
 
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
@@ -1288,8 +1288,8 @@ func ToEvt_D006(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_D006) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
-	_byteBuf.Write_uint16(_instance.EvtLen, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
+	_byteBuf.Write_uint16(_instance.EvtLen)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(_instance.EPTRdy), 1, true, true)
 	_bitBuf.Write(int64(_instance.BMSBscSta), 5, true, true)
@@ -1388,7 +1388,7 @@ type Evt_0006 struct {
 
 func ToEvt_0006(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_0006 {
 	_instance := Evt_0006{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
@@ -1404,7 +1404,7 @@ func ToEvt_0006(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_0006) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(parse.Round(float64(_instance.HDop/0.1))), 24, true, true)
 	_bitBuf.Write(int64(parse.Round(float64(_instance.VDop/0.1))), 24, true, true)
@@ -1423,7 +1423,7 @@ type Evt_0800 struct {
 
 func ToEvt_0800(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_0800 {
 	_instance := Evt_0800{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
@@ -1454,7 +1454,7 @@ func ToEvt_0800(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_0800) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(_instance.SysPwrMd), 2, true, true)
 	_bitBuf.Write(int64(_instance.SysPwrMdV), 1, true, true)
@@ -1476,7 +1476,7 @@ type Evt_0801 struct {
 
 func ToEvt_0801(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_0801 {
 	_instance := Evt_0801{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
 	Skip_len := 5
@@ -1491,7 +1491,7 @@ func ToEvt_0801(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_0801) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
 	Skip_len := 5
 	_byteBuf.Write_zero(Skip_len)
 
@@ -1509,7 +1509,7 @@ type Evt_0007 struct {
 
 func ToEvt_0007(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_0007 {
 	_instance := Evt_0007{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
@@ -1530,7 +1530,7 @@ func ToEvt_0007(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_0007) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(parse.Round(float64(_instance.AcceX/0.0009765625))), 14, true, false)
 	_bitBuf.Finish()
@@ -1549,7 +1549,7 @@ type Evt_0803 struct {
 
 func ToEvt_0803(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_0803 {
 	_instance := Evt_0803{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
@@ -1570,7 +1570,7 @@ func ToEvt_0803(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_0803) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(_instance.VehOdo), 24, true, true)
 	_bitBuf.Write(int64(_instance.VehOdoV), 1, true, true)
@@ -1590,7 +1590,7 @@ type Evt_0005 struct {
 
 func ToEvt_0005(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_0005 {
 	_instance := Evt_0005{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
@@ -1609,7 +1609,7 @@ func ToEvt_0005(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_0005) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(parse.Round(float64(_instance.Latitude/0.000001))), 28, true, true)
 	_bitBuf.Write(int64(_instance.VehTyp), 4, true, true)
@@ -1666,7 +1666,7 @@ type Evt_0001 struct {
 
 func ToEvt_0001(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_0001 {
 	_instance := Evt_0001{}
-	EvtId_v := _byteBuf.Read_uint16(true)
+	EvtId_v := _byteBuf.Read_uint16()
 	_instance.EvtId = EvtId_v
 
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
@@ -1679,7 +1679,7 @@ func ToEvt_0001(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext
 
 func (__instance *Evt_0001) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(_instance.EvtId, true)
+	_byteBuf.Write_uint16(_instance.EvtId)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(_instance.TBOXSysTim), 48, true, true)
 	_bitBuf.Finish()

@@ -34,16 +34,16 @@ func ToVehicleBaseData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Parse
 	RunMode_v := _byteBuf.Read_uint8()
 	_instance.RunMode = RunMode_v
 
-	VehicleSpeed_v := _byteBuf.Read_uint16(true)
+	VehicleSpeed_v := _byteBuf.Read_uint16()
 	_instance.VehicleSpeed = float32(VehicleSpeed_v) / 10
 
-	TotalMileage_v := _byteBuf.Read_uint32(true)
+	TotalMileage_v := _byteBuf.Read_uint32()
 	_instance.TotalMileage = float64(TotalMileage_v) / 10
 
-	TotalVoltage_v := _byteBuf.Read_uint16(true)
+	TotalVoltage_v := _byteBuf.Read_uint16()
 	_instance.TotalVoltage = float32(TotalVoltage_v) / 10
 
-	TotalCurrent_v := _byteBuf.Read_uint16(true)
+	TotalCurrent_v := _byteBuf.Read_uint16()
 	_instance.TotalCurrent = float32(TotalCurrent_v)/10 - 1000
 
 	Soc_v := _byteBuf.Read_uint8()
@@ -55,7 +55,7 @@ func ToVehicleBaseData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Parse
 	GearPosition_v := _byteBuf.Read_uint8()
 	_instance.GearPosition = GearPosition_v
 
-	Resistance_v := _byteBuf.Read_uint16(true)
+	Resistance_v := _byteBuf.Read_uint16()
 	_instance.Resistance = Resistance_v
 
 	PedalVal_v := _byteBuf.Read_uint8()
@@ -72,14 +72,14 @@ func (__instance *VehicleBaseData) Write(_byteBuf *parse.ByteBuf, _parentParseCo
 	_byteBuf.Write_uint8(_instance.VehicleStatus)
 	_byteBuf.Write_uint8(_instance.ChargeStatus)
 	_byteBuf.Write_uint8(_instance.RunMode)
-	_byteBuf.Write_uint16(uint16(parse.Round(_instance.VehicleSpeed*10)), true)
-	_byteBuf.Write_uint32(uint32(parse.Round(_instance.TotalMileage*10)), true)
-	_byteBuf.Write_uint16(uint16(parse.Round(_instance.TotalVoltage*10)), true)
-	_byteBuf.Write_uint16(uint16(parse.Round((_instance.TotalCurrent+1000)*10)), true)
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.VehicleSpeed * 10)))
+	_byteBuf.Write_uint32(uint32(parse.Round(_instance.TotalMileage * 10)))
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.TotalVoltage * 10)))
+	_byteBuf.Write_uint16(uint16(parse.Round((_instance.TotalCurrent + 1000) * 10)))
 	_byteBuf.Write_uint8(_instance.Soc)
 	_byteBuf.Write_uint8(_instance.DcStatus)
 	_byteBuf.Write_uint8(_instance.GearPosition)
-	_byteBuf.Write_uint16(_instance.Resistance, true)
+	_byteBuf.Write_uint16(_instance.Resistance)
 	_byteBuf.Write_uint8(_instance.PedalVal)
 	_byteBuf.Write_uint8(_instance.PedalStatus)
 }
@@ -93,7 +93,7 @@ func ToPlatformLogoutData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pa
 	_instance := PlatformLogoutData{}
 	CollectTime_bytes := _byteBuf.Read_bytes(6)
 	_instance.CollectTime = time.Date(2000+int(CollectTime_bytes[0]), time.Month(int(CollectTime_bytes[1])), int(CollectTime_bytes[2]), int(CollectTime_bytes[3]), int(CollectTime_bytes[4]), int(CollectTime_bytes[5]), 0, _Location0)
-	Sn_v := _byteBuf.Read_uint16(true)
+	Sn_v := _byteBuf.Read_uint16()
 	_instance.Sn = Sn_v
 
 	return &_instance
@@ -103,7 +103,7 @@ func (__instance *PlatformLogoutData) Write(_byteBuf *parse.ByteBuf, _parentPars
 	_instance := *__instance
 	CollectTime_v := _instance.CollectTime
 	_byteBuf.Write_bytes([]byte{byte(CollectTime_v.Year() - 2000), byte(CollectTime_v.Month()), byte(CollectTime_v.Day()), byte(CollectTime_v.Hour()), byte(CollectTime_v.Minute()), byte(CollectTime_v.Second())})
-	_byteBuf.Write_uint16(_instance.Sn, true)
+	_byteBuf.Write_uint16(_instance.Sn)
 }
 
 type VehicleFuelBatteryData struct {
@@ -123,16 +123,16 @@ type VehicleFuelBatteryData struct {
 
 func ToVehicleFuelBatteryData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleFuelBatteryData {
 	_instance := VehicleFuelBatteryData{}
-	Voltage_v := _byteBuf.Read_uint16(true)
+	Voltage_v := _byteBuf.Read_uint16()
 	_instance.Voltage = float32(Voltage_v) / 10
 
-	Current_v := _byteBuf.Read_uint16(true)
+	Current_v := _byteBuf.Read_uint16()
 	_instance.Current = float32(Current_v) / 10
 
-	ConsumptionRate_v := _byteBuf.Read_uint16(true)
+	ConsumptionRate_v := _byteBuf.Read_uint16()
 	_instance.ConsumptionRate = float32(ConsumptionRate_v) / 100
 
-	Num_v := _byteBuf.Read_uint16(true)
+	Num_v := _byteBuf.Read_uint16()
 	_instance.Num = Num_v
 
 	Temperatures_len := (int)(Num_v)
@@ -142,19 +142,19 @@ func ToVehicleFuelBatteryData(_byteBuf *parse.ByteBuf, _parentParseContext *pars
 		Temperatures_arr[i] = e - 40
 	}
 	_instance.Temperatures = Temperatures_arr
-	MaxTemperature_v := _byteBuf.Read_uint16(true)
+	MaxTemperature_v := _byteBuf.Read_uint16()
 	_instance.MaxTemperature = float32(MaxTemperature_v)/10 - 40
 
 	MaxTemperatureCode_v := _byteBuf.Read_uint8()
 	_instance.MaxTemperatureCode = MaxTemperatureCode_v
 
-	MaxConcentration_v := _byteBuf.Read_uint16(true)
+	MaxConcentration_v := _byteBuf.Read_uint16()
 	_instance.MaxConcentration = MaxConcentration_v - 10000
 
 	MaxConcentrationCode_v := _byteBuf.Read_uint8()
 	_instance.MaxConcentrationCode = MaxConcentrationCode_v
 
-	MaxPressure_v := _byteBuf.Read_uint16(true)
+	MaxPressure_v := _byteBuf.Read_uint16()
 	_instance.MaxPressure = float32(MaxPressure_v) / 10
 
 	MaxPressureCode_v := _byteBuf.Read_uint8()
@@ -168,19 +168,19 @@ func ToVehicleFuelBatteryData(_byteBuf *parse.ByteBuf, _parentParseContext *pars
 
 func (__instance *VehicleFuelBatteryData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_byteBuf.Write_uint16(uint16(parse.Round(_instance.Voltage*10)), true)
-	_byteBuf.Write_uint16(uint16(parse.Round(_instance.Current*10)), true)
-	_byteBuf.Write_uint16(uint16(parse.Round(_instance.ConsumptionRate*100)), true)
-	_byteBuf.Write_uint16(_instance.Num, true)
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.Voltage * 10)))
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.Current * 10)))
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.ConsumptionRate * 100)))
+	_byteBuf.Write_uint16(_instance.Num)
 	Temperatures_arr := _instance.Temperatures
 	for i := 0; i < len(Temperatures_arr); i++ {
 		_byteBuf.Write_uint8((Temperatures_arr[i] + 40))
 	}
-	_byteBuf.Write_uint16(uint16(parse.Round((_instance.MaxTemperature+40)*10)), true)
+	_byteBuf.Write_uint16(uint16(parse.Round((_instance.MaxTemperature + 40) * 10)))
 	_byteBuf.Write_uint8(_instance.MaxTemperatureCode)
-	_byteBuf.Write_uint16((_instance.MaxConcentration + 10000), true)
+	_byteBuf.Write_uint16((_instance.MaxConcentration + 10000))
 	_byteBuf.Write_uint8(_instance.MaxConcentrationCode)
-	_byteBuf.Write_uint16(uint16(parse.Round(_instance.MaxPressure*10)), true)
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.MaxPressure * 10)))
 	_byteBuf.Write_uint8(_instance.MaxPressureCode)
 	_byteBuf.Write_uint8(_instance.DcStatus)
 }
@@ -203,7 +203,7 @@ func ToVehicleAlarmData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 	MaxAlarmLevel_v := _byteBuf.Read_uint8()
 	_instance.MaxAlarmLevel = MaxAlarmLevel_v
 
-	AlarmFlag_v := _byteBuf.Read_uint32(true)
+	AlarmFlag_v := _byteBuf.Read_uint32()
 	_instance.AlarmFlag = AlarmFlag_v
 
 	ChargeBadNum_v := _byteBuf.Read_uint8()
@@ -212,7 +212,7 @@ func ToVehicleAlarmData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 	ChargeBadCodes_len := (int)(ChargeBadNum_v)
 	ChargeBadCodes_arr := make([]uint32, ChargeBadCodes_len, ChargeBadCodes_len)
 	for i := 0; i < ChargeBadCodes_len; i++ {
-		e := _byteBuf.Read_uint32(true)
+		e := _byteBuf.Read_uint32()
 		ChargeBadCodes_arr[i] = e
 	}
 	_instance.ChargeBadCodes = ChargeBadCodes_arr
@@ -222,7 +222,7 @@ func ToVehicleAlarmData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 	DriverBadCodes_len := (int)(DriverBadNum_v)
 	DriverBadCodes_arr := make([]uint32, DriverBadCodes_len, DriverBadCodes_len)
 	for i := 0; i < DriverBadCodes_len; i++ {
-		e := _byteBuf.Read_uint32(true)
+		e := _byteBuf.Read_uint32()
 		DriverBadCodes_arr[i] = e
 	}
 	_instance.DriverBadCodes = DriverBadCodes_arr
@@ -238,7 +238,7 @@ func ToVehicleAlarmData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 	OtherBadCodes_len := (int)(OtherBadNum_v)
 	OtherBadCodes_arr := make([]uint32, OtherBadCodes_len, OtherBadCodes_len)
 	for i := 0; i < OtherBadCodes_len; i++ {
-		e := _byteBuf.Read_uint32(true)
+		e := _byteBuf.Read_uint32()
 		OtherBadCodes_arr[i] = e
 	}
 	_instance.OtherBadCodes = OtherBadCodes_arr
@@ -248,16 +248,16 @@ func ToVehicleAlarmData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 func (__instance *VehicleAlarmData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.MaxAlarmLevel)
-	_byteBuf.Write_uint32(_instance.AlarmFlag, true)
+	_byteBuf.Write_uint32(_instance.AlarmFlag)
 	_byteBuf.Write_uint8(_instance.ChargeBadNum)
 	ChargeBadCodes_arr := _instance.ChargeBadCodes
 	for i := 0; i < len(ChargeBadCodes_arr); i++ {
-		_byteBuf.Write_uint32(ChargeBadCodes_arr[i], true)
+		_byteBuf.Write_uint32(ChargeBadCodes_arr[i])
 	}
 	_byteBuf.Write_uint8(_instance.DriverBadNum)
 	DriverBadCodes_arr := _instance.DriverBadCodes
 	for i := 0; i < len(DriverBadCodes_arr); i++ {
-		_byteBuf.Write_uint32(DriverBadCodes_arr[i], true)
+		_byteBuf.Write_uint32(DriverBadCodes_arr[i])
 	}
 	_byteBuf.Write_uint8(_instance.EngineBadNum)
 	EngineBadCodes_arr := _instance.EngineBadCodes
@@ -265,7 +265,7 @@ func (__instance *VehicleAlarmData) Write(_byteBuf *parse.ByteBuf, _parentParseC
 	_byteBuf.Write_uint8(_instance.OtherBadNum)
 	OtherBadCodes_arr := _instance.OtherBadCodes
 	for i := 0; i < len(OtherBadCodes_arr); i++ {
-		_byteBuf.Write_uint32(OtherBadCodes_arr[i], true)
+		_byteBuf.Write_uint32(OtherBadCodes_arr[i])
 	}
 }
 
@@ -304,7 +304,7 @@ func ToVehicleLoginData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 	_instance := VehicleLoginData{}
 	CollectTime_bytes := _byteBuf.Read_bytes(6)
 	_instance.CollectTime = time.Date(2000+int(CollectTime_bytes[0]), time.Month(int(CollectTime_bytes[1])), int(CollectTime_bytes[2]), int(CollectTime_bytes[3]), int(CollectTime_bytes[4]), int(CollectTime_bytes[5]), 0, _Location0)
-	Sn_v := _byteBuf.Read_uint16(true)
+	Sn_v := _byteBuf.Read_uint16()
 	_instance.Sn = Sn_v
 
 	Iccid_len := 20
@@ -344,7 +344,7 @@ func (__instance *VehicleLoginData) Write(_byteBuf *parse.ByteBuf, _parentParseC
 	_instance := *__instance
 	CollectTime_v := _instance.CollectTime
 	_byteBuf.Write_bytes([]byte{byte(CollectTime_v.Year() - 2000), byte(CollectTime_v.Month()), byte(CollectTime_v.Day()), byte(CollectTime_v.Hour()), byte(CollectTime_v.Minute()), byte(CollectTime_v.Second())})
-	_byteBuf.Write_uint16(_instance.Sn, true)
+	_byteBuf.Write_uint16(_instance.Sn)
 	Iccid_len := 20
 	Iccid_v := []byte(_instance.Iccid)
 	_byteBuf.Write_bytes(Iccid_v)
@@ -369,7 +369,7 @@ func ToPlatformLoginData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Par
 	_instance := PlatformLoginData{}
 	CollectTime_bytes := _byteBuf.Read_bytes(6)
 	_instance.CollectTime = time.Date(2000+int(CollectTime_bytes[0]), time.Month(int(CollectTime_bytes[1])), int(CollectTime_bytes[2]), int(CollectTime_bytes[3]), int(CollectTime_bytes[4]), int(CollectTime_bytes[5]), 0, _Location0)
-	Sn_v := _byteBuf.Read_uint16(true)
+	Sn_v := _byteBuf.Read_uint16()
 	_instance.Sn = Sn_v
 
 	Username_len := 12
@@ -406,7 +406,7 @@ func (__instance *PlatformLoginData) Write(_byteBuf *parse.ByteBuf, _parentParse
 	_instance := *__instance
 	CollectTime_v := _instance.CollectTime
 	_byteBuf.Write_bytes([]byte{byte(CollectTime_v.Year() - 2000), byte(CollectTime_v.Month()), byte(CollectTime_v.Day()), byte(CollectTime_v.Hour()), byte(CollectTime_v.Minute()), byte(CollectTime_v.Second())})
-	_byteBuf.Write_uint16(_instance.Sn, true)
+	_byteBuf.Write_uint16(_instance.Sn)
 	Username_len := 12
 	Username_v := []byte(_instance.Username)
 	_byteBuf.Write_bytes(Username_v)
@@ -481,10 +481,10 @@ func ToVehiclePositionData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.P
 	Status_v := _byteBuf.Read_uint8()
 	_instance.Status = Status_v
 
-	Lng_v := _byteBuf.Read_uint32(true)
+	Lng_v := _byteBuf.Read_uint32()
 	_instance.Lng = float64(Lng_v) / 1000000
 
-	Lat_v := _byteBuf.Read_uint32(true)
+	Lat_v := _byteBuf.Read_uint32()
 	_instance.Lat = float64(Lat_v) / 1000000
 
 	return &_instance
@@ -493,8 +493,8 @@ func ToVehiclePositionData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.P
 func (__instance *VehiclePositionData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.Status)
-	_byteBuf.Write_uint32(uint32(parse.Round(_instance.Lng*1000000)), true)
-	_byteBuf.Write_uint32(uint32(parse.Round(_instance.Lat*1000000)), true)
+	_byteBuf.Write_uint32(uint32(parse.Round(_instance.Lng * 1000000)))
+	_byteBuf.Write_uint32(uint32(parse.Round(_instance.Lat * 1000000)))
 }
 
 type VehicleEngineData struct {
@@ -508,10 +508,10 @@ func ToVehicleEngineData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Par
 	Status_v := _byteBuf.Read_uint8()
 	_instance.Status = Status_v
 
-	Speed_v := _byteBuf.Read_uint16(true)
+	Speed_v := _byteBuf.Read_uint16()
 	_instance.Speed = Speed_v
 
-	Rate_v := _byteBuf.Read_uint16(true)
+	Rate_v := _byteBuf.Read_uint16()
 	_instance.Rate = float32(Rate_v) / 100
 
 	return &_instance
@@ -520,8 +520,8 @@ func ToVehicleEngineData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Par
 func (__instance *VehicleEngineData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.Status)
-	_byteBuf.Write_uint16(_instance.Speed, true)
-	_byteBuf.Write_uint16(uint16(parse.Round(_instance.Rate*100)), true)
+	_byteBuf.Write_uint16(_instance.Speed)
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.Rate * 100)))
 }
 
 type VehicleLogoutData struct {
@@ -533,7 +533,7 @@ func ToVehicleLogoutData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Par
 	_instance := VehicleLogoutData{}
 	CollectTime_bytes := _byteBuf.Read_bytes(6)
 	_instance.CollectTime = time.Date(2000+int(CollectTime_bytes[0]), time.Month(int(CollectTime_bytes[1])), int(CollectTime_bytes[2]), int(CollectTime_bytes[3]), int(CollectTime_bytes[4]), int(CollectTime_bytes[5]), 0, _Location0)
-	Sn_v := _byteBuf.Read_uint16(true)
+	Sn_v := _byteBuf.Read_uint16()
 	_instance.Sn = Sn_v
 
 	return &_instance
@@ -543,7 +543,7 @@ func (__instance *VehicleLogoutData) Write(_byteBuf *parse.ByteBuf, _parentParse
 	_instance := *__instance
 	CollectTime_v := _instance.CollectTime
 	_byteBuf.Write_bytes([]byte{byte(CollectTime_v.Year() - 2000), byte(CollectTime_v.Month()), byte(CollectTime_v.Day()), byte(CollectTime_v.Hour()), byte(CollectTime_v.Minute()), byte(CollectTime_v.Second())})
-	_byteBuf.Write_uint16(_instance.Sn, true)
+	_byteBuf.Write_uint16(_instance.Sn)
 }
 
 type MotorData struct {
@@ -568,19 +568,19 @@ func ToMotorData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContex
 	ControllerTemperature_v := _byteBuf.Read_uint8()
 	_instance.ControllerTemperature = ControllerTemperature_v - 40
 
-	RotateSpeed_v := _byteBuf.Read_uint16(true)
+	RotateSpeed_v := _byteBuf.Read_uint16()
 	_instance.RotateSpeed = RotateSpeed_v - 20000
 
-	RotateRectangle_v := _byteBuf.Read_uint16(true)
+	RotateRectangle_v := _byteBuf.Read_uint16()
 	_instance.RotateRectangle = float32(RotateRectangle_v)/10 - 2000
 
 	Temperature_v := _byteBuf.Read_uint8()
 	_instance.Temperature = Temperature_v - 40
 
-	InputVoltage_v := _byteBuf.Read_uint16(true)
+	InputVoltage_v := _byteBuf.Read_uint16()
 	_instance.InputVoltage = float32(InputVoltage_v) / 10
 
-	Current_v := _byteBuf.Read_uint16(true)
+	Current_v := _byteBuf.Read_uint16()
 	_instance.Current = float32(Current_v)/10 - 1000
 
 	return _instance
@@ -590,11 +590,11 @@ func (_instance MotorData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *p
 	_byteBuf.Write_uint8(_instance.No)
 	_byteBuf.Write_uint8(_instance.Status)
 	_byteBuf.Write_uint8((_instance.ControllerTemperature + 40))
-	_byteBuf.Write_uint16((_instance.RotateSpeed + 20000), true)
-	_byteBuf.Write_uint16(uint16(parse.Round((_instance.RotateRectangle+2000)*10)), true)
+	_byteBuf.Write_uint16((_instance.RotateSpeed + 20000))
+	_byteBuf.Write_uint16(uint16(parse.Round((_instance.RotateRectangle + 2000) * 10)))
 	_byteBuf.Write_uint8((_instance.Temperature + 40))
-	_byteBuf.Write_uint16(uint16(parse.Round(_instance.InputVoltage*10)), true)
-	_byteBuf.Write_uint16(uint16(parse.Round((_instance.Current+1000)*10)), true)
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.InputVoltage * 10)))
+	_byteBuf.Write_uint16(uint16(parse.Round((_instance.Current + 1000) * 10)))
 }
 
 type VehicleMotorData struct {
@@ -650,7 +650,7 @@ func ToVehicleLimitValueData(_byteBuf *parse.ByteBuf, _parentParseContext *parse
 	MaxVoltageCode_v := _byteBuf.Read_uint8()
 	_instance.MaxVoltageCode = MaxVoltageCode_v
 
-	MaxVoltage_v := _byteBuf.Read_uint16(true)
+	MaxVoltage_v := _byteBuf.Read_uint16()
 	_instance.MaxVoltage = float32(MaxVoltage_v) / 1000
 
 	MinVoltageSystemNo_v := _byteBuf.Read_uint8()
@@ -659,7 +659,7 @@ func ToVehicleLimitValueData(_byteBuf *parse.ByteBuf, _parentParseContext *parse
 	MinVoltageCode_v := _byteBuf.Read_uint8()
 	_instance.MinVoltageCode = MinVoltageCode_v
 
-	MinVoltage_v := _byteBuf.Read_uint16(true)
+	MinVoltage_v := _byteBuf.Read_uint16()
 	_instance.MinVoltage = float32(MinVoltage_v) / 1000
 
 	MaxTemperatureSystemNo_v := _byteBuf.Read_uint8()
@@ -687,10 +687,10 @@ func (__instance *VehicleLimitValueData) Write(_byteBuf *parse.ByteBuf, _parentP
 	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.MaxVoltageSystemNo)
 	_byteBuf.Write_uint8(_instance.MaxVoltageCode)
-	_byteBuf.Write_uint16(uint16(parse.Round(_instance.MaxVoltage*1000)), true)
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.MaxVoltage * 1000)))
 	_byteBuf.Write_uint8(_instance.MinVoltageSystemNo)
 	_byteBuf.Write_uint8(_instance.MinVoltageCode)
-	_byteBuf.Write_uint16(uint16(parse.Round(_instance.MinVoltage*1000)), true)
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.MinVoltage * 1000)))
 	_byteBuf.Write_uint8(_instance.MaxTemperatureSystemNo)
 	_byteBuf.Write_uint8(_instance.MaxTemperatureNo)
 	_byteBuf.Write_uint8((_instance.MaxTemperature + 40))
@@ -735,7 +735,7 @@ func ToPacket(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) 
 	EncodeWay_v := _byteBuf.Read_uint8()
 	_instance.EncodeWay = EncodeWay_v
 
-	ContentLength_v := _byteBuf.Read_uint16(true)
+	ContentLength_v := _byteBuf.Read_uint16()
 	_instance.ContentLength = ContentLength_v
 
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
@@ -757,7 +757,7 @@ func (__instance *Packet) Write(_byteBuf *parse.ByteBuf, _parentParseContext *pa
 	_byteBuf.Write_bytes(Vin_v)
 	_byteBuf.Write_zero(Vin_len - len(Vin_v))
 	_byteBuf.Write_uint8(_instance.EncodeWay)
-	_byteBuf.Write_uint16(_instance.ContentLength, true)
+	_byteBuf.Write_uint16(_instance.ContentLength)
 	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	WriteData(_byteBuf, _instance.Data, _parseContext)
 	_byteBuf.Write_uint8(_instance.Code)
@@ -778,16 +778,16 @@ func ToStorageVoltageData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pa
 	No_v := _byteBuf.Read_uint8()
 	_instance.No = No_v
 
-	Voltage_v := _byteBuf.Read_uint16(true)
+	Voltage_v := _byteBuf.Read_uint16()
 	_instance.Voltage = float32(Voltage_v) / 10
 
-	Current_v := _byteBuf.Read_uint16(true)
+	Current_v := _byteBuf.Read_uint16()
 	_instance.Current = float32(Current_v)/10 - 1000
 
-	Total_v := _byteBuf.Read_uint16(true)
+	Total_v := _byteBuf.Read_uint16()
 	_instance.Total = Total_v
 
-	FrameNo_v := _byteBuf.Read_uint16(true)
+	FrameNo_v := _byteBuf.Read_uint16()
 	_instance.FrameNo = FrameNo_v
 
 	FrameTotal_v := _byteBuf.Read_uint8()
@@ -796,7 +796,7 @@ func ToStorageVoltageData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pa
 	SingleVoltage_len := (int)(FrameTotal_v)
 	SingleVoltage_arr := make([]float32, SingleVoltage_len, SingleVoltage_len)
 	for i := 0; i < SingleVoltage_len; i++ {
-		e := _byteBuf.Read_uint16(true)
+		e := _byteBuf.Read_uint16()
 		SingleVoltage_arr[i] = float32(e) / 1000
 	}
 	_instance.SingleVoltage = SingleVoltage_arr
@@ -805,14 +805,14 @@ func ToStorageVoltageData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pa
 
 func (_instance StorageVoltageData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_byteBuf.Write_uint8(_instance.No)
-	_byteBuf.Write_uint16(uint16(parse.Round(_instance.Voltage*10)), true)
-	_byteBuf.Write_uint16(uint16(parse.Round((_instance.Current+1000)*10)), true)
-	_byteBuf.Write_uint16(_instance.Total, true)
-	_byteBuf.Write_uint16(_instance.FrameNo, true)
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.Voltage * 10)))
+	_byteBuf.Write_uint16(uint16(parse.Round((_instance.Current + 1000) * 10)))
+	_byteBuf.Write_uint16(_instance.Total)
+	_byteBuf.Write_uint16(_instance.FrameNo)
 	_byteBuf.Write_uint8(_instance.FrameTotal)
 	SingleVoltage_arr := _instance.SingleVoltage
 	for i := 0; i < len(SingleVoltage_arr); i++ {
-		_byteBuf.Write_uint16(uint16(parse.Round(SingleVoltage_arr[i]*1000)), true)
+		_byteBuf.Write_uint16(uint16(parse.Round(SingleVoltage_arr[i] * 1000)))
 	}
 }
 
@@ -857,7 +857,7 @@ func ToStorageTemperatureData(_byteBuf *parse.ByteBuf, _parentParseContext *pars
 	No_v := _byteBuf.Read_uint8()
 	_instance.No = No_v
 
-	Num_v := _byteBuf.Read_uint16(true)
+	Num_v := _byteBuf.Read_uint16()
 	_instance.Num = Num_v
 
 	Temperatures_len := (int)(Num_v)
@@ -872,7 +872,7 @@ func ToStorageTemperatureData(_byteBuf *parse.ByteBuf, _parentParseContext *pars
 
 func (_instance StorageTemperatureData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_byteBuf.Write_uint8(_instance.No)
-	_byteBuf.Write_uint16(_instance.Num, true)
+	_byteBuf.Write_uint16(_instance.Num)
 	Temperatures_arr := _instance.Temperatures
 	for i := 0; i < len(Temperatures_arr); i++ {
 		_byteBuf.Write_uint8((Temperatures_arr[i] + 40))

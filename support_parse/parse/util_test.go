@@ -62,6 +62,34 @@ func Test_slice_to_array(t *testing.T) {
 	t.Logf("%+v", a)
 }
 
+func Test_slice_to_uint16(t *testing.T) {
+	bytes := []byte{0x00, 0x01}
+	a := (*uint16)(unsafe.Pointer(unsafe.SliceData(bytes)))
+	t.Logf("%+v", *a)
+}
+
+func Test_uint16_to_slice(t *testing.T) {
+	var i uint16 = 1
+	a := (*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
+		Data: uintptr(unsafe.Pointer(&i)),
+		Len:  2,
+		Cap:  2,
+	}))
+	t.Logf("%+v", a)
+}
+
+func Test_array_to_uint16(t *testing.T) {
+	bytes := [2]byte{0x00, 0x01}
+	a := (*uint16)(unsafe.Pointer(&bytes))
+	t.Logf("%+v", *a)
+}
+
+func Test_uint16_to_array(t *testing.T) {
+	var i uint16 = 1
+	a := (*[2]byte)(unsafe.Pointer(&i))
+	t.Logf("%+v", a)
+}
+
 func Test_array_to_slice(t *testing.T) {
 	uint16s := [2]uint16{513, 1027}
 	a := (*[]byte)(unsafe.Pointer(&reflect.SliceHeader{

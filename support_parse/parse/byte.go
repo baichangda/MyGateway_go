@@ -2,6 +2,7 @@ package parse
 
 import (
 	"math"
+	"unsafe"
 )
 
 type ByteBuf struct {
@@ -101,98 +102,184 @@ func (b *ByteBuf) ReadableBytes() int {
 }
 
 func (b *ByteBuf) Get_uint8() uint8 {
+	return b.bytes[b.rIndex]
+}
+func (b *ByteBuf) Get_int8() int8 {
+	return int8(b.bytes[b.rIndex])
+}
+
+func (b *ByteBuf) Read_uint8() uint8 {
 	e := b.bytes[b.rIndex]
+	b.rIndex += 1
+	return e
+}
+func (b *ByteBuf) Read_int8() int8 {
+	e := int8(b.bytes[b.rIndex])
+	b.rIndex += 1
 	return e
 }
 
-func (b *ByteBuf) Get_int8() int8 {
-	e := b.bytes[b.rIndex]
-	return int8(e)
+func (b *ByteBuf) Get_uint16() uint16 {
+	return (uint16(b.bytes[b.rIndex]) << 8) | uint16(b.bytes[b.rIndex+1])
 }
 
-func (b *ByteBuf) Get_uint16(bigEndian bool) uint16 {
-	e1 := b.bytes[b.rIndex]
-	e2 := b.bytes[b.rIndex+1]
-	if bigEndian {
-		return (uint16(e1) << 8) | uint16(e2)
-	} else {
-		return (uint16(e2) << 8) | uint16(e1)
-	}
+func (b *ByteBuf) Get_uint16_le() uint16 {
+	return *((*uint16)(unsafe.Pointer(unsafe.SliceData(b.bytes[b.rIndex : b.rIndex+2]))))
 }
 
-func (b *ByteBuf) Get_int16(bigEndian bool) int16 {
-	e1 := b.bytes[b.rIndex]
-	e2 := b.bytes[b.rIndex+1]
-	if bigEndian {
-		return (int16(e1) << 8) | int16(e2)
-	} else {
-		return (int16(e2) << 8) | int16(e1)
-	}
+func (b *ByteBuf) Read_uint16() uint16 {
+	res := (uint16(b.bytes[b.rIndex]) << 8) | uint16(b.bytes[b.rIndex+1])
+	b.rIndex += 2
+	return res
 }
 
-func (b *ByteBuf) Get_uint32(bigEndian bool) uint32 {
-	e1 := b.bytes[b.rIndex]
-	e2 := b.bytes[b.rIndex+1]
-	e3 := b.bytes[b.rIndex+2]
-	e4 := b.bytes[b.rIndex+3]
-	if bigEndian {
-		return (uint32(e1) << 24) | (uint32(e2) << 16) | (uint32(e3) << 8) | uint32(e4)
-	} else {
-		return (uint32(e4) << 24) | (uint32(e3) << 16) | (uint32(e2) << 8) | uint32(e1)
-	}
+func (b *ByteBuf) Read_uint16_le() uint16 {
+	res := *((*uint16)(unsafe.Pointer(unsafe.SliceData(b.bytes[b.rIndex : b.rIndex+2]))))
+	b.rIndex += 2
+	return res
 }
 
-func (b *ByteBuf) Get_int32(bigEndian bool) int32 {
-	e1 := b.bytes[b.rIndex]
-	e2 := b.bytes[b.rIndex+1]
-	e3 := b.bytes[b.rIndex+2]
-	e4 := b.bytes[b.rIndex+3]
-	if bigEndian {
-		return (int32(e1) << 24) | (int32(e2) << 16) | (int32(e3) << 8) | int32(e4)
-	} else {
-		return (int32(e4) << 24) | (int32(e3) << 16) | (int32(e2) << 8) | int32(e1)
-	}
+func (b *ByteBuf) Get_int16() int16 {
+	return (int16(b.bytes[b.rIndex]) << 8) | int16(b.bytes[b.rIndex+1])
 }
 
-func (b *ByteBuf) Get_uint64(bigEndian bool) uint64 {
-	e1 := b.bytes[b.rIndex]
-	e2 := b.bytes[b.rIndex+1]
-	e3 := b.bytes[b.rIndex+2]
-	e4 := b.bytes[b.rIndex+3]
-	e5 := b.bytes[b.rIndex+4]
-	e6 := b.bytes[b.rIndex+5]
-	e7 := b.bytes[b.rIndex+6]
-	e8 := b.bytes[b.rIndex+7]
-	if bigEndian {
-		return (uint64(e1) << 56) | (uint64(e2) << 48) | (uint64(e3) << 40) | (uint64(e4) << 32) | (uint64(e5) << 24) | (uint64(e6) << 16) | (uint64(e7) << 8) | uint64(e8)
-	} else {
-		return (uint64(e8) << 56) | (uint64(e7) << 48) | (uint64(e6) << 40) | (uint64(e5) << 32) | (uint64(e4) << 24) | (uint64(e3) << 16) | (uint64(e2) << 8) | uint64(e1)
-	}
+func (b *ByteBuf) Get_int16_le() int16 {
+	return *((*int16)(unsafe.Pointer(unsafe.SliceData(b.bytes[b.rIndex : b.rIndex+2]))))
 }
 
-func (b *ByteBuf) Get_int64(bigEndian bool) int64 {
-	e1 := b.bytes[b.rIndex]
-	e2 := b.bytes[b.rIndex+1]
-	e3 := b.bytes[b.rIndex+2]
-	e4 := b.bytes[b.rIndex+3]
-	e5 := b.bytes[b.rIndex+4]
-	e6 := b.bytes[b.rIndex+5]
-	e7 := b.bytes[b.rIndex+6]
-	e8 := b.bytes[b.rIndex+7]
-	if bigEndian {
-		return (int64(e1) << 56) | (int64(e2) << 48) | (int64(e3) << 40) | (int64(e4) << 32) | (int64(e5) << 24) | (int64(e6) << 16) | (int64(e7) << 8) | int64(e8)
-	} else {
-		return (int64(e8) << 56) | (int64(e7) << 48) | (int64(e6) << 40) | (int64(e5) << 32) | (int64(e4) << 24) | (int64(e3) << 16) | (int64(e2) << 8) | int64(e1)
-	}
+func (b *ByteBuf) Read_int16() int16 {
+	res := (int16(b.bytes[b.rIndex]) << 8) | int16(b.bytes[b.rIndex+1])
+	b.rIndex += 2
+	return res
 }
 
-func (b *ByteBuf) Get_float32(bigEndian bool) float32 {
-	readUint32 := b.Get_uint32(bigEndian)
+func (b *ByteBuf) Read_int16_le() int16 {
+	res := *((*int16)(unsafe.Pointer(unsafe.SliceData(b.bytes[b.rIndex : b.rIndex+2]))))
+	b.rIndex += 2
+	return res
+}
+
+func (b *ByteBuf) Get_uint32() uint32 {
+	return (uint32(b.bytes[b.rIndex]) << 24) | (uint32(b.bytes[b.rIndex+1]) << 16) | (uint32(b.bytes[b.rIndex+2]) << 8) | uint32(b.bytes[b.rIndex+3])
+}
+
+func (b *ByteBuf) Get_uint32_le() uint32 {
+	return *((*uint32)(unsafe.Pointer(unsafe.SliceData(b.bytes[b.rIndex : b.rIndex+4]))))
+}
+
+func (b *ByteBuf) Read_uint32() uint32 {
+	res := (uint32(b.bytes[b.rIndex]) << 24) | (uint32(b.bytes[b.rIndex+1]) << 16) | (uint32(b.bytes[b.rIndex+2]) << 8) | uint32(b.bytes[b.rIndex+3])
+	b.rIndex += 4
+	return res
+}
+
+func (b *ByteBuf) Read_uint32_le() uint32 {
+	res := *((*uint32)(unsafe.Pointer(unsafe.SliceData(b.bytes[b.rIndex : b.rIndex+4]))))
+	b.rIndex += 4
+	return res
+}
+
+func (b *ByteBuf) Get_int32() int32 {
+	return (int32(b.bytes[b.rIndex]) << 24) | (int32(b.bytes[b.rIndex+1]) << 16) | (int32(b.bytes[b.rIndex+2]) << 8) | int32(b.bytes[b.rIndex+3])
+}
+
+func (b *ByteBuf) Get_int32_le() int32 {
+	return *((*int32)(unsafe.Pointer(unsafe.SliceData(b.bytes[b.rIndex : b.rIndex+4]))))
+}
+
+func (b *ByteBuf) Read_int32() int32 {
+	res := (int32(b.bytes[b.rIndex]) << 24) | (int32(b.bytes[b.rIndex+1]) << 16) | (int32(b.bytes[b.rIndex+2]) << 8) | int32(b.bytes[b.rIndex+3])
+	b.rIndex += 4
+	return res
+}
+
+func (b *ByteBuf) Read_int32_le() int32 {
+	res := *((*int32)(unsafe.Pointer(unsafe.SliceData(b.bytes[b.rIndex : b.rIndex+4]))))
+	b.rIndex += 4
+	return res
+}
+
+func (b *ByteBuf) Get_uint64() uint64 {
+	return (uint64(b.bytes[b.rIndex]) << 56) | (uint64(b.bytes[b.rIndex]) << 48) | (uint64(b.bytes[b.rIndex]) << 40) | (uint64(b.bytes[b.rIndex]) << 32) |
+		(uint64(b.bytes[b.rIndex]) << 24) | (uint64(b.bytes[b.rIndex+1]) << 16) | (uint64(b.bytes[b.rIndex+2]) << 8) | uint64(b.bytes[b.rIndex+3])
+}
+
+func (b *ByteBuf) Get_uint64_le() uint64 {
+	return *((*uint64)(unsafe.Pointer(unsafe.SliceData(b.bytes[b.rIndex : b.rIndex+8]))))
+}
+
+func (b *ByteBuf) Read_uint64() uint64 {
+	res := (uint64(b.bytes[b.rIndex]) << 56) | (uint64(b.bytes[b.rIndex]) << 48) | (uint64(b.bytes[b.rIndex]) << 40) | (uint64(b.bytes[b.rIndex]) << 32) |
+		(uint64(b.bytes[b.rIndex]) << 24) | (uint64(b.bytes[b.rIndex+1]) << 16) | (uint64(b.bytes[b.rIndex+2]) << 8) | uint64(b.bytes[b.rIndex+3])
+	b.rIndex += 8
+	return res
+}
+
+func (b *ByteBuf) Read_uint64_le() uint64 {
+	res := *((*uint64)(unsafe.Pointer(unsafe.SliceData(b.bytes[b.rIndex : b.rIndex+8]))))
+	b.rIndex += 8
+	return res
+}
+
+func (b *ByteBuf) Get_int64() int64 {
+	return (int64(b.bytes[b.rIndex]) << 56) | (int64(b.bytes[b.rIndex]) << 48) | (int64(b.bytes[b.rIndex]) << 40) | (int64(b.bytes[b.rIndex]) << 32) |
+		(int64(b.bytes[b.rIndex]) << 24) | (int64(b.bytes[b.rIndex+1]) << 16) | (int64(b.bytes[b.rIndex+2]) << 8) | int64(b.bytes[b.rIndex+3])
+}
+
+func (b *ByteBuf) Get_int64_le() int64 {
+	return *((*int64)(unsafe.Pointer(unsafe.SliceData(b.bytes[b.rIndex : b.rIndex+8]))))
+}
+
+func (b *ByteBuf) Read_int64() int64 {
+	res := (int64(b.bytes[b.rIndex]) << 56) | (int64(b.bytes[b.rIndex]) << 48) | (int64(b.bytes[b.rIndex]) << 40) | (int64(b.bytes[b.rIndex]) << 32) |
+		(int64(b.bytes[b.rIndex]) << 24) | (int64(b.bytes[b.rIndex+1]) << 16) | (int64(b.bytes[b.rIndex+2]) << 8) | int64(b.bytes[b.rIndex+3])
+	b.rIndex += 8
+	return res
+}
+
+func (b *ByteBuf) Read_int64_le() int64 {
+	res := *((*int64)(unsafe.Pointer(unsafe.SliceData(b.bytes[b.rIndex : b.rIndex+8]))))
+	b.rIndex += 8
+	return res
+}
+
+func (b *ByteBuf) Get_float32() float32 {
+	readUint32 := b.Get_uint32()
 	return math.Float32frombits(readUint32)
 }
 
-func (b *ByteBuf) Get_float64(bigEndian bool) float64 {
-	readUint64 := b.Get_uint64(bigEndian)
+func (b *ByteBuf) Get_float32_le() float32 {
+	readUint32 := b.Get_uint32_le()
+	return math.Float32frombits(readUint32)
+}
+
+func (b *ByteBuf) Read_float32() float32 {
+	readUint32 := b.Read_uint32()
+	return math.Float32frombits(readUint32)
+}
+
+func (b *ByteBuf) Read_float32_le() float32 {
+	readUint32 := b.Read_uint32_le()
+	return math.Float32frombits(readUint32)
+}
+
+func (b *ByteBuf) Get_float64() float64 {
+	readUint64 := b.Get_uint64()
+	return math.Float64frombits(readUint64)
+}
+
+func (b *ByteBuf) Get_float64_le() float64 {
+	readUint64 := b.Get_uint64_le()
+	return math.Float64frombits(readUint64)
+}
+
+func (b *ByteBuf) Read_float64() float64 {
+	readUint64 := b.Read_uint64()
+	return math.Float64frombits(readUint64)
+}
+
+func (b *ByteBuf) Read_float64_le() float64 {
+	readUint64 := b.Read_uint64_le()
 	return math.Float64frombits(readUint64)
 }
 
@@ -204,110 +291,6 @@ func (b *ByteBuf) Get_bytes(n int) []byte {
 func (b *ByteBuf) Get_string_utf8(n int) string {
 	bytes := b.bytes[b.rIndex : b.rIndex+n]
 	return string(bytes)
-}
-
-func (b *ByteBuf) Read_uint8() uint8 {
-	e := b.bytes[b.rIndex]
-	b.rIndex += 1
-	return e
-}
-
-func (b *ByteBuf) Read_int8() int8 {
-	e := b.bytes[b.rIndex]
-	b.rIndex += 1
-	return int8(e)
-}
-
-func (b *ByteBuf) Read_uint16(bigEndian bool) uint16 {
-	e1 := b.bytes[b.rIndex]
-	e2 := b.bytes[b.rIndex+1]
-	b.rIndex += 2
-	if bigEndian {
-		return (uint16(e1) << 8) | uint16(e2)
-	} else {
-		return (uint16(e2) << 8) | uint16(e1)
-	}
-}
-
-func (b *ByteBuf) Read_int16(bigEndian bool) int16 {
-	e1 := b.bytes[b.rIndex]
-	e2 := b.bytes[b.rIndex+1]
-	b.rIndex += 2
-	if bigEndian {
-		return (int16(e1) << 8) | int16(e2)
-	} else {
-		return (int16(e2) << 8) | int16(e1)
-	}
-}
-
-func (b *ByteBuf) Read_uint32(bigEndian bool) uint32 {
-	e1 := b.bytes[b.rIndex]
-	e2 := b.bytes[b.rIndex+1]
-	e3 := b.bytes[b.rIndex+2]
-	e4 := b.bytes[b.rIndex+3]
-	b.rIndex += 4
-	if bigEndian {
-		return (uint32(e1) << 24) | (uint32(e2) << 16) | (uint32(e3) << 8) | uint32(e4)
-	} else {
-		return (uint32(e4) << 24) | (uint32(e3) << 16) | (uint32(e2) << 8) | uint32(e1)
-	}
-}
-
-func (b *ByteBuf) Read_int32(bigEndian bool) int32 {
-	e1 := b.bytes[b.rIndex]
-	e2 := b.bytes[b.rIndex+1]
-	e3 := b.bytes[b.rIndex+2]
-	e4 := b.bytes[b.rIndex+3]
-	b.rIndex += 4
-	if bigEndian {
-		return (int32(e1) << 24) | (int32(e2) << 16) | (int32(e3) << 8) | int32(e4)
-	} else {
-		return (int32(e4) << 24) | (int32(e3) << 16) | (int32(e2) << 8) | int32(e1)
-	}
-}
-
-func (b *ByteBuf) Read_uint64(bigEndian bool) uint64 {
-	e1 := b.bytes[b.rIndex]
-	e2 := b.bytes[b.rIndex+1]
-	e3 := b.bytes[b.rIndex+2]
-	e4 := b.bytes[b.rIndex+3]
-	e5 := b.bytes[b.rIndex+4]
-	e6 := b.bytes[b.rIndex+5]
-	e7 := b.bytes[b.rIndex+6]
-	e8 := b.bytes[b.rIndex+7]
-	b.rIndex += 8
-	if bigEndian {
-		return (uint64(e1) << 56) | (uint64(e2) << 48) | (uint64(e3) << 40) | (uint64(e4) << 32) | (uint64(e5) << 24) | (uint64(e6) << 16) | (uint64(e7) << 8) | uint64(e8)
-	} else {
-		return (uint64(e8) << 56) | (uint64(e7) << 48) | (uint64(e6) << 40) | (uint64(e5) << 32) | (uint64(e4) << 24) | (uint64(e3) << 16) | (uint64(e2) << 8) | uint64(e1)
-	}
-}
-
-func (b *ByteBuf) Read_int64(bigEndian bool) int64 {
-	e1 := b.bytes[b.rIndex]
-	e2 := b.bytes[b.rIndex+1]
-	e3 := b.bytes[b.rIndex+2]
-	e4 := b.bytes[b.rIndex+3]
-	e5 := b.bytes[b.rIndex+4]
-	e6 := b.bytes[b.rIndex+5]
-	e7 := b.bytes[b.rIndex+6]
-	e8 := b.bytes[b.rIndex+7]
-	b.rIndex += 8
-	if bigEndian {
-		return (int64(e1) << 56) | (int64(e2) << 48) | (int64(e3) << 40) | (int64(e4) << 32) | (int64(e5) << 24) | (int64(e6) << 16) | (int64(e7) << 8) | int64(e8)
-	} else {
-		return (int64(e8) << 56) | (int64(e7) << 48) | (int64(e6) << 40) | (int64(e5) << 32) | (int64(e4) << 24) | (int64(e3) << 16) | (int64(e2) << 8) | int64(e1)
-	}
-}
-
-func (b *ByteBuf) Read_float32(bigEndian bool) float32 {
-	readUint32 := b.Read_uint32(bigEndian)
-	return math.Float32frombits(readUint32)
-}
-
-func (b *ByteBuf) Read_float64(bigEndian bool) float64 {
-	readUint64 := b.Read_uint64(bigEndian)
-	return math.Float64frombits(readUint64)
 }
 
 func (b *ByteBuf) Read_bytes(n int) []byte {
@@ -334,116 +317,133 @@ func (b *ByteBuf) Write_int8(v int8) {
 	b.wIndex++
 }
 
-func (b *ByteBuf) Write_uint16(v uint16, bigEndian bool) {
+func (b *ByteBuf) Write_uint16(v uint16) {
 	b.checkGrow(2)
-	if bigEndian {
-		b.bytes[b.wIndex] = uint8(v >> 8)
-		b.bytes[b.wIndex+1] = uint8(v)
-	} else {
-		b.bytes[b.wIndex] = uint8(v)
-		b.bytes[b.wIndex+1] = uint8(v >> 8)
-	}
+	b.bytes[b.wIndex] = uint8(v >> 8)
+	b.bytes[b.wIndex+1] = uint8(v)
 	b.wIndex += 2
 }
 
-func (b *ByteBuf) Write_int16(v int16, bigEndian bool) {
+func (b *ByteBuf) Write_uint16_le(v uint16) {
 	b.checkGrow(2)
-	if bigEndian {
-		b.bytes[b.wIndex] = uint8(v >> 8)
-		b.bytes[b.wIndex+1] = uint8(v)
-	} else {
-		b.bytes[b.wIndex] = uint8(v)
-		b.bytes[b.wIndex+1] = uint8(v >> 8)
-	}
+	b.bytes[b.wIndex] = uint8(v)
+	b.bytes[b.wIndex+1] = uint8(v >> 8)
 	b.wIndex += 2
 }
 
-func (b *ByteBuf) Write_uint32(v uint32, bigEndian bool) {
+func (b *ByteBuf) Write_int16(v int16) {
+	b.checkGrow(2)
+	b.bytes[b.wIndex] = uint8(v >> 8)
+	b.bytes[b.wIndex+1] = uint8(v)
+	b.wIndex += 2
+}
+
+func (b *ByteBuf) Write_int16_le(v int16) {
+	b.checkGrow(2)
+	b.bytes[b.wIndex] = uint8(v)
+	b.bytes[b.wIndex+1] = uint8(v >> 8)
+	b.wIndex += 2
+}
+
+func (b *ByteBuf) Write_uint32(v uint32) {
 	b.checkGrow(4)
-	if bigEndian {
-		b.bytes[b.wIndex] = uint8(v >> 24)
-		b.bytes[b.wIndex+1] = uint8(v >> 16)
-		b.bytes[b.wIndex+2] = uint8(v >> 8)
-		b.bytes[b.wIndex+3] = uint8(v)
-	} else {
-		b.bytes[b.wIndex] = uint8(v)
-		b.bytes[b.wIndex+1] = uint8(v >> 8)
-		b.bytes[b.wIndex+2] = uint8(v >> 16)
-		b.bytes[b.wIndex+3] = uint8(v >> 24)
-	}
+	b.bytes[b.wIndex] = uint8(v >> 24)
+	b.bytes[b.wIndex+1] = uint8(v >> 16)
+	b.bytes[b.wIndex+2] = uint8(v >> 8)
+	b.bytes[b.wIndex+3] = uint8(v)
 	b.wIndex += 4
 }
 
-func (b *ByteBuf) Write_int32(v int32, bigEndian bool) {
+func (b *ByteBuf) Write_uint32_le(v uint32) {
 	b.checkGrow(4)
-	if bigEndian {
-		b.bytes[b.wIndex] = uint8(v >> 24)
-		b.bytes[b.wIndex+1] = uint8(v >> 16)
-		b.bytes[b.wIndex+2] = uint8(v >> 8)
-		b.bytes[b.wIndex+3] = uint8(v)
-	} else {
-		b.bytes[b.wIndex] = uint8(v)
-		b.bytes[b.wIndex+1] = uint8(v >> 8)
-		b.bytes[b.wIndex+2] = uint8(v >> 16)
-		b.bytes[b.wIndex+3] = uint8(v >> 24)
-	}
+	b.bytes[b.wIndex] = uint8(v)
+	b.bytes[b.wIndex+1] = uint8(v >> 8)
+	b.bytes[b.wIndex+2] = uint8(v >> 16)
+	b.bytes[b.wIndex+3] = uint8(v >> 24)
 	b.wIndex += 4
 }
 
-func (b *ByteBuf) Write_uint64(v uint64, bigEndian bool) {
+func (b *ByteBuf) Write_int32(v int32) {
+	b.checkGrow(4)
+	b.bytes[b.wIndex] = uint8(v >> 24)
+	b.bytes[b.wIndex+1] = uint8(v >> 16)
+	b.bytes[b.wIndex+2] = uint8(v >> 8)
+	b.bytes[b.wIndex+3] = uint8(v)
+	b.wIndex += 4
+}
+
+func (b *ByteBuf) Write_int32_le(v int32) {
+	b.checkGrow(4)
+	b.bytes[b.wIndex] = uint8(v)
+	b.bytes[b.wIndex+1] = uint8(v >> 8)
+	b.bytes[b.wIndex+2] = uint8(v >> 16)
+	b.bytes[b.wIndex+3] = uint8(v >> 24)
+	b.wIndex += 4
+}
+
+func (b *ByteBuf) Write_uint64(v uint64) {
 	b.checkGrow(8)
-	if bigEndian {
-		b.bytes[b.wIndex] = uint8(v >> 56)
-		b.bytes[b.wIndex+1] = uint8(v >> 48)
-		b.bytes[b.wIndex+2] = uint8(v >> 40)
-		b.bytes[b.wIndex+3] = uint8(v >> 32)
-		b.bytes[b.wIndex+4] = uint8(v >> 24)
-		b.bytes[b.wIndex+5] = uint8(v >> 16)
-		b.bytes[b.wIndex+6] = uint8(v >> 8)
-		b.bytes[b.wIndex+7] = uint8(v)
-	} else {
-		b.bytes[b.wIndex] = uint8(v)
-		b.bytes[b.wIndex+1] = uint8(v >> 8)
-		b.bytes[b.wIndex+2] = uint8(v >> 16)
-		b.bytes[b.wIndex+3] = uint8(v >> 24)
-		b.bytes[b.wIndex+4] = uint8(v >> 32)
-		b.bytes[b.wIndex+5] = uint8(v >> 40)
-		b.bytes[b.wIndex+6] = uint8(v >> 48)
-		b.bytes[b.wIndex+7] = uint8(v >> 56)
-	}
+	b.bytes[b.wIndex] = uint8(v >> 56)
+	b.bytes[b.wIndex+1] = uint8(v >> 48)
+	b.bytes[b.wIndex+2] = uint8(v >> 40)
+	b.bytes[b.wIndex+3] = uint8(v >> 32)
+	b.bytes[b.wIndex+4] = uint8(v >> 24)
+	b.bytes[b.wIndex+5] = uint8(v >> 16)
+	b.bytes[b.wIndex+6] = uint8(v >> 8)
+	b.bytes[b.wIndex+7] = uint8(v)
 	b.wIndex += 8
 }
 
-func (b *ByteBuf) Write_int64(v int64, bigEndian bool) {
+func (b *ByteBuf) Write_uint64_le(v uint64) {
 	b.checkGrow(8)
-	if bigEndian {
-		b.bytes[b.wIndex] = uint8(v >> 56)
-		b.bytes[b.wIndex+1] = uint8(v >> 48)
-		b.bytes[b.wIndex+2] = uint8(v >> 40)
-		b.bytes[b.wIndex+3] = uint8(v >> 32)
-		b.bytes[b.wIndex+4] = uint8(v >> 24)
-		b.bytes[b.wIndex+5] = uint8(v >> 16)
-		b.bytes[b.wIndex+6] = uint8(v >> 8)
-		b.bytes[b.wIndex+7] = uint8(v)
-	} else {
-		b.bytes[b.wIndex] = uint8(v)
-		b.bytes[b.wIndex+1] = uint8(v >> 8)
-		b.bytes[b.wIndex+2] = uint8(v >> 16)
-		b.bytes[b.wIndex+3] = uint8(v >> 24)
-		b.bytes[b.wIndex+4] = uint8(v >> 32)
-		b.bytes[b.wIndex+5] = uint8(v >> 40)
-		b.bytes[b.wIndex+6] = uint8(v >> 48)
-		b.bytes[b.wIndex+7] = uint8(v >> 56)
-	}
+	b.bytes[b.wIndex] = uint8(v)
+	b.bytes[b.wIndex+1] = uint8(v >> 8)
+	b.bytes[b.wIndex+2] = uint8(v >> 16)
+	b.bytes[b.wIndex+3] = uint8(v >> 24)
+	b.bytes[b.wIndex+4] = uint8(v >> 32)
+	b.bytes[b.wIndex+5] = uint8(v >> 40)
+	b.bytes[b.wIndex+6] = uint8(v >> 48)
+	b.bytes[b.wIndex+7] = uint8(v >> 56)
 	b.wIndex += 8
 }
 
-func (b *ByteBuf) Write_float32(v float32, bigEndian bool) {
-	b.Write_uint32(math.Float32bits(v), bigEndian)
+func (b *ByteBuf) Write_int64(v int64) {
+	b.checkGrow(8)
+	b.bytes[b.wIndex] = uint8(v >> 56)
+	b.bytes[b.wIndex+1] = uint8(v >> 48)
+	b.bytes[b.wIndex+2] = uint8(v >> 40)
+	b.bytes[b.wIndex+3] = uint8(v >> 32)
+	b.bytes[b.wIndex+4] = uint8(v >> 24)
+	b.bytes[b.wIndex+5] = uint8(v >> 16)
+	b.bytes[b.wIndex+6] = uint8(v >> 8)
+	b.bytes[b.wIndex+7] = uint8(v)
+	b.wIndex += 8
 }
 
-func (b *ByteBuf) Write_float64(v float64, bigEndian bool) {
-	b.Write_uint64(math.Float64bits(v), bigEndian)
+func (b *ByteBuf) Write_int64_le(v int64) {
+	b.checkGrow(8)
+	b.bytes[b.wIndex] = uint8(v)
+	b.bytes[b.wIndex+1] = uint8(v >> 8)
+	b.bytes[b.wIndex+2] = uint8(v >> 16)
+	b.bytes[b.wIndex+3] = uint8(v >> 24)
+	b.bytes[b.wIndex+4] = uint8(v >> 32)
+	b.bytes[b.wIndex+5] = uint8(v >> 40)
+	b.bytes[b.wIndex+6] = uint8(v >> 48)
+	b.bytes[b.wIndex+7] = uint8(v >> 56)
+	b.wIndex += 8
+}
+
+func (b *ByteBuf) Write_float32(v float32) {
+	b.Write_uint32(math.Float32bits(v))
+}
+func (b *ByteBuf) Write_float32_le(v float32) {
+	b.Write_uint32_le(math.Float32bits(v))
+}
+func (b *ByteBuf) Write_float64(v float64) {
+	b.Write_uint64(math.Float64bits(v))
+}
+func (b *ByteBuf) Write_float64_le(v float64) {
+	b.Write_uint64_le(math.Float64bits(v))
 }
 
 func (b *ByteBuf) Write_bytes(bytes []byte) {
