@@ -100,25 +100,39 @@ func WriteVehicleCommonData(_byteBuf *parse.ByteBuf, __instance any, _parentPars
 
 func ToData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) any {
 	packet := _parentParseContext.Instance.(*Packet)
-	switch packet.Flag {
-	case 1:
-		return ToVehicleLoginData(_byteBuf, _parentParseContext)
-	case 2:
-		return ToVehicleRunData(_byteBuf, _parentParseContext)
-	case 3:
-		return ToVehicleSupplementData(_byteBuf, _parentParseContext)
-	case 4:
-		return ToVehicleLogoutData(_byteBuf, _parentParseContext)
-	case 5:
-		return ToPlatformLoginData(_byteBuf, _parentParseContext)
-	case 6:
-		return ToPlatformLogoutData(_byteBuf, _parentParseContext)
-	default:
-		util.Log.Warnf("Parse PacketData Interrupted,Unknown Flag[%d]", packet.Flag)
-		return nil
+	if packet.ReplyFlag == 0xfe {
+		switch packet.Flag {
+		case 1:
+			return ToVehicleLoginData(_byteBuf, _parentParseContext)
+		case 2:
+			return ToVehicleRunData(_byteBuf, _parentParseContext)
+		case 3:
+			return ToVehicleSupplementData(_byteBuf, _parentParseContext)
+		case 4:
+			return ToVehicleLogoutData(_byteBuf, _parentParseContext)
+		case 5:
+			return ToPlatformLoginData(_byteBuf, _parentParseContext)
+		case 6:
+			return ToPlatformLogoutData(_byteBuf, _parentParseContext)
+		default:
+			util.Log.Warnf("Parse PacketData Interrupted,Unknown Flag[%d]", packet.Flag)
+			return nil
+		}
+	} else {
+		return ResponseData{content: _byteBuf.Read_bytes(int(packet.ContentLength))}
 	}
 }
 
 func WriteData(_byteBuf *parse.ByteBuf, __instance any, _parentParseContext *parse.ParseContext) {
-	__instance.(parse.Writeable).Write(_byteBuf, _parentParseContext)
+	packet := _parentParseContext.Instance.(*Packet)
+	if packet.ReplyFlag == 0xfe {
+		__instance.(parse.Writeable).Write(_byteBuf, _parentParseContext)
+	} else {
+		_byteBuf.Write_bytes(__instance.(ResponseData).content)
+	}
+
+}
+
+type ResponseData struct {
+	content []byte
 }

@@ -136,7 +136,7 @@ func ToVehicleFuelBatteryData(_byteBuf *parse.ByteBuf, _parentParseContext *pars
 	_instance.Num = Num_v
 
 	Temperatures_len := (int)(Num_v)
-	Temperatures_arr := make([]uint8, Temperatures_len)
+	Temperatures_arr := make([]uint8, Temperatures_len, Temperatures_len)
 	for i := 0; i < Temperatures_len; i++ {
 		e := _byteBuf.Read_uint8()
 		Temperatures_arr[i] = e - 40
@@ -210,7 +210,7 @@ func ToVehicleAlarmData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 	_instance.ChargeBadNum = ChargeBadNum_v
 
 	ChargeBadCodes_len := (int)(ChargeBadNum_v)
-	ChargeBadCodes_arr := make([]uint32, ChargeBadCodes_len)
+	ChargeBadCodes_arr := make([]uint32, ChargeBadCodes_len, ChargeBadCodes_len)
 	for i := 0; i < ChargeBadCodes_len; i++ {
 		e := _byteBuf.Read_uint32(true)
 		ChargeBadCodes_arr[i] = e
@@ -220,7 +220,7 @@ func ToVehicleAlarmData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 	_instance.DriverBadNum = DriverBadNum_v
 
 	DriverBadCodes_len := (int)(DriverBadNum_v)
-	DriverBadCodes_arr := make([]uint32, DriverBadCodes_len)
+	DriverBadCodes_arr := make([]uint32, DriverBadCodes_len, DriverBadCodes_len)
 	for i := 0; i < DriverBadCodes_len; i++ {
 		e := _byteBuf.Read_uint32(true)
 		DriverBadCodes_arr[i] = e
@@ -236,7 +236,7 @@ func ToVehicleAlarmData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 	_instance.OtherBadNum = OtherBadNum_v
 
 	OtherBadCodes_len := (int)(OtherBadNum_v)
-	OtherBadCodes_arr := make([]uint32, OtherBadCodes_len)
+	OtherBadCodes_arr := make([]uint32, OtherBadCodes_len, OtherBadCodes_len)
 	for i := 0; i < OtherBadCodes_len; i++ {
 		e := _byteBuf.Read_uint32(true)
 		OtherBadCodes_arr[i] = e
@@ -429,7 +429,7 @@ func ToVehicleStorageVoltageData(_byteBuf *parse.ByteBuf, _parentParseContext *p
 	_instance.Num = Num_v
 
 	Content_len := (int)(Num_v)
-	Content_arr := make([]StorageVoltageData, Content_len)
+	Content_arr := make([]StorageVoltageData, Content_len, Content_len)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < Content_len; i++ {
 		Content_arr[i] = ToStorageVoltageData(_byteBuf, _parseContext)
@@ -608,7 +608,7 @@ func ToVehicleMotorData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 	_instance.Num = Num_v
 
 	Content_len := (int)(Num_v)
-	Content_arr := make([]MotorData, Content_len)
+	Content_arr := make([]MotorData, Content_len, Content_len)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < Content_len; i++ {
 		Content_arr[i] = ToMotorData(_byteBuf, _parseContext)
@@ -794,7 +794,7 @@ func ToStorageVoltageData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pa
 	_instance.FrameTotal = FrameTotal_v
 
 	SingleVoltage_len := (int)(FrameTotal_v)
-	SingleVoltage_arr := make([]float32, SingleVoltage_len)
+	SingleVoltage_arr := make([]float32, SingleVoltage_len, SingleVoltage_len)
 	for i := 0; i < SingleVoltage_len; i++ {
 		e := _byteBuf.Read_uint16(true)
 		SingleVoltage_arr[i] = float32(e) / 1000
@@ -827,7 +827,7 @@ func ToVehicleStorageTemperatureData(_byteBuf *parse.ByteBuf, _parentParseContex
 	_instance.Num = Num_v
 
 	Content_len := (int)(Num_v)
-	Content_arr := make([]StorageTemperatureData, Content_len)
+	Content_arr := make([]StorageTemperatureData, Content_len, Content_len)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < Content_len; i++ {
 		Content_arr[i] = ToStorageTemperatureData(_byteBuf, _parseContext)
@@ -861,7 +861,7 @@ func ToStorageTemperatureData(_byteBuf *parse.ByteBuf, _parentParseContext *pars
 	_instance.Num = Num_v
 
 	Temperatures_len := (int)(Num_v)
-	Temperatures_arr := make([]uint8, Temperatures_len)
+	Temperatures_arr := make([]uint8, Temperatures_len, Temperatures_len)
 	for i := 0; i < Temperatures_len; i++ {
 		e := _byteBuf.Read_uint8()
 		Temperatures_arr[i] = e - 40
