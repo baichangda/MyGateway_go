@@ -2,8 +2,31 @@ package parse
 
 import (
 	"math"
+	"strconv"
+	"strings"
 	"unsafe"
 )
+
+type JsonUint8Arr []uint8
+
+func (e JsonUint8Arr) MarshalJSON() ([]byte, error) {
+	var result string
+	if e == nil {
+		result = "null"
+	} else {
+		sb := strings.Builder{}
+		sb.WriteString("[")
+		for i, v := range e {
+			if i > 0 {
+				sb.WriteString(",")
+			}
+			sb.WriteString(strconv.Itoa(int(v)))
+		}
+		sb.WriteString("]")
+		result = sb.String()
+	}
+	return []byte(result), nil
+}
 
 type ByteBuf struct {
 	rIndex      int

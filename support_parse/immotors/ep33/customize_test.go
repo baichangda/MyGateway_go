@@ -23,7 +23,7 @@ func BenchmarkToPacket(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		byteBuf.ResetReaderIndex()
 		byteBuf.ResetWriterIndex()
-		_ = ToPacket(byteBuf, nil)
+		_ = To_Packet(byteBuf, nil)
 	}
 }
 
@@ -35,7 +35,7 @@ func BenchmarkPacket_Write(b *testing.B) {
 		b.Fatalf("%+v", err)
 	}
 	byteBuf := parse.ToByteBuf(decodeString)
-	packet := ToPacket(byteBuf, nil)
+	packet := To_Packet(byteBuf, nil)
 	res := parse.ToByteBuf_capacity(1024)
 	res.MarkReaderIndex()
 	res.MarkWriterIndex()
@@ -54,7 +54,7 @@ func TestPacket_Write(t *testing.T) {
 		t.Fatalf("%+v", err)
 	}
 	byteBuf := parse.ToByteBuf(decodeString)
-	packet := ToPacket(byteBuf, nil)
+	packet := To_Packet(byteBuf, nil)
 	if err != nil {
 		t.Fatalf("%+v", err)
 	}
@@ -94,7 +94,7 @@ func TestPacket_Write_base64(t *testing.T) {
 		t.Fatalf("%+v", err)
 	}
 	byteBuf := parse.ToByteBuf(decodeString)
-	packet := ToPacket(byteBuf, nil)
+	packet := To_Packet(byteBuf, nil)
 	if err != nil {
 		t.Fatalf("%+v", err)
 	}
@@ -126,7 +126,7 @@ func TestPerformance_parse(t *testing.T) {
 		t.Fatalf("%+v", err)
 	}
 	parse.TestMultiThreadPerformance_parse(decodeString, 1, 1000000000, func(byteBuf *parse.ByteBuf) {
-		ToPacket(byteBuf, nil)
+		To_Packet(byteBuf, nil)
 		//util.Log.Infof("%d", byteBuf.ReaderIndex())
 	})
 }
@@ -138,7 +138,7 @@ func TestPerformance_deParse(t *testing.T) {
 	if err != nil {
 		t.Fatalf("%+v", err)
 	}
-	packet := ToPacket(parse.ToByteBuf(decodeString), nil)
+	packet := To_Packet(parse.ToByteBuf(decodeString), nil)
 	buf := parse.ToByteBuf_capacity(1024)
 	parse.TestMultiThreadPerformance_deParse(buf, 1, 1000000000, func(byteBuf *parse.ByteBuf) {
 		packet.Write(byteBuf, nil)
