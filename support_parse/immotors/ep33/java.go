@@ -342,7 +342,7 @@ func (__instance *Evt_0800) Write(_byteBuf *parse.ByteBuf, _parentParseContext *
 	_bitBuf.Write(int64(_instance.F_SysPwrMdV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_SysVolV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_TrShftLvrPos), 4, true, true)
-	_bitBuf.Write(int64(parse.Round(float64((_instance.F_SysVol-3)/0.1))), 8, true, true)
+	_bitBuf.Write(int64(parse.Round((_instance.F_SysVol-3)/0.1)), 8, true, true)
 	_bitBuf.Finish()
 	F_skip_len := 3
 	_byteBuf.Write_zero(F_skip_len)
@@ -378,7 +378,7 @@ func (__instance *Evt_0801) Write(_byteBuf *parse.ByteBuf, _parentParseContext *
 	_byteBuf.Write_zero(F_skip_len)
 
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
-	_bitBuf.Write(int64(parse.Round(float64(_instance.F_BrkPdlPos/0.392157))), 8, true, true)
+	_bitBuf.Write(int64(parse.Round(_instance.F_BrkPdlPos/0.392157)), 8, true, true)
 	_bitBuf.Finish()
 }
 
@@ -548,12 +548,12 @@ type Evt_D006 struct {
 	F_TMInvtrTem             int16   `json:"TMInvtrTem"`
 	F_ISGInvtrTem            int16   `json:"ISGInvtrTem"`
 	F_SAMInvtrTem            int16   `json:"SAMInvtrTem"`
-	F_TMSpd                  int16   `json:"TMSpd"`
+	F_TMSpd                  int32   `json:"TMSpd"`
 	F_TMSpdV                 int8    `json:"TMSpdV"`
-	F_ISGSpd                 int16   `json:"ISGSpd"`
+	F_ISGSpd                 int32   `json:"ISGSpd"`
 	F_ISGSpdV                int8    `json:"ISGSpdV"`
 	F_SAMSpdV                int8    `json:"SAMSpdV"`
-	F_SAMSpd                 int16   `json:"SAMSpd"`
+	F_SAMSpd                 int32   `json:"SAMSpd"`
 	F_TMActuToq              float32 `json:"TMActuToq"`
 	F_TMActuToqV             int8    `json:"TMActuToqV"`
 	F_ISGActuToq             float32 `json:"ISGActuToq"`
@@ -652,7 +652,7 @@ func To_Evt_D006(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContex
 	_instance.F_EPTTrInptShaftToqV = uint8(F_EPTTrInptShaftToqV_v)
 
 	F_EPTTrOtptShaftToq_v := _bitBuf.Read(12, true, true)
-	_instance.F_EPTTrOtptShaftToq = int16(F_EPTTrOtptShaftToq_v*2 - 3392)
+	_instance.F_EPTTrOtptShaftToq = int16(F_EPTTrOtptShaftToq_v)*2 - 3392
 
 	F_EPTTrOtptShaftToqV_v := _bitBuf.Read(1, true, true)
 	_instance.F_EPTTrOtptShaftToqV = uint8(F_EPTTrOtptShaftToqV_v)
@@ -685,16 +685,16 @@ func To_Evt_D006(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContex
 	_instance.F_TMInvtrCrntV = uint8(F_TMInvtrCrntV_v)
 
 	F_TMInvtrCrnt_v := _bitBuf.Read(11, true, true)
-	_instance.F_TMInvtrCrnt = int16(F_TMInvtrCrnt_v - 1024)
+	_instance.F_TMInvtrCrnt = int16(F_TMInvtrCrnt_v) - 1024
 
 	F_ISGInvtrCrntV_v := _bitBuf.Read(1, true, true)
 	_instance.F_ISGInvtrCrntV = uint8(F_ISGInvtrCrntV_v)
 
 	F_ISGInvtrCrnt_v := _bitBuf.Read(11, true, true)
-	_instance.F_ISGInvtrCrnt = int16(F_ISGInvtrCrnt_v - 1024)
+	_instance.F_ISGInvtrCrnt = int16(F_ISGInvtrCrnt_v) - 1024
 
 	F_SAMInvtrCrnt_v := _bitBuf.Read(11, true, true)
-	_instance.F_SAMInvtrCrnt = int16(F_SAMInvtrCrnt_v - 1024)
+	_instance.F_SAMInvtrCrnt = int16(F_SAMInvtrCrnt_v) - 1024
 
 	F_SAMInvtrCrntV_v := _bitBuf.Read(1, true, true)
 	_instance.F_SAMInvtrCrntV = uint8(F_SAMInvtrCrntV_v)
@@ -709,22 +709,22 @@ func To_Evt_D006(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContex
 	_instance.F_SAMSta = uint8(F_SAMSta_v)
 
 	F_TMInvtrTem_v := _bitBuf.Read(8, true, true)
-	_instance.F_TMInvtrTem = int16(F_TMInvtrTem_v - 40)
+	_instance.F_TMInvtrTem = int16(F_TMInvtrTem_v) - 40
 
 	F_ISGInvtrTem_v := _bitBuf.Read(8, true, true)
-	_instance.F_ISGInvtrTem = int16(F_ISGInvtrTem_v - 40)
+	_instance.F_ISGInvtrTem = int16(F_ISGInvtrTem_v) - 40
 
 	F_SAMInvtrTem_v := _bitBuf.Read(8, true, true)
-	_instance.F_SAMInvtrTem = int16(F_SAMInvtrTem_v - 40)
+	_instance.F_SAMInvtrTem = int16(F_SAMInvtrTem_v) - 40
 
 	F_TMSpd_v := _bitBuf.Read(16, true, true)
-	_instance.F_TMSpd = int16(F_TMSpd_v - 32768)
+	_instance.F_TMSpd = int32(F_TMSpd_v) - 32768
 
 	F_TMSpdV_v := _bitBuf.Read(1, true, true)
 	_instance.F_TMSpdV = int8(F_TMSpdV_v)
 
 	F_ISGSpd_v := _bitBuf.Read(16, true, true)
-	_instance.F_ISGSpd = int16(F_ISGSpd_v - 32768)
+	_instance.F_ISGSpd = int32(F_ISGSpd_v) - 32768
 
 	F_ISGSpdV_v := _bitBuf.Read(1, true, true)
 	_instance.F_ISGSpdV = int8(F_ISGSpdV_v)
@@ -733,7 +733,7 @@ func To_Evt_D006(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContex
 	_instance.F_SAMSpdV = int8(F_SAMSpdV_v)
 
 	F_SAMSpd_v := _bitBuf.Read(16, true, true)
-	_instance.F_SAMSpd = int16(F_SAMSpd_v - 32768)
+	_instance.F_SAMSpd = int32(F_SAMSpd_v) - 32768
 
 	F_TMActuToq_v := _bitBuf.Read(11, true, true)
 	_instance.F_TMActuToq = float32(F_TMActuToq_v)*0.5 - 512
@@ -754,13 +754,13 @@ func To_Evt_D006(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContex
 	_instance.F_SAMActuToq = float32(F_SAMActuToq_v)*0.5 - 512
 
 	F_TMSttrTem_v := _bitBuf.Read(8, true, true)
-	_instance.F_TMSttrTem = int16(F_TMSttrTem_v - 40)
+	_instance.F_TMSttrTem = int16(F_TMSttrTem_v) - 40
 
 	F_ISGSttrTem_v := _bitBuf.Read(8, true, true)
-	_instance.F_ISGSttrTem = int16(F_ISGSttrTem_v - 40)
+	_instance.F_ISGSttrTem = int16(F_ISGSttrTem_v) - 40
 
 	F_SAMSttrTem_v := _bitBuf.Read(8, true, true)
-	_instance.F_SAMSttrTem = int16(F_SAMSttrTem_v - 40)
+	_instance.F_SAMSttrTem = int16(F_SAMSttrTem_v) - 40
 
 	F_HVDCDCHVSideVol_v := _bitBuf.Read(10, true, true)
 	_instance.F_HVDCDCHVSideVol = uint16(F_HVDCDCHVSideVol_v)
@@ -829,7 +829,7 @@ func To_Evt_D006(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContex
 	_instance.F_BMSPtIsltnRstcV = uint8(F_BMSPtIsltnRstcV_v)
 
 	F_HVDCDCTem_v := _bitBuf.Read(8, true, true)
-	_instance.F_HVDCDCTem = int16(F_HVDCDCTem_v - 40)
+	_instance.F_HVDCDCTem = int16(F_HVDCDCTem_v) - 40
 
 	F_BrkFludLvlLow_v := _bitBuf.Read(1, true, true)
 	_instance.F_BrkFludLvlLow = uint8(F_BrkFludLvlLow_v)
@@ -866,7 +866,7 @@ func To_Evt_D006(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContex
 
 	F_FuelCsump_v := _bitBuf.Read(12, true, true)
 	_bitBuf.Finish()
-	_instance.F_FuelCsump = uint16(F_FuelCsump_v * 16)
+	_instance.F_FuelCsump = uint16(F_FuelCsump_v) * 16
 
 	return &_instance
 }
@@ -878,58 +878,58 @@ func (__instance *Evt_D006) Write(_byteBuf *parse.ByteBuf, _parentParseContext *
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(_instance.F_EPTRdy), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSBscSta), 5, true, true)
-	_bitBuf.Write(int64(parse.Round(float64((_instance.F_BMSPackCrnt+1000)/0.05))), 16, true, true)
+	_bitBuf.Write(int64(parse.Round((_instance.F_BMSPackCrnt+1000)/0.05)), 16, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSPackCrntV), 1, true, true)
-	_bitBuf.Write(int64(parse.Round(float64(_instance.F_BMSPackSOC/0.1))), 10, true, true)
+	_bitBuf.Write(int64(parse.Round(_instance.F_BMSPackSOC/0.1)), 10, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSPackSOCV), 1, true, true)
-	_bitBuf.Write(int64(parse.Round(float64(_instance.F_BMSPackSOCDsp/0.1))), 10, true, true)
+	_bitBuf.Write(int64(parse.Round(_instance.F_BMSPackSOCDsp/0.1)), 10, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSPackSOCDspV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_ElecVehSysMd), 4, true, true)
-	_bitBuf.Write(int64(parse.Round(float64(_instance.F_BMSPackVol/0.25))), 12, true, true)
+	_bitBuf.Write(int64(parse.Round(_instance.F_BMSPackVol/0.25)), 12, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSPackVolV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_HVDCDCSta), 3, true, true)
-	_bitBuf.Write(int64(parse.Round(float64((_instance.F_EPTTrInptShaftToq+848)/0.5))), 12, true, true)
+	_bitBuf.Write(int64(parse.Round((_instance.F_EPTTrInptShaftToq+848)/0.5)), 12, true, true)
 	_bitBuf.Write(int64(_instance.F_EPTTrInptShaftToqV), 1, true, true)
-	_bitBuf.Write((int64(_instance.F_EPTTrOtptShaftToq)+3392)/2, 12, true, true)
+	_bitBuf.Write(int64((_instance.F_EPTTrOtptShaftToq+3392)/2), 12, true, true)
 	_bitBuf.Write(int64(_instance.F_EPTTrOtptShaftToqV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_EPTBrkPdlDscrtInptSts), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_EPTBrkPdlDscrtInptStsV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_BrkSysBrkLghtsReqd), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_EPBSysBrkLghtsReqd), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_EPBSysBrkLghtsReqdA), 1, true, true)
-	_bitBuf.Write(int64(parse.Round(float64(_instance.F_BMSPtIsltnRstc/0.5))), 14, true, true)
-	_bitBuf.Write(int64(parse.Round(float64(_instance.F_EPTAccelActuPos/0.392157))), 8, true, true)
+	_bitBuf.Write(int64(parse.Round(_instance.F_BMSPtIsltnRstc/0.5)), 14, true, true)
+	_bitBuf.Write(int64(parse.Round(_instance.F_EPTAccelActuPos/0.392157)), 8, true, true)
 	_bitBuf.Write(int64(_instance.F_EPTAccelActuPosV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_TMInvtrCrntV), 1, true, true)
-	_bitBuf.Write((int64(_instance.F_TMInvtrCrnt) + 1024), 11, true, true)
+	_bitBuf.Write(int64((_instance.F_TMInvtrCrnt + 1024)), 11, true, true)
 	_bitBuf.Write(int64(_instance.F_ISGInvtrCrntV), 1, true, true)
-	_bitBuf.Write((int64(_instance.F_ISGInvtrCrnt) + 1024), 11, true, true)
-	_bitBuf.Write((int64(_instance.F_SAMInvtrCrnt) + 1024), 11, true, true)
+	_bitBuf.Write(int64((_instance.F_ISGInvtrCrnt + 1024)), 11, true, true)
+	_bitBuf.Write(int64((_instance.F_SAMInvtrCrnt + 1024)), 11, true, true)
 	_bitBuf.Write(int64(_instance.F_SAMInvtrCrntV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_TMSta), 4, true, true)
 	_bitBuf.Write(int64(_instance.F_ISGSta), 4, true, true)
 	_bitBuf.Write(int64(_instance.F_SAMSta), 4, true, true)
-	_bitBuf.Write((int64(_instance.F_TMInvtrTem) + 40), 8, true, true)
-	_bitBuf.Write((int64(_instance.F_ISGInvtrTem) + 40), 8, true, true)
-	_bitBuf.Write((int64(_instance.F_SAMInvtrTem) + 40), 8, true, true)
-	_bitBuf.Write((int64(_instance.F_TMSpd) + 32768), 16, true, true)
+	_bitBuf.Write(int64((_instance.F_TMInvtrTem + 40)), 8, true, true)
+	_bitBuf.Write(int64((_instance.F_ISGInvtrTem + 40)), 8, true, true)
+	_bitBuf.Write(int64((_instance.F_SAMInvtrTem + 40)), 8, true, true)
+	_bitBuf.Write(int64((_instance.F_TMSpd + 32768)), 16, true, true)
 	_bitBuf.Write(int64(_instance.F_TMSpdV), 1, true, true)
-	_bitBuf.Write((int64(_instance.F_ISGSpd) + 32768), 16, true, true)
+	_bitBuf.Write(int64((_instance.F_ISGSpd + 32768)), 16, true, true)
 	_bitBuf.Write(int64(_instance.F_ISGSpdV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_SAMSpdV), 1, true, true)
-	_bitBuf.Write((int64(_instance.F_SAMSpd) + 32768), 16, true, true)
-	_bitBuf.Write(int64(parse.Round(float64((_instance.F_TMActuToq+512)/0.5))), 11, true, true)
+	_bitBuf.Write(int64((_instance.F_SAMSpd + 32768)), 16, true, true)
+	_bitBuf.Write(int64(parse.Round((_instance.F_TMActuToq+512)/0.5)), 11, true, true)
 	_bitBuf.Write(int64(_instance.F_TMActuToqV), 1, true, true)
-	_bitBuf.Write(int64(parse.Round(float64((_instance.F_ISGActuToq+512)/0.5))), 11, true, true)
+	_bitBuf.Write(int64(parse.Round((_instance.F_ISGActuToq+512)/0.5)), 11, true, true)
 	_bitBuf.Write(int64(_instance.F_ISGActuToqV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_SAMActuToqV), 1, true, true)
-	_bitBuf.Write(int64(parse.Round(float64((_instance.F_SAMActuToq+512)/0.5))), 11, true, true)
-	_bitBuf.Write((int64(_instance.F_TMSttrTem) + 40), 8, true, true)
-	_bitBuf.Write((int64(_instance.F_ISGSttrTem) + 40), 8, true, true)
-	_bitBuf.Write((int64(_instance.F_SAMSttrTem) + 40), 8, true, true)
+	_bitBuf.Write(int64(parse.Round((_instance.F_SAMActuToq+512)/0.5)), 11, true, true)
+	_bitBuf.Write(int64((_instance.F_TMSttrTem + 40)), 8, true, true)
+	_bitBuf.Write(int64((_instance.F_ISGSttrTem + 40)), 8, true, true)
+	_bitBuf.Write(int64((_instance.F_SAMSttrTem + 40)), 8, true, true)
 	_bitBuf.Write(int64(_instance.F_HVDCDCHVSideVol), 10, true, true)
 	_bitBuf.Write(int64(_instance.F_HVDCDCHVSideVolV), 1, true, true)
-	_bitBuf.Write(int64(parse.Round(float64(_instance.F_AvgFuelCsump/0.1))), 8, true, true)
+	_bitBuf.Write(int64(parse.Round(_instance.F_AvgFuelCsump/0.1)), 8, true, true)
 	_bitBuf.Write(int64(_instance.F_TMInvtrVolV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_TMInvtrVol), 10, true, true)
 	_bitBuf.Write(int64(_instance.F_ISGInvtrVolV), 1, true, true)
@@ -937,31 +937,31 @@ func (__instance *Evt_D006) Write(_byteBuf *parse.ByteBuf, _parentParseContext *
 	_bitBuf.Write(int64(_instance.F_SAMInvtrVolV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_SAMInvtrVol), 10, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSCellMaxTemIndx), 8, true, true)
-	_bitBuf.Write(int64(parse.Round(float64((_instance.F_BMSCellMaxTem+40)/0.5))), 8, true, true)
+	_bitBuf.Write(int64(parse.Round((_instance.F_BMSCellMaxTem+40)/0.5)), 8, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSCellMaxTemV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSCellMinTemIndx), 8, true, true)
-	_bitBuf.Write(int64(parse.Round(float64((_instance.F_BMSCellMinTem+40)/0.5))), 8, true, true)
+	_bitBuf.Write(int64(parse.Round((_instance.F_BMSCellMinTem+40)/0.5)), 8, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSCellMinTemV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSCellMaxVolIndx), 8, true, true)
-	_bitBuf.Write(int64(parse.Round(float64(_instance.F_BMSCellMaxVol/0.001))), 13, true, true)
+	_bitBuf.Write(int64(parse.Round(_instance.F_BMSCellMaxVol/0.001)), 13, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSCellMaxVolV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSCellMinVolIndx), 8, true, true)
-	_bitBuf.Write(int64(parse.Round(float64(_instance.F_BMSCellMinVol/0.001))), 13, true, true)
+	_bitBuf.Write(int64(parse.Round(_instance.F_BMSCellMinVol/0.001)), 13, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSCellMinVolV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSPtIsltnRstcV), 1, true, true)
-	_bitBuf.Write((int64(_instance.F_HVDCDCTem) + 40), 8, true, true)
+	_bitBuf.Write(int64((_instance.F_HVDCDCTem + 40)), 8, true, true)
 	_bitBuf.Write(int64(_instance.F_BrkFludLvlLow), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_BrkSysRedBrkTlltReq), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_ABSF), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_VSESts), 3, true, true)
 	_bitBuf.Write(int64(_instance.F_IbstrWrnngIO), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSHVILClsd), 1, true, true)
-	_bitBuf.Write(int64(parse.Round(float64((_instance.F_EPTTrOtptShaftTotToq+848)/0.5))), 12, true, true)
+	_bitBuf.Write(int64(parse.Round((_instance.F_EPTTrOtptShaftTotToq+848)/0.5)), 12, true, true)
 	_bitBuf.Write(int64(_instance.F_EPTTrOtptShaftTotToqV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_BrkFludLvlLowV), 1, true, true)
-	_bitBuf.Write(int64(parse.Round(float64(_instance.F_EnSpd/0.25))), 16, true, true)
+	_bitBuf.Write(int64(parse.Round(_instance.F_EnSpd/0.25)), 16, true, true)
 	_bitBuf.Write(int64(_instance.F_EnSpdSts), 2, true, true)
-	_bitBuf.Write(int64(_instance.F_FuelCsump)/16, 12, true, true)
+	_bitBuf.Write(int64(_instance.F_FuelCsump/16), 12, true, true)
 	_bitBuf.Finish()
 }
 
@@ -1162,7 +1162,7 @@ func To_Evt_D009(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContex
 	_instance.F_BMSLowPtIsltnRstcAlrm = uint8(F_BMSLowPtIsltnRstcAlrm_v)
 
 	F_TMRtrTem_v := _bitBuf.Read(8, true, true)
-	_instance.F_TMRtrTem = int16(F_TMRtrTem_v - 40)
+	_instance.F_TMRtrTem = int16(F_TMRtrTem_v) - 40
 
 	F_TMStrOvTempAlrm_v := _bitBuf.Read(3, true, true)
 	_instance.F_TMStrOvTempAlrm = uint8(F_TMStrOvTempAlrm_v)
@@ -1233,7 +1233,7 @@ func (__instance *Evt_D009) Write(_byteBuf *parse.ByteBuf, _parentParseContext *
 	_bitBuf.Write(int64(_instance.F_BMSPoorCellCnstncyAlrm), 3, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSCellOverChrgdAlrm), 3, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSLowPtIsltnRstcAlrm), 3, true, true)
-	_bitBuf.Write((int64(_instance.F_TMRtrTem) + 40), 8, true, true)
+	_bitBuf.Write(int64((_instance.F_TMRtrTem + 40)), 8, true, true)
 	_bitBuf.Write(int64(_instance.F_TMStrOvTempAlrm), 3, true, true)
 	_bitBuf.Write(int64(_instance.F_TMInvtrOvTempAlrm), 3, true, true)
 	_bitBuf.Write(int64(_instance.F_ISCStrOvTempAlrm), 3, true, true)
@@ -1315,7 +1315,7 @@ func To_Evt_D00B_BMSCellVol(_byteBuf *parse.ByteBuf, _parentParseContext *parse.
 
 func (_instance Evt_D00B_BMSCellVol) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
-	_bitBuf.Write(int64(parse.Round(float64(_instance.F_BMSCellVol/0.001))), 13, true, true)
+	_bitBuf.Write(int64(parse.Round(_instance.F_BMSCellVol/0.001)), 13, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSCellVolV), 1, true, true)
 	_bitBuf.Finish()
 }
@@ -1384,7 +1384,7 @@ func To_Evt_D00C_BMSCellTem(_byteBuf *parse.ByteBuf, _parentParseContext *parse.
 
 func (_instance Evt_D00C_BMSCellTem) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
-	_bitBuf.Write(int64(parse.Round(float64((_instance.F_BMSCellTem + 40)))), 8, true, true)
+	_bitBuf.Write(int64(parse.Round((_instance.F_BMSCellTem + 40))), 8, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSCellTemV), 1, true, true)
 	_bitBuf.Finish()
 }
@@ -1453,7 +1453,7 @@ func To_Evt_D00D_BMSBusbarTem(_byteBuf *parse.ByteBuf, _parentParseContext *pars
 
 func (_instance Evt_D00D_BMSBusbarTem) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
-	_bitBuf.Write(int64(parse.Round(float64((_instance.F_BMSBusbarTem + 40)))), 8, true, true)
+	_bitBuf.Write(int64(parse.Round((_instance.F_BMSBusbarTem + 40))), 8, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSBusbarTemV), 1, true, true)
 	_bitBuf.Finish()
 }
@@ -1651,7 +1651,7 @@ func (__instance *Evt_D00F) Write(_byteBuf *parse.ByteBuf, _parentParseContext *
 	_byteBuf.Write_uint16(_instance.F_evtLen)
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(_instance.F_BMSWrnngInfoCRC), 8, true, true)
-	_bitBuf.Write(int64(parse.Round(float64((_instance.F_BMSBusbarTempMax+40)/0.5))), 8, true, true)
+	_bitBuf.Write(int64(parse.Round((_instance.F_BMSBusbarTempMax+40)/0.5)), 8, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSPreThrmFltIndBkup), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSWrnngInfoRCBkup), 4, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSBatPrsFlt), 3, true, true)
@@ -1659,16 +1659,16 @@ func (__instance *Evt_D00F) Write(_byteBuf *parse.ByteBuf, _parentParseContext *
 	_bitBuf.Write(int64(_instance.F_BMSBatPrsAlrm), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSBatPrsAlrmV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSBatPrsSnsrV), 1, true, true)
-	_bitBuf.Write(int64(parse.Round(float64(_instance.F_BMSBatPrsSnsrValBkup/0.05))), 15, true, true)
+	_bitBuf.Write(int64(parse.Round(_instance.F_BMSBatPrsSnsrValBkup/0.05)), 15, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSBatPrsSnsrVBkup), 1, true, true)
-	_bitBuf.Write(int64(parse.Round(float64(_instance.F_BMSBatPrsSnsrVal/0.05))), 15, true, true)
-	_bitBuf.Write(int64(parse.Round(float64(_instance.F_BMSClntPumpPWMReq/0.4))), 8, true, true)
+	_bitBuf.Write(int64(parse.Round(_instance.F_BMSBatPrsSnsrVal/0.05)), 15, true, true)
+	_bitBuf.Write(int64(parse.Round(_instance.F_BMSClntPumpPWMReq/0.4)), 8, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSPumpPwrOnReq), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSBatPrsAlrmVBkup), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSBatPrsAlrmBkup), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSWrnngInfoCRCBkup), 4, true, true)
 	_bitBuf.Write(int64(_instance.F_VCUBatPrsAlrm), 1, true, true)
-	_bitBuf.Write(int64(parse.Round(float64((_instance.F_OtsdAirTemCrVal+40)/0.5))), 8, true, true)
+	_bitBuf.Write(int64(parse.Round((_instance.F_OtsdAirTemCrVal+40)/0.5)), 8, true, true)
 	_bitBuf.Write(int64(_instance.F_VCUBatPrsAlrmV), 1, true, true)
 	_bitBuf.Write(int64(_instance.F_OtsdAirTemCrValV), 1, true, true)
 	_bitBuf.Finish()
