@@ -1,7 +1,13 @@
 # 跨平台编译
-- CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o target
-- CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o target
-- CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o target
+- macos跨平台编译
+    - CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o target
+    - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o target
+    - CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o target.exe
+
+- windows跨平台编译
+    - set CGO_ENABLED=0&&set GOOS=darwin&&set GOARCH=amd64&&go build -o immotors-util-macos
+    - set CGO_ENABLED=0&&set GOOS=linux&&set GOARCH=amd64&&go build -o immotors-util-linux
+    - set CGO_ENABLED=0&&set GOOS=windows&&set GOARCH=amd64&&go build -o immotors-util-windows.exe
 
 # 错误处理
 使用第三方包errors
