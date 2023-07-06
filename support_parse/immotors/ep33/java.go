@@ -465,10 +465,10 @@ type Evt_2_6_unknown struct {
 }
 
 func To_Evt_2_6_unknown(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_2_6_unknown {
-	return (*Evt_2_6_unknown)(unsafe.Pointer(unsafe.SliceData(_byteBuf.Read_bytes(8))))
+	return (*Evt_2_6_unknown)(unsafe.Pointer(unsafe.SliceData(_byteBuf.Read_slice_uint8(8))))
 }
 func (__instance *Evt_2_6_unknown) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
-	_byteBuf.Write_bytes(*(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
+	_byteBuf.Write_slice_uint8(*(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
 		Data: uintptr(unsafe.Pointer(__instance)),
 		Len:  8,
 		Cap:  8,
@@ -490,11 +490,7 @@ func To_Evt_4_x_unknown(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 	_instance.F_evtLen = F_evtLen_v
 
 	F_data_len := (int)(F_evtLen_v)
-	F_data_arr := make([]int8, F_data_len, F_data_len)
-	for i := 0; i < F_data_len; i++ {
-		e := _byteBuf.Read_int8()
-		F_data_arr[i] = e
-	}
+	F_data_arr := _byteBuf.Read_slice_int8(F_data_len)
 	_instance.F_data = F_data_arr
 	return &_instance
 }
@@ -504,9 +500,7 @@ func (__instance *Evt_4_x_unknown) Write(_byteBuf *parse.ByteBuf, _parentParseCo
 	_byteBuf.Write_uint16(_instance.F_evtId)
 	_byteBuf.Write_uint16(_instance.F_evtLen)
 	F_data_arr := _instance.F_data
-	for i := 0; i < len(F_data_arr); i++ {
-		_byteBuf.Write_int8(F_data_arr[i])
-	}
+	_byteBuf.Write_slice_int8(F_data_arr)
 }
 
 type Evt_D006 struct {
@@ -1267,19 +1261,19 @@ func To_Evt_D00A(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContex
 	_instance.F_evtLen = F_evtLen_v
 
 	F_VIN_len := 17
-	F_VIN_v := _byteBuf.Read_bytes(F_VIN_len)
+	F_VIN_v := _byteBuf.Read_slice_uint8(F_VIN_len)
 	_instance.F_VIN = string(F_VIN_v)
 
 	F_IAMSN_len := 16
-	F_IAMSN_v := _byteBuf.Read_bytes(F_IAMSN_len)
+	F_IAMSN_v := _byteBuf.Read_slice_uint8(F_IAMSN_len)
 	_instance.F_IAMSN = string(F_IAMSN_v)
 
 	F_EsimIccid_len := 20
-	F_EsimIccid_v := _byteBuf.Read_bytes(F_EsimIccid_len)
+	F_EsimIccid_v := _byteBuf.Read_slice_uint8(F_EsimIccid_len)
 	_instance.F_EsimIccid = string(F_EsimIccid_v)
 
 	F_EsimID_len := 32
-	F_EsimID_v := _byteBuf.Read_bytes(F_EsimID_len)
+	F_EsimID_v := _byteBuf.Read_slice_uint8(F_EsimID_len)
 	_instance.F_EsimID = string(F_EsimID_v)
 
 	return &_instance

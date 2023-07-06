@@ -71,7 +71,7 @@ type Packet struct {
 
 func To_Packet(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Packet {
 	_instance := Packet{}
-	F_header_arr := [2]uint8(_byteBuf.Read_bytes(2))
+	F_header_arr := [2]uint8(_byteBuf.Read_slice_uint8(2))
 	_instance.F_header = F_header_arr
 	F_flag_v := _byteBuf.Read_uint8()
 	_instance.F_flag = F_flag_v
@@ -80,7 +80,7 @@ func To_Packet(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext)
 	_instance.F_replyFlag = F_replyFlag_v
 
 	F_vin_len := 17
-	F_vin_v := _byteBuf.Read_bytes(F_vin_len)
+	F_vin_v := _byteBuf.Read_slice_uint8(F_vin_len)
 	F_vin_count := 0
 	for i := F_vin_len - 1; i >= 0; i-- {
 		if F_vin_v[i] == 0 {
@@ -108,12 +108,12 @@ func To_Packet(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext)
 func (__instance *Packet) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	F_header_arr := _instance.F_header
-	_byteBuf.Write_bytes(F_header_arr[:])
+	_byteBuf.Write_slice_uint8(F_header_arr[:])
 	_byteBuf.Write_uint8(_instance.F_flag)
 	_byteBuf.Write_uint8(_instance.F_replyFlag)
 	F_vin_len := 17
 	F_vin_v := []byte(_instance.F_vin)
-	_byteBuf.Write_bytes(F_vin_v)
+	_byteBuf.Write_slice_uint8(F_vin_v)
 	_byteBuf.Write_zero(F_vin_len - len(F_vin_v))
 	_byteBuf.Write_uint8(_instance.F_encodeWay)
 	_byteBuf.Write_uint16(_instance.F_contentLength)
@@ -132,13 +132,13 @@ type PlatformLoginData struct {
 
 func To_PlatformLoginData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *PlatformLoginData {
 	_instance := PlatformLoginData{}
-	F_collectTime_bytes := _byteBuf.Read_bytes(6)
+	F_collectTime_bytes := _byteBuf.Read_slice_uint8(6)
 	_instance.F_collectTime = time.Date(2000+int(F_collectTime_bytes[0]), time.Month(int(F_collectTime_bytes[1])), int(F_collectTime_bytes[2]), int(F_collectTime_bytes[3]), int(F_collectTime_bytes[4]), int(F_collectTime_bytes[5]), 0, _Location0)
 	F_sn_v := _byteBuf.Read_uint16()
 	_instance.F_sn = F_sn_v
 
 	F_username_len := 12
-	F_username_v := _byteBuf.Read_bytes(F_username_len)
+	F_username_v := _byteBuf.Read_slice_uint8(F_username_len)
 	F_username_count := 0
 	for i := F_username_len - 1; i >= 0; i-- {
 		if F_username_v[i] == 0 {
@@ -150,7 +150,7 @@ func To_PlatformLoginData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pa
 	_instance.F_username = string(F_username_v[:(F_username_len - F_username_count)])
 
 	F_password_len := 20
-	F_password_v := _byteBuf.Read_bytes(F_password_len)
+	F_password_v := _byteBuf.Read_slice_uint8(F_password_len)
 	F_password_count := 0
 	for i := F_password_len - 1; i >= 0; i-- {
 		if F_password_v[i] == 0 {
@@ -170,15 +170,15 @@ func To_PlatformLoginData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pa
 func (__instance *PlatformLoginData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	F_collectTime_v := _instance.F_collectTime
-	_byteBuf.Write_bytes([]byte{byte(F_collectTime_v.Year() - 2000), byte(F_collectTime_v.Month()), byte(F_collectTime_v.Day()), byte(F_collectTime_v.Hour()), byte(F_collectTime_v.Minute()), byte(F_collectTime_v.Second())})
+	_byteBuf.Write_slice_uint8([]byte{byte(F_collectTime_v.Year() - 2000), byte(F_collectTime_v.Month()), byte(F_collectTime_v.Day()), byte(F_collectTime_v.Hour()), byte(F_collectTime_v.Minute()), byte(F_collectTime_v.Second())})
 	_byteBuf.Write_uint16(_instance.F_sn)
 	F_username_len := 12
 	F_username_v := []byte(_instance.F_username)
-	_byteBuf.Write_bytes(F_username_v)
+	_byteBuf.Write_slice_uint8(F_username_v)
 	_byteBuf.Write_zero(F_username_len - len(F_username_v))
 	F_password_len := 20
 	F_password_v := []byte(_instance.F_password)
-	_byteBuf.Write_bytes(F_password_v)
+	_byteBuf.Write_slice_uint8(F_password_v)
 	_byteBuf.Write_zero(F_password_len - len(F_password_v))
 	_byteBuf.Write_uint8(_instance.F_encode)
 }
@@ -190,7 +190,7 @@ type PlatformLogoutData struct {
 
 func To_PlatformLogoutData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *PlatformLogoutData {
 	_instance := PlatformLogoutData{}
-	F_collectTime_bytes := _byteBuf.Read_bytes(6)
+	F_collectTime_bytes := _byteBuf.Read_slice_uint8(6)
 	_instance.F_collectTime = time.Date(2000+int(F_collectTime_bytes[0]), time.Month(int(F_collectTime_bytes[1])), int(F_collectTime_bytes[2]), int(F_collectTime_bytes[3]), int(F_collectTime_bytes[4]), int(F_collectTime_bytes[5]), 0, _Location0)
 	F_sn_v := _byteBuf.Read_uint16()
 	_instance.F_sn = F_sn_v
@@ -201,7 +201,7 @@ func To_PlatformLogoutData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.P
 func (__instance *PlatformLogoutData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	F_collectTime_v := _instance.F_collectTime
-	_byteBuf.Write_bytes([]byte{byte(F_collectTime_v.Year() - 2000), byte(F_collectTime_v.Month()), byte(F_collectTime_v.Day()), byte(F_collectTime_v.Hour()), byte(F_collectTime_v.Minute()), byte(F_collectTime_v.Second())})
+	_byteBuf.Write_slice_uint8([]byte{byte(F_collectTime_v.Year() - 2000), byte(F_collectTime_v.Month()), byte(F_collectTime_v.Day()), byte(F_collectTime_v.Hour()), byte(F_collectTime_v.Minute()), byte(F_collectTime_v.Second())})
 	_byteBuf.Write_uint16(_instance.F_sn)
 }
 
@@ -647,13 +647,13 @@ type VehicleLoginData struct {
 
 func To_VehicleLoginData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleLoginData {
 	_instance := VehicleLoginData{}
-	F_collectTime_bytes := _byteBuf.Read_bytes(6)
+	F_collectTime_bytes := _byteBuf.Read_slice_uint8(6)
 	_instance.F_collectTime = time.Date(2000+int(F_collectTime_bytes[0]), time.Month(int(F_collectTime_bytes[1])), int(F_collectTime_bytes[2]), int(F_collectTime_bytes[3]), int(F_collectTime_bytes[4]), int(F_collectTime_bytes[5]), 0, _Location0)
 	F_sn_v := _byteBuf.Read_uint16()
 	_instance.F_sn = F_sn_v
 
 	F_iccid_len := 20
-	F_iccid_v := _byteBuf.Read_bytes(F_iccid_len)
+	F_iccid_v := _byteBuf.Read_slice_uint8(F_iccid_len)
 	F_iccid_count := 0
 	for i := F_iccid_len - 1; i >= 0; i-- {
 		if F_iccid_v[i] == 0 {
@@ -671,7 +671,7 @@ func To_VehicleLoginData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Par
 	_instance.F_systemCodeLen = F_systemCodeLen_v
 
 	F_systemCode_len := (int)(_instance.F_subSystemNum) * (int)(_instance.F_systemCodeLen)
-	F_systemCode_v := _byteBuf.Read_bytes(F_systemCode_len)
+	F_systemCode_v := _byteBuf.Read_slice_uint8(F_systemCode_len)
 	F_systemCode_count := 0
 	for i := F_systemCode_len - 1; i >= 0; i-- {
 		if F_systemCode_v[i] == 0 {
@@ -688,17 +688,17 @@ func To_VehicleLoginData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Par
 func (__instance *VehicleLoginData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	F_collectTime_v := _instance.F_collectTime
-	_byteBuf.Write_bytes([]byte{byte(F_collectTime_v.Year() - 2000), byte(F_collectTime_v.Month()), byte(F_collectTime_v.Day()), byte(F_collectTime_v.Hour()), byte(F_collectTime_v.Minute()), byte(F_collectTime_v.Second())})
+	_byteBuf.Write_slice_uint8([]byte{byte(F_collectTime_v.Year() - 2000), byte(F_collectTime_v.Month()), byte(F_collectTime_v.Day()), byte(F_collectTime_v.Hour()), byte(F_collectTime_v.Minute()), byte(F_collectTime_v.Second())})
 	_byteBuf.Write_uint16(_instance.F_sn)
 	F_iccid_len := 20
 	F_iccid_v := []byte(_instance.F_iccid)
-	_byteBuf.Write_bytes(F_iccid_v)
+	_byteBuf.Write_slice_uint8(F_iccid_v)
 	_byteBuf.Write_zero(F_iccid_len - len(F_iccid_v))
 	_byteBuf.Write_uint8(_instance.F_subSystemNum)
 	_byteBuf.Write_uint8(_instance.F_systemCodeLen)
 	F_systemCode_len := (int)(_instance.F_subSystemNum) * (int)(_instance.F_systemCodeLen)
 	F_systemCode_v := []byte(_instance.F_systemCode)
-	_byteBuf.Write_bytes(F_systemCode_v)
+	_byteBuf.Write_slice_uint8(F_systemCode_v)
 	_byteBuf.Write_zero(F_systemCode_len - len(F_systemCode_v))
 }
 
@@ -709,7 +709,7 @@ type VehicleLogoutData struct {
 
 func To_VehicleLogoutData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleLogoutData {
 	_instance := VehicleLogoutData{}
-	F_collectTime_bytes := _byteBuf.Read_bytes(6)
+	F_collectTime_bytes := _byteBuf.Read_slice_uint8(6)
 	_instance.F_collectTime = time.Date(2000+int(F_collectTime_bytes[0]), time.Month(int(F_collectTime_bytes[1])), int(F_collectTime_bytes[2]), int(F_collectTime_bytes[3]), int(F_collectTime_bytes[4]), int(F_collectTime_bytes[5]), 0, _Location0)
 	F_sn_v := _byteBuf.Read_uint16()
 	_instance.F_sn = F_sn_v
@@ -720,7 +720,7 @@ func To_VehicleLogoutData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pa
 func (__instance *VehicleLogoutData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	F_collectTime_v := _instance.F_collectTime
-	_byteBuf.Write_bytes([]byte{byte(F_collectTime_v.Year() - 2000), byte(F_collectTime_v.Month()), byte(F_collectTime_v.Day()), byte(F_collectTime_v.Hour()), byte(F_collectTime_v.Minute()), byte(F_collectTime_v.Second())})
+	_byteBuf.Write_slice_uint8([]byte{byte(F_collectTime_v.Year() - 2000), byte(F_collectTime_v.Month()), byte(F_collectTime_v.Day()), byte(F_collectTime_v.Hour()), byte(F_collectTime_v.Minute()), byte(F_collectTime_v.Second())})
 	_byteBuf.Write_uint16(_instance.F_sn)
 }
 
@@ -788,7 +788,7 @@ type VehicleRunData struct {
 
 func To_VehicleRunData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleRunData {
 	_instance := VehicleRunData{}
-	F_collectTime_bytes := _byteBuf.Read_bytes(6)
+	F_collectTime_bytes := _byteBuf.Read_slice_uint8(6)
 	_instance.F_collectTime = time.Date(2000+int(F_collectTime_bytes[0]), time.Month(int(F_collectTime_bytes[1])), int(F_collectTime_bytes[2]), int(F_collectTime_bytes[3]), int(F_collectTime_bytes[4]), int(F_collectTime_bytes[5]), 0, _Location0)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	_instance.F_vehicleCommonData = To_F_vehicleCommonData(_byteBuf, _parseContext)
@@ -798,7 +798,7 @@ func To_VehicleRunData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Parse
 func (__instance *VehicleRunData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	F_collectTime_v := _instance.F_collectTime
-	_byteBuf.Write_bytes([]byte{byte(F_collectTime_v.Year() - 2000), byte(F_collectTime_v.Month()), byte(F_collectTime_v.Day()), byte(F_collectTime_v.Hour()), byte(F_collectTime_v.Minute()), byte(F_collectTime_v.Second())})
+	_byteBuf.Write_slice_uint8([]byte{byte(F_collectTime_v.Year() - 2000), byte(F_collectTime_v.Month()), byte(F_collectTime_v.Day()), byte(F_collectTime_v.Hour()), byte(F_collectTime_v.Minute()), byte(F_collectTime_v.Second())})
 	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	Write_F_vehicleCommonData(_byteBuf, _instance.F_vehicleCommonData, _parseContext)
 }
@@ -870,7 +870,7 @@ type VehicleSupplementData struct {
 
 func To_VehicleSupplementData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleSupplementData {
 	_instance := VehicleSupplementData{}
-	F_collectTime_bytes := _byteBuf.Read_bytes(6)
+	F_collectTime_bytes := _byteBuf.Read_slice_uint8(6)
 	_instance.F_collectTime = time.Date(2000+int(F_collectTime_bytes[0]), time.Month(int(F_collectTime_bytes[1])), int(F_collectTime_bytes[2]), int(F_collectTime_bytes[3]), int(F_collectTime_bytes[4]), int(F_collectTime_bytes[5]), 0, _Location0)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	_instance.F_vehicleCommonData = To_F_vehicleCommonData(_byteBuf, _parseContext)
@@ -880,7 +880,7 @@ func To_VehicleSupplementData(_byteBuf *parse.ByteBuf, _parentParseContext *pars
 func (__instance *VehicleSupplementData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	F_collectTime_v := _instance.F_collectTime
-	_byteBuf.Write_bytes([]byte{byte(F_collectTime_v.Year() - 2000), byte(F_collectTime_v.Month()), byte(F_collectTime_v.Day()), byte(F_collectTime_v.Hour()), byte(F_collectTime_v.Minute()), byte(F_collectTime_v.Second())})
+	_byteBuf.Write_slice_uint8([]byte{byte(F_collectTime_v.Year() - 2000), byte(F_collectTime_v.Month()), byte(F_collectTime_v.Day()), byte(F_collectTime_v.Hour()), byte(F_collectTime_v.Minute()), byte(F_collectTime_v.Second())})
 	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	Write_F_vehicleCommonData(_byteBuf, _instance.F_vehicleCommonData, _parseContext)
 }

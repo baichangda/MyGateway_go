@@ -119,7 +119,7 @@ func To_F_data(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext)
 			return nil
 		}
 	} else {
-		return ResponseData{content: _byteBuf.Read_bytes(int(packet.F_contentLength))}
+		return ResponseData{content: _byteBuf.Read_slice_uint8(int(packet.F_contentLength))}
 	}
 }
 
@@ -128,7 +128,7 @@ func Write_F_data(_byteBuf *parse.ByteBuf, __instance any, _parentParseContext *
 	if packet.F_replyFlag == 0xfe {
 		__instance.(parse.Writeable).Write(_byteBuf, _parentParseContext)
 	} else {
-		_byteBuf.Write_bytes(__instance.(ResponseData).content)
+		_byteBuf.Write_slice_uint8(__instance.(ResponseData).content)
 	}
 
 }

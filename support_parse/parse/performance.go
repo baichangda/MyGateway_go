@@ -25,7 +25,7 @@ func TestMultiThreadPerformance_parse(bytes []byte, threadNum int, num int, fn f
 		}()
 	}
 
-	util.ExitOnKill()
+	util.ExitOnKill(nil)
 
 	for {
 		time.Sleep(3 * time.Second)
@@ -55,7 +55,7 @@ func TestMultiThreadPerformance_deParse(byteBuf *ByteBuf, threadNum int, num int
 		}()
 	}
 
-	util.ExitOnKill()
+	util.ExitOnKill(nil)
 
 	for {
 		time.Sleep(3 * time.Second)

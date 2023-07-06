@@ -47,7 +47,7 @@ func TestJsonUint8Arr_MarshalJSON(t *testing.T) {
 	t.Log(string(marshal2))
 
 	byteBuf := ToByteBuf([]uint8{1, 2, 3})
-	arr3 := byteBuf.Read_bytes(3)
+	arr3 := byteBuf.Read_slice_uint8(3)
 	t.Log(string(arr3))
 
 	marshal4, err := json.Marshal([3]uint8{1, 2, 3})

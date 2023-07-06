@@ -2,6 +2,7 @@ package parse
 
 import (
 	"math"
+	"reflect"
 	"strconv"
 	"strings"
 	"unsafe"
@@ -316,7 +317,17 @@ func (b *ByteBuf) Get_string_utf8(n int) string {
 	return string(bytes)
 }
 
-func (b *ByteBuf) Read_bytes(n int) []byte {
+func (b *ByteBuf) Read_slice_int8(n int) []int8 {
+	bytes := b.bytes[b.rIndex : b.rIndex+n]
+	b.rIndex += n
+	return *(*[]int8)(unsafe.Pointer(&reflect.SliceHeader{
+		Data: uintptr(unsafe.Pointer(unsafe.SliceData(bytes))),
+		Len:  n,
+		Cap:  n,
+	}))
+}
+
+func (b *ByteBuf) Read_slice_uint8(n int) []uint8 {
 	bytes := b.bytes[b.rIndex : b.rIndex+n]
 	b.rIndex += n
 	return bytes
@@ -469,7 +480,19 @@ func (b *ByteBuf) Write_float64_le(v float64) {
 	b.Write_uint64_le(math.Float64bits(v))
 }
 
-func (b *ByteBuf) Write_bytes(bytes []byte) {
+func (b *ByteBuf) Write_slice_uint8(slice []uint8) {
+	b.checkGrow(len(slice))
+	copy(b.bytes[b.wIndex:], slice)
+	b.wIndex += len(slice)
+}
+
+func (b *ByteBuf) Write_slice_int8(slice []int8) {
+	n := len(slice)
+	bytes := *(*[]uint8)(unsafe.Pointer(&reflect.SliceHeader{
+		Data: uintptr(unsafe.Pointer(unsafe.SliceData(slice))),
+		Len:  n,
+		Cap:  n,
+	}))
 	b.checkGrow(len(bytes))
 	copy(b.bytes[b.wIndex:], bytes)
 	b.wIndex += len(bytes)
@@ -485,7 +508,7 @@ func (b *ByteBuf) Write_zero(n int) {
 
 func (b *ByteBuf) Write_string_utf8(v string) {
 	bytes := []byte(v)
-	b.Write_bytes(bytes)
+	b.Write_slice_uint8(bytes)
 }
 
 func (b *ByteBuf) Skip(n int) {
