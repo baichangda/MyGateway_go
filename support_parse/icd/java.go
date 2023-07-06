@@ -89,7 +89,7 @@ func To_Dev_hw_list(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseCon
 	_instance := Dev_hw_list{}
 	_start_index := _byteBuf.ReaderIndex()
 	F_computing_power_len := 16
-	F_computing_power_v := _byteBuf.Read_bytes(F_computing_power_len)
+	F_computing_power_v := _byteBuf.Read_slice_uint8(F_computing_power_len)
 	F_computing_power_count := 0
 	for i := F_computing_power_len - 1; i >= 0; i-- {
 		if F_computing_power_v[i] == 0 {
@@ -125,7 +125,7 @@ func (__instance *Dev_hw_list) Write(_byteBuf *parse.ByteBuf, _parentParseContex
 	_start_index := _byteBuf.WriterIndex()
 	F_computing_power_len := 16
 	F_computing_power_v := []byte(_instance.F_computing_power)
-	_byteBuf.Write_bytes(F_computing_power_v)
+	_byteBuf.Write_slice_uint8(F_computing_power_v)
 	_byteBuf.Write_zero(F_computing_power_len - len(F_computing_power_v))
 	_byteBuf.Write_uint16(_instance.F_mem_cap * 10)
 	_byteBuf.Write_uint16(_instance.F_in_storage_cap)
@@ -178,7 +178,7 @@ type Disk_infos struct {
 func To_Disk_infos(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Disk_infos {
 	_instance := Disk_infos{}
 	F_disk_id_len := 32
-	F_disk_id_v := _byteBuf.Read_bytes(F_disk_id_len)
+	F_disk_id_v := _byteBuf.Read_slice_uint8(F_disk_id_len)
 	F_disk_id_count := 0
 	for i := F_disk_id_len - 1; i >= 0; i-- {
 		if F_disk_id_v[i] == 0 {
@@ -201,7 +201,7 @@ func To_Disk_infos(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseCont
 func (_instance Disk_infos) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	F_disk_id_len := 32
 	F_disk_id_v := []byte(_instance.F_disk_id)
-	_byteBuf.Write_bytes(F_disk_id_v)
+	_byteBuf.Write_slice_uint8(F_disk_id_v)
 	_byteBuf.Write_zero(F_disk_id_len - len(F_disk_id_v))
 	_byteBuf.Write_int64(_instance.F_size)
 	_byteBuf.Write_uint8(_instance.F_usage)
@@ -667,7 +667,7 @@ func To_Msg_body_area_statistics_info(_byteBuf *parse.ByteBuf, _parentParseConte
 func (__instance *Msg_body_area_statistics_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	_start_index := _byteBuf.WriterIndex()
-	_byteBuf.Write_uint16(uint16(parse.Round(float64(_instance.F_period * 10))))
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.F_period * 10)))
 	_byteBuf.Write_uint16(_instance.F_area_dis_near)
 	_byteBuf.Write_uint16(_instance.F_area_dis_far)
 	_byteBuf.Write_uint16(_instance.F_src_count)
@@ -1053,7 +1053,7 @@ func To_Msg_body_system_runtime_info(_byteBuf *parse.ByteBuf, _parentParseContex
 	_instance.F_cpu_num = F_cpu_num_v
 
 	F_cpu_usage_len := (int)(F_cpu_num_v)
-	F_cpu_usage_arr := _byteBuf.Read_bytes(F_cpu_usage_len)
+	F_cpu_usage_arr := _byteBuf.Read_slice_uint8(F_cpu_usage_len)
 	_instance.F_cpu_usage = F_cpu_usage_arr
 	F_mem_size_v := _byteBuf.Read_uint32()
 	_instance.F_mem_size = F_mem_size_v
@@ -1065,7 +1065,7 @@ func To_Msg_body_system_runtime_info(_byteBuf *parse.ByteBuf, _parentParseContex
 	_instance.F_gpu_num = F_gpu_num_v
 
 	F_gpu_usage_len := (int)(F_gpu_num_v)
-	F_gpu_usage_arr := _byteBuf.Read_bytes(F_gpu_usage_len)
+	F_gpu_usage_arr := _byteBuf.Read_slice_uint8(F_gpu_usage_len)
 	_instance.F_gpu_usage = F_gpu_usage_arr
 	F_disk_num_v := _byteBuf.Read_uint8()
 	_instance.F_disk_num = F_disk_num_v
@@ -1090,13 +1090,13 @@ func To_Msg_body_system_runtime_info(_byteBuf *parse.ByteBuf, _parentParseContex
 	_instance.F_temp_num = F_temp_num_v
 
 	F_temp_val_len := (int)(F_temp_num_v)
-	F_temp_val_arr := _byteBuf.Read_bytes(F_temp_val_len)
+	F_temp_val_arr := _byteBuf.Read_slice_uint8(F_temp_val_len)
 	_instance.F_temp_val = F_temp_val_arr
 	F_fans_num_v := _byteBuf.Read_uint8()
 	_instance.F_fans_num = F_fans_num_v
 
 	F_fans_speed_len := (int)(F_fans_num_v)
-	F_fans_speed_arr := _byteBuf.Read_bytes(F_fans_speed_len)
+	F_fans_speed_arr := _byteBuf.Read_slice_uint8(F_fans_speed_len)
 	_instance.F_fans_speed = F_fans_speed_arr
 	return &_instance
 }
@@ -1105,12 +1105,12 @@ func (__instance *Msg_body_system_runtime_info) Write(_byteBuf *parse.ByteBuf, _
 	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.F_cpu_num)
 	F_cpu_usage_arr := _instance.F_cpu_usage
-	_byteBuf.Write_bytes(F_cpu_usage_arr)
+	_byteBuf.Write_slice_uint8(F_cpu_usage_arr)
 	_byteBuf.Write_uint32(_instance.F_mem_size)
 	_byteBuf.Write_uint8(_instance.F_mem_usage)
 	_byteBuf.Write_uint8(_instance.F_gpu_num)
 	F_gpu_usage_arr := _instance.F_gpu_usage
-	_byteBuf.Write_bytes(F_gpu_usage_arr)
+	_byteBuf.Write_slice_uint8(F_gpu_usage_arr)
 	_byteBuf.Write_uint8(_instance.F_disk_num)
 	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_disk_infos_arr := _instance.F_disk_infos
@@ -1124,10 +1124,10 @@ func (__instance *Msg_body_system_runtime_info) Write(_byteBuf *parse.ByteBuf, _
 	}
 	_byteBuf.Write_uint8(_instance.F_temp_num)
 	F_temp_val_arr := _instance.F_temp_val
-	_byteBuf.Write_bytes(F_temp_val_arr)
+	_byteBuf.Write_slice_uint8(F_temp_val_arr)
 	_byteBuf.Write_uint8(_instance.F_fans_num)
 	F_fans_speed_arr := _instance.F_fans_speed
-	_byteBuf.Write_bytes(F_fans_speed_arr)
+	_byteBuf.Write_slice_uint8(F_fans_speed_arr)
 }
 
 type Msg_body_target_detect_info struct {
@@ -1256,7 +1256,7 @@ func (__instance *Msg_body_trigger_statistics_info) Write(_byteBuf *parse.ByteBu
 }
 
 type Msg_header struct {
-	F_header      [4]int8   `json:"header"`
+	F_header      [4]uint8  `json:"header"`
 	F_header_len  uint16    `json:"header_len"`
 	F_frame_len   uint32    `json:"frame_len"`
 	F_frame_type  uint16    `json:"frame_type"`
@@ -1274,12 +1274,7 @@ type Msg_header struct {
 func To_Msg_header(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Msg_header {
 	_instance := Msg_header{}
 	_start_index := _byteBuf.ReaderIndex()
-	F_header_len := 4
-	F_header_arr := [4]int8{}
-	for i := 0; i < F_header_len; i++ {
-		e := _byteBuf.Read_int8()
-		F_header_arr[i] = e
-	}
+	F_header_arr := [4]uint8(_byteBuf.Read_slice_uint8(4))
 	_instance.F_header = F_header_arr
 	F_header_len_v := _byteBuf.Read_uint16()
 	_instance.F_header_len = F_header_len_v
@@ -1328,9 +1323,7 @@ func (__instance *Msg_header) Write(_byteBuf *parse.ByteBuf, _parentParseContext
 	_instance := *__instance
 	_start_index := _byteBuf.WriterIndex()
 	F_header_arr := _instance.F_header
-	for i := 0; i < len(F_header_arr); i++ {
-		_byteBuf.Write_int8(F_header_arr[i])
-	}
+	_byteBuf.Write_slice_uint8(F_header_arr[:])
 	_byteBuf.Write_uint16(_instance.F_header_len)
 	_byteBuf.Write_uint32(_instance.F_frame_len)
 	_byteBuf.Write_uint16(_instance.F_frame_type)
@@ -1339,11 +1332,11 @@ func (__instance *Msg_header) Write(_byteBuf *parse.ByteBuf, _parentParseContext
 	_byteBuf.Write_uint32(_instance.F_count)
 	F_timestamp_v := _instance.F_timestamp
 	_byteBuf.Write_float64(float64(F_timestamp_v.UnixMilli()) / 1000)
-	_byteBuf.Write_uint16(uint16(parse.Round(float64(_instance.F_fps * 10))))
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.F_fps * 10)))
 	_byteBuf.Write_uint32(uint32(parse.Round(_instance.F_dev_lon * 10000000)))
 	_byteBuf.Write_uint32(uint32(parse.Round(_instance.F_dev_lat * 10000000)))
 	_byteBuf.Write_uint32(_instance.F_dev_alt)
-	_byteBuf.Write_uint16(uint16(parse.Round(float64(_instance.F_dev_azimuth * 100))))
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.F_dev_azimuth * 100)))
 	F_reserved_len := 128
 	F_reserved_skipLen := F_reserved_len + _start_index - _byteBuf.WriterIndex()
 	if F_reserved_skipLen > 0 {
@@ -1353,15 +1346,15 @@ func (__instance *Msg_header) Write(_byteBuf *parse.ByteBuf, _parentParseContext
 }
 
 type Msg_tailer struct {
-	F_check_sum uint32  `json:"check_sum"`
-	F_tail      [4]int8 `json:"tail"`
+	F_check_sum uint32   `json:"check_sum"`
+	F_tail      [4]uint8 `json:"tail"`
 }
 
 func To_Msg_tailer(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Msg_tailer {
-	return (*Msg_tailer)(unsafe.Pointer(unsafe.SliceData(_byteBuf.Read_bytes(8))))
+	return (*Msg_tailer)(unsafe.Pointer(unsafe.SliceData(_byteBuf.Read_slice_uint8(8))))
 }
 func (__instance *Msg_tailer) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
-	_byteBuf.Write_bytes(*(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
+	_byteBuf.Write_slice_uint8(*(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
 		Data: uintptr(unsafe.Pointer(__instance)),
 		Len:  8,
 		Cap:  8,
@@ -1380,7 +1373,7 @@ type Net_infos struct {
 func To_Net_infos(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Net_infos {
 	_instance := Net_infos{}
 	F_net_name_len := 16
-	F_net_name_v := _byteBuf.Read_bytes(F_net_name_len)
+	F_net_name_v := _byteBuf.Read_slice_uint8(F_net_name_len)
 	F_net_name_count := 0
 	for i := F_net_name_len - 1; i >= 0; i-- {
 		if F_net_name_v[i] == 0 {
@@ -1391,11 +1384,11 @@ func To_Net_infos(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseConte
 	}
 	_instance.F_net_name = string(F_net_name_v[:(F_net_name_len - F_net_name_count)])
 
-	F_ipv4_addr_arr := [4]uint8(_byteBuf.Read_bytes(4))
+	F_ipv4_addr_arr := [4]uint8(_byteBuf.Read_slice_uint8(4))
 	_instance.F_ipv4_addr = F_ipv4_addr_arr
-	F_ipv4_mask_arr := [4]uint8(_byteBuf.Read_bytes(4))
+	F_ipv4_mask_arr := [4]uint8(_byteBuf.Read_slice_uint8(4))
 	_instance.F_ipv4_mask = F_ipv4_mask_arr
-	F_ipv4_gateway_arr := [4]uint8(_byteBuf.Read_bytes(4))
+	F_ipv4_gateway_arr := [4]uint8(_byteBuf.Read_slice_uint8(4))
 	_instance.F_ipv4_gateway = F_ipv4_gateway_arr
 	F_send_rate_v := _byteBuf.Read_int64()
 	_instance.F_send_rate = F_send_rate_v
@@ -1409,14 +1402,14 @@ func To_Net_infos(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseConte
 func (_instance Net_infos) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	F_net_name_len := 16
 	F_net_name_v := []byte(_instance.F_net_name)
-	_byteBuf.Write_bytes(F_net_name_v)
+	_byteBuf.Write_slice_uint8(F_net_name_v)
 	_byteBuf.Write_zero(F_net_name_len - len(F_net_name_v))
 	F_ipv4_addr_arr := _instance.F_ipv4_addr
-	_byteBuf.Write_bytes(F_ipv4_addr_arr[:])
+	_byteBuf.Write_slice_uint8(F_ipv4_addr_arr[:])
 	F_ipv4_mask_arr := _instance.F_ipv4_mask
-	_byteBuf.Write_bytes(F_ipv4_mask_arr[:])
+	_byteBuf.Write_slice_uint8(F_ipv4_mask_arr[:])
 	F_ipv4_gateway_arr := _instance.F_ipv4_gateway
-	_byteBuf.Write_bytes(F_ipv4_gateway_arr[:])
+	_byteBuf.Write_slice_uint8(F_ipv4_gateway_arr[:])
 	_byteBuf.Write_int64(_instance.F_send_rate)
 	_byteBuf.Write_int64(_instance.F_recv_rate)
 }
@@ -1529,7 +1522,7 @@ func To_Road2_info_lane(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 func (_instance Road2_info_lane) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_start_index := _byteBuf.WriterIndex()
 	_byteBuf.Write_uint32(_instance.F_lane_id)
-	_byteBuf.Write_uint16(uint16(parse.Round(float64(_instance.F_lane_azimuth * 100))))
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.F_lane_azimuth * 100)))
 	_byteBuf.Write_uint8(_instance.F_lane_canalization)
 	_byteBuf.Write_uint16(_instance.F_area_point_count)
 	F_reserved_len := 32
@@ -1718,8 +1711,8 @@ func (__instance *Sensor_body_camera) Write(_byteBuf *parse.ByteBuf, _parentPars
 	_start_index := _byteBuf.WriterIndex()
 	_byteBuf.Write_uint16(_instance.F_pixel)
 	_byteBuf.Write_uint16(_instance.F_focal)
-	_byteBuf.Write_uint16(uint16(parse.Round(float64(_instance.F_hori_view_angle * 100))))
-	_byteBuf.Write_uint16(uint16(parse.Round(float64(_instance.F_vert_view_angle * 100))))
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.F_hori_view_angle * 100)))
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.F_vert_view_angle * 100)))
 	F_reserved_len := 32
 	F_reserved_skipLen := F_reserved_len + _start_index - _byteBuf.WriterIndex()
 	if F_reserved_skipLen > 0 {
@@ -1763,8 +1756,8 @@ func (__instance *Sensor_body_lidar) Write(_byteBuf *parse.ByteBuf, _parentParse
 	_start_index := _byteBuf.WriterIndex()
 	_byteBuf.Write_uint32(_instance.F_distance)
 	_byteBuf.Write_uint16(_instance.F_line_count)
-	_byteBuf.Write_uint16(uint16(parse.Round(float64(_instance.F_hori_view_angle * 100))))
-	_byteBuf.Write_uint16(uint16(parse.Round(float64(_instance.F_vert_view_angle * 100))))
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.F_hori_view_angle * 100)))
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.F_vert_view_angle * 100)))
 	F_reserved_len := 32
 	F_reserved_skipLen := F_reserved_len + _start_index - _byteBuf.WriterIndex()
 	if F_reserved_skipLen > 0 {
@@ -1873,9 +1866,9 @@ func (_instance Sensor_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext 
 	_byteBuf.Write_uint32(uint32(parse.Round(_instance.F_sensor_lon * 10000000)))
 	_byteBuf.Write_uint32(uint32(parse.Round(_instance.F_sensor_lat * 10000000)))
 	_byteBuf.Write_uint32(_instance.F_sensor_alt)
-	_byteBuf.Write_uint16(uint16(parse.Round(float64(_instance.F_sensor_azimuth * 100))))
-	_byteBuf.Write_uint16(uint16(parse.Round(float64(_instance.F_sensor_pitch * 100))))
-	_byteBuf.Write_uint16(uint16(parse.Round(float64(_instance.F_sensor_roll * 100))))
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.F_sensor_azimuth * 100)))
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.F_sensor_pitch * 100)))
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.F_sensor_roll * 100)))
 	_byteBuf.Write_uint8(_instance.F_sensor_status)
 	_parseContext := parse.ToParseContext(_instance, _parentParseContext)
 	Write_F_sensor_body(_byteBuf, _instance.F_sensor_body, _parseContext)
@@ -2023,7 +2016,7 @@ func (_instance Target_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext 
 	_byteBuf.Write_int32(_instance.F_dev_x)
 	_byteBuf.Write_int32(_instance.F_dev_y)
 	_byteBuf.Write_int32(_instance.F_dev_z)
-	_byteBuf.Write_uint16(uint16(parse.Round(float64(_instance.F_azimuth_angle * 100))))
+	_byteBuf.Write_uint16(uint16(parse.Round(_instance.F_azimuth_angle * 100)))
 	_byteBuf.Write_int32(_instance.F_dev_vx)
 	_byteBuf.Write_int32(_instance.F_dev_vy)
 	_byteBuf.Write_int32(_instance.F_dev_vz)
@@ -2056,10 +2049,10 @@ type Target_info_extras_barrier struct {
 }
 
 func To_Target_info_extras_barrier(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Target_info_extras_barrier {
-	return (*Target_info_extras_barrier)(unsafe.Pointer(unsafe.SliceData(_byteBuf.Read_bytes(2))))
+	return (*Target_info_extras_barrier)(unsafe.Pointer(unsafe.SliceData(_byteBuf.Read_slice_uint8(2))))
 }
 func (__instance *Target_info_extras_barrier) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
-	_byteBuf.Write_bytes(*(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
+	_byteBuf.Write_slice_uint8(*(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
 		Data: uintptr(unsafe.Pointer(__instance)),
 		Len:  2,
 		Cap:  2,
@@ -2079,7 +2072,7 @@ func To_Target_info_extras_car(_byteBuf *parse.ByteBuf, _parentParseContext *par
 	_instance.F_type = F_type_v
 
 	F_lic_plate_len := 16
-	F_lic_plate_v := _byteBuf.Read_bytes(F_lic_plate_len)
+	F_lic_plate_v := _byteBuf.Read_slice_uint8(F_lic_plate_len)
 	F_lic_plate_count := 0
 	for i := F_lic_plate_len - 1; i >= 0; i-- {
 		if F_lic_plate_v[i] == 0 {
@@ -2104,7 +2097,7 @@ func (__instance *Target_info_extras_car) Write(_byteBuf *parse.ByteBuf, _parent
 	_byteBuf.Write_uint32(_instance.F_type)
 	F_lic_plate_len := 16
 	F_lic_plate_v := []byte(_instance.F_lic_plate)
-	_byteBuf.Write_bytes(F_lic_plate_v)
+	_byteBuf.Write_slice_uint8(F_lic_plate_v)
 	_byteBuf.Write_zero(F_lic_plate_len - len(F_lic_plate_v))
 	_byteBuf.Write_uint16(_instance.F_color)
 	_byteBuf.Write_int8(_instance.F_status)
@@ -2116,10 +2109,10 @@ type Target_info_extras_person struct {
 }
 
 func To_Target_info_extras_person(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Target_info_extras_person {
-	return (*Target_info_extras_person)(unsafe.Pointer(unsafe.SliceData(_byteBuf.Read_bytes(2))))
+	return (*Target_info_extras_person)(unsafe.Pointer(unsafe.SliceData(_byteBuf.Read_slice_uint8(2))))
 }
 func (__instance *Target_info_extras_person) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
-	_byteBuf.Write_bytes(*(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
+	_byteBuf.Write_slice_uint8(*(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
 		Data: uintptr(unsafe.Pointer(__instance)),
 		Len:  2,
 		Cap:  2,
