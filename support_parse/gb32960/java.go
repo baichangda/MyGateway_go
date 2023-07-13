@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-var _Location0, _ = time.LoadLocation("Asia/Shanghai")
+var _Location0 = time.FixedZone("_Location0", 28800)
 
 type MotorData struct {
 	F_no                    uint8   `json:"no"`
