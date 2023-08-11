@@ -68,6 +68,7 @@ func To_F_evts(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext)
 			} else {
 				evtIdHex := hex.EncodeToString([]byte{uint8(evtId >> 8), uint8(evtId)})
 				util.Log.Warnf("evtId[%s] not support", evtIdHex)
+				return nil
 			}
 
 		}
