@@ -175,6 +175,7 @@ func (e *BitBuf_writer) Skip(bit int) {
 	}
 	if byteLen == 1 {
 		if newBitOffsetZero {
+			byteBuf.Write_uint8(b)
 			b = 0
 		}
 	} else {
