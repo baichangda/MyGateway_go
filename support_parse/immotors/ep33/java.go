@@ -1668,6 +1668,50 @@ func (__instance *Evt_D00F) Write(_byteBuf *parse.ByteBuf, _parentParseContext *
 	_bitBuf.Finish()
 }
 
+type Evt_D01D struct {
+	F_evtId     uint16 `json:"evtId"`
+	F_evtLen    uint16 `json:"evtLen"`
+	F_cellLAC5G uint32 `json:"cellLAC5G"`
+	F_CellID5G  uint64 `json:"CellID5G"`
+}
+
+func To_Evt_D01D(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_D01D {
+	return (*Evt_D01D)(unsafe.Pointer(unsafe.SliceData(_byteBuf.Read_slice_uint8(16))))
+}
+func (__instance *Evt_D01D) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_byteBuf.Write_slice_uint8(*(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
+		Data: uintptr(unsafe.Pointer(__instance)),
+		Len:  16,
+		Cap:  16,
+	})))
+}
+
+type Evt_FFFF struct {
+	F_evtId  uint16 `json:"evtId"`
+	F_EvtCRC uint64 `json:"EvtCRC"`
+}
+
+func To_Evt_FFFF(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_FFFF {
+	_instance := Evt_FFFF{}
+	F_evtId_v := _byteBuf.Read_uint16()
+	_instance.F_evtId = F_evtId_v
+
+	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
+	F_EvtCRC_v := _bitBuf.Read(48, true, true)
+	_bitBuf.Finish()
+	_instance.F_EvtCRC = uint64(F_EvtCRC_v)
+
+	return &_instance
+}
+
+func (__instance *Evt_FFFF) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
+	_byteBuf.Write_uint16(_instance.F_evtId)
+	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
+	_bitBuf.Write(int64(_instance.F_EvtCRC), 48, true, true)
+	_bitBuf.Finish()
+}
+
 type Packet struct {
 	F_evts any `json:"evts"`
 }

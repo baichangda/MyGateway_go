@@ -52,6 +52,10 @@ func To_F_evts(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext)
 			evt = To_Evt_D00E(_byteBuf, _parentParseContext)
 		case 0xD00F:
 			evt = To_Evt_D00F(_byteBuf, _parentParseContext)
+		case 0xD01D:
+			evt = To_Evt_D01D(_byteBuf, _parentParseContext)
+		case 0xFFFF:
+			evt = To_Evt_FFFF(_byteBuf, _parentParseContext)
 		default:
 			if evtId >= 0x0001 && evtId <= 0x07FF ||
 				(evtId >= 0x0800 && evtId <= 0x0FFF) ||
@@ -60,8 +64,7 @@ func To_F_evts(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext)
 				(evtId >= 0x5000 && evtId <= 0x5FFF) ||
 				(evtId >= 0x6000 && evtId <= 0x6FFF) ||
 				(evtId >= 0x7000 && evtId <= 0x8FFF) ||
-				(evtId >= 0x9000 && evtId <= 0xAFFF) ||
-				evtId == 0xFFFF {
+				(evtId >= 0x9000 && evtId <= 0xAFFF) {
 				evt = To_Evt_2_6_unknown(_byteBuf, _parentParseContext)
 			} else if evtId >= 0xD000 && evtId <= 0xDFFF {
 				evt = To_Evt_4_x_unknown(_byteBuf, _parentParseContext)
