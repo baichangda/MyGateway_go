@@ -137,7 +137,7 @@ func (e *BitBuf_writer) Write(v int64, bit int, bigEndian bool, unsigned bool) {
 	var byteLen int
 	var newV int64
 	if finalBitOffset == 0 {
-		byteLen = (temp >> 3)
+		byteLen = temp >> 3
 		newV = v
 	} else {
 		byteLen = (temp >> 3) + 1
@@ -169,7 +169,7 @@ func (e *BitBuf_writer) Skip(bit int) {
 	newBitOffsetZero := (temp & 7) == 0
 	var byteLen int
 	if newBitOffsetZero {
-		byteLen = (temp >> 3)
+		byteLen = temp >> 3
 	} else {
 		byteLen = (temp >> 3) + 1
 	}
