@@ -18,7 +18,7 @@ type MotorData struct {
 	F_current               float32 `json:"current"`
 }
 
-func To_MotorData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) MotorData {
+func To_MotorData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *MotorData {
 	_instance := MotorData{}
 	F_no_v := _byteBuf.Read_uint8()
 	_instance.F_no = F_no_v
@@ -44,10 +44,11 @@ func To_MotorData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseConte
 	F_current_v := _byteBuf.Read_uint16()
 	_instance.F_current = float32(F_current_v)/10 - 1000
 
-	return _instance
+	return &_instance
 }
 
-func (_instance MotorData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *MotorData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.F_no)
 	_byteBuf.Write_uint8(_instance.F_status)
 	_byteBuf.Write_uint8(uint8((_instance.F_controllerTemperature + 40)))
@@ -211,7 +212,7 @@ type StorageTemperatureData struct {
 	F_temperatures []int16 `json:"temperatures"`
 }
 
-func To_StorageTemperatureData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) StorageTemperatureData {
+func To_StorageTemperatureData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *StorageTemperatureData {
 	_instance := StorageTemperatureData{}
 	F_no_v := _byteBuf.Read_uint8()
 	_instance.F_no = F_no_v
@@ -226,10 +227,11 @@ func To_StorageTemperatureData(_byteBuf *parse.ByteBuf, _parentParseContext *par
 		F_temperatures_arr[i] = int16(e) - 40
 	}
 	_instance.F_temperatures = F_temperatures_arr
-	return _instance
+	return &_instance
 }
 
-func (_instance StorageTemperatureData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *StorageTemperatureData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.F_no)
 	_byteBuf.Write_uint16(_instance.F_num)
 	F_temperatures_arr := _instance.F_temperatures
@@ -248,7 +250,7 @@ type StorageVoltageData struct {
 	F_singleVoltage []float32 `json:"singleVoltage"`
 }
 
-func To_StorageVoltageData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) StorageVoltageData {
+func To_StorageVoltageData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *StorageVoltageData {
 	_instance := StorageVoltageData{}
 	F_no_v := _byteBuf.Read_uint8()
 	_instance.F_no = F_no_v
@@ -275,10 +277,11 @@ func To_StorageVoltageData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.P
 		F_singleVoltage_arr[i] = float32(e) / 1000
 	}
 	_instance.F_singleVoltage = F_singleVoltage_arr
-	return _instance
+	return &_instance
 }
 
-func (_instance StorageVoltageData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *StorageVoltageData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.F_no)
 	_byteBuf.Write_uint16(uint16(parse.Round(_instance.F_voltage * 10)))
 	_byteBuf.Write_uint16(uint16(parse.Round((_instance.F_current + 1000) * 10)))
@@ -725,8 +728,8 @@ func (__instance *VehicleLogoutData) Write(_byteBuf *parse.ByteBuf, _parentParse
 }
 
 type VehicleMotorData struct {
-	F_num     uint8       `json:"num"`
-	F_content []MotorData `json:"content"`
+	F_num     uint8        `json:"num"`
+	F_content []*MotorData `json:"content"`
 }
 
 func To_VehicleMotorData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleMotorData {
@@ -735,7 +738,7 @@ func To_VehicleMotorData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Par
 	_instance.F_num = F_num_v
 
 	F_content_len := (int)(F_num_v)
-	F_content_arr := make([]MotorData, F_content_len, F_content_len)
+	F_content_arr := make([]*MotorData, F_content_len, F_content_len)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_content_len; i++ {
 		F_content_arr[i] = To_MotorData(_byteBuf, _parseContext)
@@ -804,8 +807,8 @@ func (__instance *VehicleRunData) Write(_byteBuf *parse.ByteBuf, _parentParseCon
 }
 
 type VehicleStorageTemperatureData struct {
-	F_num     uint8                    `json:"num"`
-	F_content []StorageTemperatureData `json:"content"`
+	F_num     uint8                     `json:"num"`
+	F_content []*StorageTemperatureData `json:"content"`
 }
 
 func To_VehicleStorageTemperatureData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleStorageTemperatureData {
@@ -814,7 +817,7 @@ func To_VehicleStorageTemperatureData(_byteBuf *parse.ByteBuf, _parentParseConte
 	_instance.F_num = F_num_v
 
 	F_content_len := (int)(F_num_v)
-	F_content_arr := make([]StorageTemperatureData, F_content_len, F_content_len)
+	F_content_arr := make([]*StorageTemperatureData, F_content_len, F_content_len)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_content_len; i++ {
 		F_content_arr[i] = To_StorageTemperatureData(_byteBuf, _parseContext)
@@ -834,8 +837,8 @@ func (__instance *VehicleStorageTemperatureData) Write(_byteBuf *parse.ByteBuf, 
 }
 
 type VehicleStorageVoltageData struct {
-	F_num     uint8                `json:"num"`
-	F_content []StorageVoltageData `json:"content"`
+	F_num     uint8                 `json:"num"`
+	F_content []*StorageVoltageData `json:"content"`
 }
 
 func To_VehicleStorageVoltageData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *VehicleStorageVoltageData {
@@ -844,7 +847,7 @@ func To_VehicleStorageVoltageData(_byteBuf *parse.ByteBuf, _parentParseContext *
 	_instance.F_num = F_num_v
 
 	F_content_len := (int)(F_num_v)
-	F_content_arr := make([]StorageVoltageData, F_content_len, F_content_len)
+	F_content_arr := make([]*StorageVoltageData, F_content_len, F_content_len)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_content_len; i++ {
 		F_content_arr[i] = To_StorageVoltageData(_byteBuf, _parseContext)

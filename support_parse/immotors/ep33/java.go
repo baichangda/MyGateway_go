@@ -1294,7 +1294,7 @@ type Evt_D00B_BMSCellVol struct {
 	F_BMSCellVolV uint8   `json:"BMSCellVolV"`
 }
 
-func To_Evt_D00B_BMSCellVol(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Evt_D00B_BMSCellVol {
+func To_Evt_D00B_BMSCellVol(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_D00B_BMSCellVol {
 	_instance := Evt_D00B_BMSCellVol{}
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
 	F_BMSCellVol_v := _bitBuf.Read(13, true, true)
@@ -1304,10 +1304,11 @@ func To_Evt_D00B_BMSCellVol(_byteBuf *parse.ByteBuf, _parentParseContext *parse.
 	_bitBuf.Finish()
 	_instance.F_BMSCellVolV = uint8(F_BMSCellVolV_v)
 
-	return _instance
+	return &_instance
 }
 
-func (_instance Evt_D00B_BMSCellVol) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Evt_D00B_BMSCellVol) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(parse.Round(_instance.F_BMSCellVol/0.001)), 13, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSCellVolV), 1, true, true)
@@ -1315,10 +1316,10 @@ func (_instance Evt_D00B_BMSCellVol) Write(_byteBuf *parse.ByteBuf, _parentParse
 }
 
 type Evt_D00B struct {
-	F_evtId            uint16                `json:"evtId"`
-	F_evtLen           uint16                `json:"evtLen"`
-	F_BMSCellVolSumNum uint8                 `json:"BMSCellVolSumNum"`
-	F_BMSCellVols      []Evt_D00B_BMSCellVol `json:"BMSCellVols"`
+	F_evtId            uint16                 `json:"evtId"`
+	F_evtLen           uint16                 `json:"evtLen"`
+	F_BMSCellVolSumNum uint8                  `json:"BMSCellVolSumNum"`
+	F_BMSCellVols      []*Evt_D00B_BMSCellVol `json:"BMSCellVols"`
 }
 
 func To_Evt_D00B(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_D00B {
@@ -1333,7 +1334,7 @@ func To_Evt_D00B(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContex
 	_instance.F_BMSCellVolSumNum = F_BMSCellVolSumNum_v
 
 	F_BMSCellVols_len := (int)(F_BMSCellVolSumNum_v)
-	F_BMSCellVols_arr := make([]Evt_D00B_BMSCellVol, F_BMSCellVols_len, F_BMSCellVols_len)
+	F_BMSCellVols_arr := make([]*Evt_D00B_BMSCellVol, F_BMSCellVols_len, F_BMSCellVols_len)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
 	_parseContext.BitBuf_reader = _bitBuf
@@ -1363,7 +1364,7 @@ type Evt_D00C_BMSCellTem struct {
 	F_BMSCellTemV uint8   `json:"BMSCellTemV"`
 }
 
-func To_Evt_D00C_BMSCellTem(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Evt_D00C_BMSCellTem {
+func To_Evt_D00C_BMSCellTem(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_D00C_BMSCellTem {
 	_instance := Evt_D00C_BMSCellTem{}
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
 	F_BMSCellTem_v := _bitBuf.Read(8, true, true)
@@ -1373,10 +1374,11 @@ func To_Evt_D00C_BMSCellTem(_byteBuf *parse.ByteBuf, _parentParseContext *parse.
 	_bitBuf.Finish()
 	_instance.F_BMSCellTemV = uint8(F_BMSCellTemV_v)
 
-	return _instance
+	return &_instance
 }
 
-func (_instance Evt_D00C_BMSCellTem) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Evt_D00C_BMSCellTem) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(parse.Round((_instance.F_BMSCellTem + 40))), 8, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSCellTemV), 1, true, true)
@@ -1384,10 +1386,10 @@ func (_instance Evt_D00C_BMSCellTem) Write(_byteBuf *parse.ByteBuf, _parentParse
 }
 
 type Evt_D00C struct {
-	F_evtId            uint16                `json:"evtId"`
-	F_evtLen           uint16                `json:"evtLen"`
-	F_BMSCellTemSumNum uint8                 `json:"BMSCellTemSumNum"`
-	F_BMSCellTems      []Evt_D00C_BMSCellTem `json:"BMSCellTems"`
+	F_evtId            uint16                 `json:"evtId"`
+	F_evtLen           uint16                 `json:"evtLen"`
+	F_BMSCellTemSumNum uint8                  `json:"BMSCellTemSumNum"`
+	F_BMSCellTems      []*Evt_D00C_BMSCellTem `json:"BMSCellTems"`
 }
 
 func To_Evt_D00C(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_D00C {
@@ -1402,7 +1404,7 @@ func To_Evt_D00C(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContex
 	_instance.F_BMSCellTemSumNum = F_BMSCellTemSumNum_v
 
 	F_BMSCellTems_len := (int)(F_BMSCellTemSumNum_v)
-	F_BMSCellTems_arr := make([]Evt_D00C_BMSCellTem, F_BMSCellTems_len, F_BMSCellTems_len)
+	F_BMSCellTems_arr := make([]*Evt_D00C_BMSCellTem, F_BMSCellTems_len, F_BMSCellTems_len)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
 	_parseContext.BitBuf_reader = _bitBuf
@@ -1432,7 +1434,7 @@ type Evt_D00D_BMSBusbarTem struct {
 	F_BMSBusbarTemV uint8   `json:"BMSBusbarTemV"`
 }
 
-func To_Evt_D00D_BMSBusbarTem(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Evt_D00D_BMSBusbarTem {
+func To_Evt_D00D_BMSBusbarTem(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_D00D_BMSBusbarTem {
 	_instance := Evt_D00D_BMSBusbarTem{}
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
 	F_BMSBusbarTem_v := _bitBuf.Read(8, true, true)
@@ -1442,10 +1444,11 @@ func To_Evt_D00D_BMSBusbarTem(_byteBuf *parse.ByteBuf, _parentParseContext *pars
 	_bitBuf.Finish()
 	_instance.F_BMSBusbarTemV = uint8(F_BMSBusbarTemV_v)
 
-	return _instance
+	return &_instance
 }
 
-func (_instance Evt_D00D_BMSBusbarTem) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Evt_D00D_BMSBusbarTem) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_bitBuf := parse.GetBitBuf_writer(_byteBuf, _parentParseContext)
 	_bitBuf.Write(int64(parse.Round((_instance.F_BMSBusbarTem + 40))), 8, true, true)
 	_bitBuf.Write(int64(_instance.F_BMSBusbarTemV), 1, true, true)
@@ -1453,10 +1456,10 @@ func (_instance Evt_D00D_BMSBusbarTem) Write(_byteBuf *parse.ByteBuf, _parentPar
 }
 
 type Evt_D00D struct {
-	F_evtId              uint16                  `json:"evtId"`
-	F_evtLen             uint16                  `json:"evtLen"`
-	F_BMSBusbarTemSumNum uint8                   `json:"BMSBusbarTemSumNum"`
-	F_BMSBusbarTems      []Evt_D00D_BMSBusbarTem `json:"BMSBusbarTems"`
+	F_evtId              uint16                   `json:"evtId"`
+	F_evtLen             uint16                   `json:"evtLen"`
+	F_BMSBusbarTemSumNum uint8                    `json:"BMSBusbarTemSumNum"`
+	F_BMSBusbarTems      []*Evt_D00D_BMSBusbarTem `json:"BMSBusbarTems"`
 }
 
 func To_Evt_D00D(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Evt_D00D {
@@ -1471,7 +1474,7 @@ func To_Evt_D00D(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContex
 	_instance.F_BMSBusbarTemSumNum = F_BMSBusbarTemSumNum_v
 
 	F_BMSBusbarTems_len := (int)(F_BMSBusbarTemSumNum_v)
-	F_BMSBusbarTems_arr := make([]Evt_D00D_BMSBusbarTem, F_BMSBusbarTems_len, F_BMSBusbarTems_len)
+	F_BMSBusbarTems_arr := make([]*Evt_D00D_BMSBusbarTem, F_BMSBusbarTems_len, F_BMSBusbarTems_len)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	_bitBuf := parse.GetBitBuf_reader(_byteBuf, _parentParseContext)
 	_parseContext.BitBuf_reader = _bitBuf
