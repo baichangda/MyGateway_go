@@ -1,6 +1,7 @@
 package util
 
 import (
+	"go.uber.org/zap"
 	"os"
 	"os/signal"
 )
@@ -10,11 +11,11 @@ func ExitOnKill(fnOnExit func() error) {
 	signal.Notify(c, os.Interrupt, os.Kill)
 	go func() {
 		for v := range c {
-			Log.Infof("exit signal %+v", v)
+			zap.S().Infof("exit signal %+v", v)
 			if fnOnExit != nil {
 				err := fnOnExit()
 				if err != nil {
-					Log.Errorf("%+v", err)
+					zap.S().Errorf("%+v", err)
 				}
 			}
 			os.Exit(0)
