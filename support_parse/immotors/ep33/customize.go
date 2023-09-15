@@ -2,8 +2,8 @@ package ep33
 
 import (
 	"MyGateway_go/support_parse/parse"
+	"MyGateway_go/util"
 	"encoding/hex"
-	"go.uber.org/zap"
 )
 
 func To_F_evts(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) any {
@@ -70,7 +70,7 @@ func To_F_evts(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext)
 				evt = To_Evt_4_x_unknown(_byteBuf, _parentParseContext)
 			} else {
 				evtIdHex := hex.EncodeToString([]byte{uint8(evtId >> 8), uint8(evtId)})
-				zap.S().Warnf("evtId[%s] not support", evtIdHex)
+				util.Log.Warnf("evtId[%s] not support", evtIdHex)
 				return nil
 			}
 

@@ -2,7 +2,6 @@ package parse
 
 import (
 	"MyGateway_go/util"
-	"go.uber.org/zap"
 	"sync/atomic"
 	"time"
 )
@@ -34,7 +33,7 @@ func TestMultiThreadPerformance_parse(bytes []byte, threadNum int, num int, fn f
 			break
 		}
 		val := atomic.SwapUint64(&count, 0) / 3
-		zap.S().Infof("parse threadNum:%d num:%d totalSpeed/s:%d perThreadSpeed/s:%d", threadNum, num, val, val/uint64(threadNum))
+		util.Log.Infof("parse threadNum:%d num:%d totalSpeed/s:%d perThreadSpeed/s:%d", threadNum, num, val, val/uint64(threadNum))
 	}
 }
 
@@ -64,6 +63,6 @@ func TestMultiThreadPerformance_deParse(byteBuf *ByteBuf, threadNum int, num int
 			break
 		}
 		val := atomic.SwapUint64(&count, 0) / 3
-		zap.S().Infof("deParse threadNum:%d num:%d totalSpeed/s:%d perThreadSpeed/s:%d", threadNum, num, val, val/uint64(threadNum))
+		util.Log.Infof("deParse threadNum:%d num:%d totalSpeed/s:%d perThreadSpeed/s:%d", threadNum, num, val, val/uint64(threadNum))
 	}
 }

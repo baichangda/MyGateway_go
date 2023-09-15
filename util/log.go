@@ -7,7 +7,9 @@ import (
 	"os"
 )
 
-func InitLog() {
+var Log = initLog()
+
+func initLog() *zap.SugaredLogger {
 	// 获取日志写入位置
 	writeSyncer := getLogWriter()
 	// 获取日志编码格式
@@ -26,6 +28,7 @@ func InitLog() {
 
 	// 替换zap包中全局的logger实例，后续在其他包中只需使用zap.L()调用即可
 	zap.ReplaceGlobals(logger)
+	return logger.Sugar()
 }
 
 // 负责设置 encoding 的日志格式
