@@ -6,10 +6,6 @@ import (
 	"io"
 )
 
-func init() {
-	util.InitLog()
-}
-
 func main() {
 	err1 := io.EOF
 	err2 := errors.WithStack(err1)
