@@ -60,19 +60,19 @@ func (__instance *MotorData) Write(_byteBuf *parse.ByteBuf, _parentParseContext 
 }
 
 type Packet struct {
-	F_header        [2]uint8 `json:"header"`
-	F_flag          uint8    `json:"flag"`
-	F_replyFlag     uint8    `json:"replyFlag"`
-	F_vin           string   `json:"vin"`
-	F_encodeWay     uint8    `json:"encodeWay"`
-	F_contentLength uint16   `json:"contentLength"`
-	F_data          any      `json:"data"`
-	F_code          int8     `json:"code"`
+	F_header        [2]int8 `json:"header"`
+	F_flag          uint8   `json:"flag"`
+	F_replyFlag     uint8   `json:"replyFlag"`
+	F_vin           string  `json:"vin"`
+	F_encodeWay     uint8   `json:"encodeWay"`
+	F_contentLength uint16  `json:"contentLength"`
+	F_data          any     `json:"data"`
+	F_code          int8    `json:"code"`
 }
 
 func To_Packet(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Packet {
 	_instance := Packet{}
-	F_header_arr := [2]uint8(_byteBuf.Read_slice_uint8(2))
+	F_header_arr := [2]int8(_byteBuf.Read_slice_int8(2))
 	_instance.F_header = F_header_arr
 	F_flag_v := _byteBuf.Read_uint8()
 	_instance.F_flag = F_flag_v
@@ -109,7 +109,7 @@ func To_Packet(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext)
 func (__instance *Packet) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	F_header_arr := _instance.F_header
-	_byteBuf.Write_slice_uint8(F_header_arr[:])
+	_byteBuf.Write_slice_int8(F_header_arr[:])
 	_byteBuf.Write_uint8(_instance.F_flag)
 	_byteBuf.Write_uint8(_instance.F_replyFlag)
 	F_vin_len := 17
@@ -739,9 +739,8 @@ func To_VehicleMotorData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Par
 
 	F_content_len := (int)(F_num_v)
 	F_content_arr := make([]*MotorData, F_content_len, F_content_len)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_content_len; i++ {
-		F_content_arr[i] = To_MotorData(_byteBuf, _parseContext)
+		F_content_arr[i] = To_MotorData(_byteBuf, nil)
 	}
 	_instance.F_content = F_content_arr
 	return &_instance
@@ -750,10 +749,9 @@ func To_VehicleMotorData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Par
 func (__instance *VehicleMotorData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.F_num)
-	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_content_arr := _instance.F_content
 	for i := 0; i < len(F_content_arr); i++ {
-		F_content_arr[i].Write(_byteBuf, _parseContext)
+		F_content_arr[i].Write(_byteBuf, nil)
 	}
 }
 
@@ -818,9 +816,8 @@ func To_VehicleStorageTemperatureData(_byteBuf *parse.ByteBuf, _parentParseConte
 
 	F_content_len := (int)(F_num_v)
 	F_content_arr := make([]*StorageTemperatureData, F_content_len, F_content_len)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_content_len; i++ {
-		F_content_arr[i] = To_StorageTemperatureData(_byteBuf, _parseContext)
+		F_content_arr[i] = To_StorageTemperatureData(_byteBuf, nil)
 	}
 	_instance.F_content = F_content_arr
 	return &_instance
@@ -829,10 +826,9 @@ func To_VehicleStorageTemperatureData(_byteBuf *parse.ByteBuf, _parentParseConte
 func (__instance *VehicleStorageTemperatureData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.F_num)
-	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_content_arr := _instance.F_content
 	for i := 0; i < len(F_content_arr); i++ {
-		F_content_arr[i].Write(_byteBuf, _parseContext)
+		F_content_arr[i].Write(_byteBuf, nil)
 	}
 }
 
@@ -848,9 +844,8 @@ func To_VehicleStorageVoltageData(_byteBuf *parse.ByteBuf, _parentParseContext *
 
 	F_content_len := (int)(F_num_v)
 	F_content_arr := make([]*StorageVoltageData, F_content_len, F_content_len)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_content_len; i++ {
-		F_content_arr[i] = To_StorageVoltageData(_byteBuf, _parseContext)
+		F_content_arr[i] = To_StorageVoltageData(_byteBuf, nil)
 	}
 	_instance.F_content = F_content_arr
 	return &_instance
@@ -859,10 +854,9 @@ func To_VehicleStorageVoltageData(_byteBuf *parse.ByteBuf, _parentParseContext *
 func (__instance *VehicleStorageVoltageData) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	_byteBuf.Write_uint8(_instance.F_num)
-	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_content_arr := _instance.F_content
 	for i := 0; i < len(F_content_arr); i++ {
-		F_content_arr[i].Write(_byteBuf, _parseContext)
+		F_content_arr[i].Write(_byteBuf, nil)
 	}
 }
 

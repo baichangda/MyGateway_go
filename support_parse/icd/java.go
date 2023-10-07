@@ -175,7 +175,7 @@ type Disk_infos struct {
 	F_usage   uint8  `json:"usage"`
 }
 
-func To_Disk_infos(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Disk_infos {
+func To_Disk_infos(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Disk_infos {
 	_instance := Disk_infos{}
 	F_disk_id_len := 32
 	F_disk_id_v := _byteBuf.Read_slice_uint8(F_disk_id_len)
@@ -195,10 +195,11 @@ func To_Disk_infos(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseCont
 	F_usage_v := _byteBuf.Read_uint8()
 	_instance.F_usage = F_usage_v
 
-	return _instance
+	return &_instance
 }
 
-func (_instance Disk_infos) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Disk_infos) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	F_disk_id_len := 32
 	F_disk_id_v := []byte(_instance.F_disk_id)
 	_byteBuf.Write_slice_uint8(F_disk_id_v)
@@ -208,19 +209,19 @@ func (_instance Disk_infos) Write(_byteBuf *parse.ByteBuf, _parentParseContext *
 }
 
 type Event_info struct {
-	F_event_id           uint16         `json:"event_id"`
-	F_event_type         uint16         `json:"event_type"`
-	F_event_lon          float64        `json:"event_lon"`
-	F_event_lat          float64        `json:"event_lat"`
-	F_event_alt          uint32         `json:"event_alt"`
-	F_event_road_id      uint32         `json:"event_road_id"`
-	F_src_count          uint16         `json:"src_count"`
-	F_target_count       uint16         `json:"target_count"`
-	F_src_array          []uint32       `json:"src_array"`
-	F_event_target_array []Event_target `json:"event_target_array"`
+	F_event_id           uint16          `json:"event_id"`
+	F_event_type         uint16          `json:"event_type"`
+	F_event_lon          float64         `json:"event_lon"`
+	F_event_lat          float64         `json:"event_lat"`
+	F_event_alt          uint32          `json:"event_alt"`
+	F_event_road_id      uint32          `json:"event_road_id"`
+	F_src_count          uint16          `json:"src_count"`
+	F_target_count       uint16          `json:"target_count"`
+	F_src_array          []uint32        `json:"src_array"`
+	F_event_target_array []*Event_target `json:"event_target_array"`
 }
 
-func To_Event_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Event_info {
+func To_Event_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Event_info {
 	_instance := Event_info{}
 	_start_index := _byteBuf.ReaderIndex()
 	F_event_id_v := _byteBuf.Read_uint16()
@@ -260,16 +261,17 @@ func To_Event_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseCont
 	}
 	_instance.F_src_array = F_src_array_arr
 	F_event_target_array_len := (int)(F_target_count_v)
-	F_event_target_array_arr := make([]Event_target, F_event_target_array_len, F_event_target_array_len)
+	F_event_target_array_arr := make([]*Event_target, F_event_target_array_len, F_event_target_array_len)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_event_target_array_len; i++ {
 		F_event_target_array_arr[i] = To_Event_target(_byteBuf, _parseContext)
 	}
 	_instance.F_event_target_array = F_event_target_array_arr
-	return _instance
+	return &_instance
 }
 
-func (_instance Event_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Event_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_start_index := _byteBuf.WriterIndex()
 	_byteBuf.Write_uint16(_instance.F_event_id)
 	_byteBuf.Write_uint16(_instance.F_event_type)
@@ -289,7 +291,7 @@ func (_instance Event_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext *
 	for i := 0; i < len(F_src_array_arr); i++ {
 		_byteBuf.Write_uint32(F_src_array_arr[i])
 	}
-	_parseContext := parse.ToParseContext(_instance, _parentParseContext)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_event_target_array_arr := _instance.F_event_target_array
 	for i := 0; i < len(F_event_target_array_arr); i++ {
 		F_event_target_array_arr[i].Write(_byteBuf, _parseContext)
@@ -305,7 +307,7 @@ type Event_target struct {
 	F_extras      any     `json:"extras"`
 }
 
-func To_Event_target(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Event_target {
+func To_Event_target(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Event_target {
 	_instance := Event_target{}
 	_start_index := _byteBuf.ReaderIndex()
 	F_track_id_v := _byteBuf.Read_uint32()
@@ -330,17 +332,18 @@ func To_Event_target(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseCo
 	if F_reserved_skipLen > 0 {
 		_byteBuf.Skip(F_reserved_skipLen)
 	}
-	return _instance
+	return &_instance
 }
 
-func (_instance Event_target) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Event_target) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_start_index := _byteBuf.WriterIndex()
 	_byteBuf.Write_uint32(_instance.F_track_id)
 	_byteBuf.Write_uint32(uint32(parse.Round(_instance.F_lon * 10000000)))
 	_byteBuf.Write_uint32(uint32(parse.Round(_instance.F_lat * 10000000)))
 	_byteBuf.Write_uint32(_instance.F_alt)
 	_byteBuf.Write_uint8(_instance.F_targetClass)
-	_parseContext := parse.ToParseContext(_instance, _parentParseContext)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	Write_F_extras(_byteBuf, _instance.F_extras, _parseContext)
 	F_reserved_len := 64
 	F_reserved_skipLen := F_reserved_len + _start_index - _byteBuf.WriterIndex()
@@ -362,7 +365,7 @@ type Lane_info_area struct {
 	F_tail_car_speed uint16 `json:"tail_car_speed"`
 }
 
-func To_Lane_info_area(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Lane_info_area {
+func To_Lane_info_area(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Lane_info_area {
 	_instance := Lane_info_area{}
 	_start_index := _byteBuf.ReaderIndex()
 	F_lane_id_v := _byteBuf.Read_uint8()
@@ -397,10 +400,11 @@ func To_Lane_info_area(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Parse
 	if F_reserved_skipLen > 0 {
 		_byteBuf.Skip(F_reserved_skipLen)
 	}
-	return _instance
+	return &_instance
 }
 
-func (_instance Lane_info_area) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Lane_info_area) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_start_index := _byteBuf.WriterIndex()
 	_byteBuf.Write_uint8(_instance.F_lane_id)
 	_byteBuf.Write_uint16(_instance.F_car_count)
@@ -432,7 +436,7 @@ type Lane_info_cycle struct {
 	F_ave_car_body_dis uint8  `json:"ave_car_body_dis"`
 }
 
-func To_Lane_info_cycle(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Lane_info_cycle {
+func To_Lane_info_cycle(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Lane_info_cycle {
 	_instance := Lane_info_cycle{}
 	_start_index := _byteBuf.ReaderIndex()
 	F_lane_id_v := _byteBuf.Read_uint8()
@@ -470,10 +474,11 @@ func To_Lane_info_cycle(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 	if F_reserved_skipLen > 0 {
 		_byteBuf.Skip(F_reserved_skipLen)
 	}
-	return _instance
+	return &_instance
 }
 
-func (_instance Lane_info_cycle) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Lane_info_cycle) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_start_index := _byteBuf.WriterIndex()
 	_byteBuf.Write_uint8(_instance.F_lane_id)
 	_byteBuf.Write_uint16(_instance.F_total_car)
@@ -501,7 +506,7 @@ type Lane_info_queue struct {
 	F_car_count    uint16 `json:"car_count"`
 }
 
-func To_Lane_info_queue(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Lane_info_queue {
+func To_Lane_info_queue(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Lane_info_queue {
 	_instance := Lane_info_queue{}
 	_start_index := _byteBuf.ReaderIndex()
 	F_lane_id_v := _byteBuf.Read_uint8()
@@ -524,10 +529,11 @@ func To_Lane_info_queue(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 	if F_reserved_skipLen > 0 {
 		_byteBuf.Skip(F_reserved_skipLen)
 	}
-	return _instance
+	return &_instance
 }
 
-func (_instance Lane_info_queue) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Lane_info_queue) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_start_index := _byteBuf.WriterIndex()
 	_byteBuf.Write_uint8(_instance.F_lane_id)
 	_byteBuf.Write_uint16(_instance.F_len)
@@ -550,7 +556,7 @@ type Lane_info_trigger struct {
 	F_status   uint8  `json:"status"`
 }
 
-func To_Lane_info_trigger(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Lane_info_trigger {
+func To_Lane_info_trigger(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Lane_info_trigger {
 	_instance := Lane_info_trigger{}
 	_start_index := _byteBuf.ReaderIndex()
 	F_track_id_v := _byteBuf.Read_uint32()
@@ -573,10 +579,11 @@ func To_Lane_info_trigger(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pa
 	if F_reserved_skipLen > 0 {
 		_byteBuf.Skip(F_reserved_skipLen)
 	}
-	return _instance
+	return &_instance
 }
 
-func (_instance Lane_info_trigger) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Lane_info_trigger) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_start_index := _byteBuf.WriterIndex()
 	_byteBuf.Write_uint32(_instance.F_track_id)
 	_byteBuf.Write_uint8(_instance.F_lane_id)
@@ -599,29 +606,29 @@ type Msg struct {
 
 func To_Msg(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Msg {
 	_instance := Msg{}
+	_instance.F_msg_header = To_Msg_header(_byteBuf, nil)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
-	_instance.F_msg_header = To_Msg_header(_byteBuf, _parseContext)
 	_instance.F_msg_body = To_F_msg_body(_byteBuf, _parseContext)
-	_instance.F_msg_tailer = To_Msg_tailer(_byteBuf, _parseContext)
+	_instance.F_msg_tailer = To_Msg_tailer(_byteBuf, nil)
 	return &_instance
 }
 
 func (__instance *Msg) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
+	_instance.F_msg_header.Write(_byteBuf, nil)
 	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
-	_instance.F_msg_header.Write(_byteBuf, _parseContext)
 	Write_F_msg_body(_byteBuf, _instance.F_msg_body, _parseContext)
-	_instance.F_msg_tailer.Write(_byteBuf, _parseContext)
+	_instance.F_msg_tailer.Write(_byteBuf, nil)
 }
 
 type Msg_body_area_statistics_info struct {
-	F_period          float32          `json:"period"`
-	F_area_dis_near   uint16           `json:"area_dis_near"`
-	F_area_dis_far    uint16           `json:"area_dis_far"`
-	F_src_count       uint16           `json:"src_count"`
-	F_lane_count      uint8            `json:"lane_count"`
-	F_src_array       []uint32         `json:"src_array"`
-	F_lane_info_array []Lane_info_area `json:"lane_info_array"`
+	F_period          float32           `json:"period"`
+	F_area_dis_near   uint16            `json:"area_dis_near"`
+	F_area_dis_far    uint16            `json:"area_dis_far"`
+	F_src_count       uint16            `json:"src_count"`
+	F_lane_count      uint8             `json:"lane_count"`
+	F_src_array       []uint32          `json:"src_array"`
+	F_lane_info_array []*Lane_info_area `json:"lane_info_array"`
 }
 
 func To_Msg_body_area_statistics_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Msg_body_area_statistics_info {
@@ -655,10 +662,9 @@ func To_Msg_body_area_statistics_info(_byteBuf *parse.ByteBuf, _parentParseConte
 	}
 	_instance.F_src_array = F_src_array_arr
 	F_lane_info_array_len := (int)(F_lane_count_v)
-	F_lane_info_array_arr := make([]Lane_info_area, F_lane_info_array_len, F_lane_info_array_len)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	F_lane_info_array_arr := make([]*Lane_info_area, F_lane_info_array_len, F_lane_info_array_len)
 	for i := 0; i < F_lane_info_array_len; i++ {
-		F_lane_info_array_arr[i] = To_Lane_info_area(_byteBuf, _parseContext)
+		F_lane_info_array_arr[i] = To_Lane_info_area(_byteBuf, nil)
 	}
 	_instance.F_lane_info_array = F_lane_info_array_arr
 	return &_instance
@@ -682,22 +688,21 @@ func (__instance *Msg_body_area_statistics_info) Write(_byteBuf *parse.ByteBuf, 
 	for i := 0; i < len(F_src_array_arr); i++ {
 		_byteBuf.Write_uint32(F_src_array_arr[i])
 	}
-	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_lane_info_array_arr := _instance.F_lane_info_array
 	for i := 0; i < len(F_lane_info_array_arr); i++ {
-		F_lane_info_array_arr[i].Write(_byteBuf, _parseContext)
+		F_lane_info_array_arr[i].Write(_byteBuf, nil)
 	}
 }
 
 type Msg_body_cycle_statistics_info struct {
-	F_period          uint16            `json:"period"`
-	F_len_A           uint8             `json:"len_A"`
-	F_len_B           uint8             `json:"len_B"`
-	F_len_C           uint8             `json:"len_C"`
-	F_src_count       uint16            `json:"src_count"`
-	F_lane_count      uint8             `json:"lane_count"`
-	F_src_array       []uint32          `json:"src_array"`
-	F_lane_info_array []Lane_info_cycle `json:"lane_info_array"`
+	F_period          uint16             `json:"period"`
+	F_len_A           uint8              `json:"len_A"`
+	F_len_B           uint8              `json:"len_B"`
+	F_len_C           uint8              `json:"len_C"`
+	F_src_count       uint16             `json:"src_count"`
+	F_lane_count      uint8              `json:"lane_count"`
+	F_src_array       []uint32           `json:"src_array"`
+	F_lane_info_array []*Lane_info_cycle `json:"lane_info_array"`
 }
 
 func To_Msg_body_cycle_statistics_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Msg_body_cycle_statistics_info {
@@ -734,10 +739,9 @@ func To_Msg_body_cycle_statistics_info(_byteBuf *parse.ByteBuf, _parentParseCont
 	}
 	_instance.F_src_array = F_src_array_arr
 	F_lane_info_array_len := (int)(F_lane_count_v)
-	F_lane_info_array_arr := make([]Lane_info_cycle, F_lane_info_array_len, F_lane_info_array_len)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	F_lane_info_array_arr := make([]*Lane_info_cycle, F_lane_info_array_len, F_lane_info_array_len)
 	for i := 0; i < F_lane_info_array_len; i++ {
-		F_lane_info_array_arr[i] = To_Lane_info_cycle(_byteBuf, _parseContext)
+		F_lane_info_array_arr[i] = To_Lane_info_cycle(_byteBuf, nil)
 	}
 	_instance.F_lane_info_array = F_lane_info_array_arr
 	return &_instance
@@ -762,10 +766,9 @@ func (__instance *Msg_body_cycle_statistics_info) Write(_byteBuf *parse.ByteBuf,
 	for i := 0; i < len(F_src_array_arr); i++ {
 		_byteBuf.Write_uint32(F_src_array_arr[i])
 	}
-	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_lane_info_array_arr := _instance.F_lane_info_array
 	for i := 0; i < len(F_lane_info_array_arr); i++ {
-		F_lane_info_array_arr[i].Write(_byteBuf, _parseContext)
+		F_lane_info_array_arr[i].Write(_byteBuf, nil)
 	}
 }
 
@@ -786,10 +789,9 @@ func To_Msg_body_device_status_info(_byteBuf *parse.ByteBuf, _parentParseContext
 	F_dev_status_v := _byteBuf.Read_uint8()
 	_instance.F_dev_status = F_dev_status_v
 
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
-	_instance.F_dev_hw_list = To_Dev_hw_list(_byteBuf, _parseContext)
-	_instance.F_dev_sw_list = To_Dev_sw_list(_byteBuf, _parseContext)
-	_instance.F_dev_func_list = To_Dev_func_list(_byteBuf, _parseContext)
+	_instance.F_dev_hw_list = To_Dev_hw_list(_byteBuf, nil)
+	_instance.F_dev_sw_list = To_Dev_sw_list(_byteBuf, nil)
+	_instance.F_dev_func_list = To_Dev_func_list(_byteBuf, nil)
 	F_reserved_len := 128
 	F_reserved_skipLen := F_reserved_len + _start_index - _byteBuf.ReaderIndex()
 	if F_reserved_skipLen > 0 {
@@ -803,10 +805,9 @@ func (__instance *Msg_body_device_status_info) Write(_byteBuf *parse.ByteBuf, _p
 	_start_index := _byteBuf.WriterIndex()
 	_byteBuf.Write_uint32(_instance.F_dev_sn)
 	_byteBuf.Write_uint8(_instance.F_dev_status)
-	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
-	_instance.F_dev_hw_list.Write(_byteBuf, _parseContext)
-	_instance.F_dev_sw_list.Write(_byteBuf, _parseContext)
-	_instance.F_dev_func_list.Write(_byteBuf, _parseContext)
+	_instance.F_dev_hw_list.Write(_byteBuf, nil)
+	_instance.F_dev_sw_list.Write(_byteBuf, nil)
+	_instance.F_dev_func_list.Write(_byteBuf, nil)
 	F_reserved_len := 128
 	F_reserved_skipLen := F_reserved_len + _start_index - _byteBuf.WriterIndex()
 	if F_reserved_skipLen > 0 {
@@ -816,8 +817,8 @@ func (__instance *Msg_body_device_status_info) Write(_byteBuf *parse.ByteBuf, _p
 }
 
 type Msg_body_event_info struct {
-	F_event_count      uint16       `json:"event_count"`
-	F_event_info_array []Event_info `json:"event_info_array"`
+	F_event_count      uint16        `json:"event_count"`
+	F_event_info_array []*Event_info `json:"event_info_array"`
 }
 
 func To_Msg_body_event_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Msg_body_event_info {
@@ -826,7 +827,7 @@ func To_Msg_body_event_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.
 	_instance.F_event_count = F_event_count_v
 
 	F_event_info_array_len := (int)(F_event_count_v)
-	F_event_info_array_arr := make([]Event_info, F_event_info_array_len, F_event_info_array_len)
+	F_event_info_array_arr := make([]*Event_info, F_event_info_array_len, F_event_info_array_len)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_event_info_array_len; i++ {
 		F_event_info_array_arr[i] = To_Event_info(_byteBuf, _parseContext)
@@ -846,11 +847,11 @@ func (__instance *Msg_body_event_info) Write(_byteBuf *parse.ByteBuf, _parentPar
 }
 
 type Msg_body_lane_detect_info struct {
-	F_frame_id        uint32      `json:"frame_id"`
-	F_src_count       uint16      `json:"src_count"`
-	F_road_count      uint32      `json:"road_count"`
-	F_src_array       []uint32    `json:"src_array"`
-	F_road_info_array []Road_info `json:"road_info_array"`
+	F_frame_id        uint32       `json:"frame_id"`
+	F_src_count       uint16       `json:"src_count"`
+	F_road_count      uint32       `json:"road_count"`
+	F_src_array       []uint32     `json:"src_array"`
+	F_road_info_array []*Road_info `json:"road_info_array"`
 }
 
 func To_Msg_body_lane_detect_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Msg_body_lane_detect_info {
@@ -878,10 +879,9 @@ func To_Msg_body_lane_detect_info(_byteBuf *parse.ByteBuf, _parentParseContext *
 	}
 	_instance.F_src_array = F_src_array_arr
 	F_road_info_array_len := (int)(F_road_count_v)
-	F_road_info_array_arr := make([]Road_info, F_road_info_array_len, F_road_info_array_len)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	F_road_info_array_arr := make([]*Road_info, F_road_info_array_len, F_road_info_array_len)
 	for i := 0; i < F_road_info_array_len; i++ {
-		F_road_info_array_arr[i] = To_Road_info(_byteBuf, _parseContext)
+		F_road_info_array_arr[i] = To_Road_info(_byteBuf, nil)
 	}
 	_instance.F_road_info_array = F_road_info_array_arr
 	return &_instance
@@ -903,18 +903,17 @@ func (__instance *Msg_body_lane_detect_info) Write(_byteBuf *parse.ByteBuf, _par
 	for i := 0; i < len(F_src_array_arr); i++ {
 		_byteBuf.Write_uint32(F_src_array_arr[i])
 	}
-	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_road_info_array_arr := _instance.F_road_info_array
 	for i := 0; i < len(F_road_info_array_arr); i++ {
-		F_road_info_array_arr[i].Write(_byteBuf, _parseContext)
+		F_road_info_array_arr[i].Write(_byteBuf, nil)
 	}
 }
 
 type Msg_body_queue_statistics_info struct {
-	F_src_count       uint16            `json:"src_count"`
-	F_lane_count      uint8             `json:"lane_count"`
-	F_src_array       []uint32          `json:"src_array"`
-	F_lane_info_array []Lane_info_queue `json:"lane_info_array"`
+	F_src_count       uint16             `json:"src_count"`
+	F_lane_count      uint8              `json:"lane_count"`
+	F_src_array       []uint32           `json:"src_array"`
+	F_lane_info_array []*Lane_info_queue `json:"lane_info_array"`
 }
 
 func To_Msg_body_queue_statistics_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Msg_body_queue_statistics_info {
@@ -939,10 +938,9 @@ func To_Msg_body_queue_statistics_info(_byteBuf *parse.ByteBuf, _parentParseCont
 	}
 	_instance.F_src_array = F_src_array_arr
 	F_lane_info_array_len := (int)(F_lane_count_v)
-	F_lane_info_array_arr := make([]Lane_info_queue, F_lane_info_array_len, F_lane_info_array_len)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	F_lane_info_array_arr := make([]*Lane_info_queue, F_lane_info_array_len, F_lane_info_array_len)
 	for i := 0; i < F_lane_info_array_len; i++ {
-		F_lane_info_array_arr[i] = To_Lane_info_queue(_byteBuf, _parseContext)
+		F_lane_info_array_arr[i] = To_Lane_info_queue(_byteBuf, nil)
 	}
 	_instance.F_lane_info_array = F_lane_info_array_arr
 	return &_instance
@@ -963,16 +961,15 @@ func (__instance *Msg_body_queue_statistics_info) Write(_byteBuf *parse.ByteBuf,
 	for i := 0; i < len(F_src_array_arr); i++ {
 		_byteBuf.Write_uint32(F_src_array_arr[i])
 	}
-	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_lane_info_array_arr := _instance.F_lane_info_array
 	for i := 0; i < len(F_lane_info_array_arr); i++ {
-		F_lane_info_array_arr[i].Write(_byteBuf, _parseContext)
+		F_lane_info_array_arr[i].Write(_byteBuf, nil)
 	}
 }
 
 type Msg_body_road_info struct {
-	F_road_count      uint16       `json:"road_count"`
-	F_road_info_array []Road2_info `json:"road_info_array"`
+	F_road_count      uint16        `json:"road_count"`
+	F_road_info_array []*Road2_info `json:"road_info_array"`
 }
 
 func To_Msg_body_road_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Msg_body_road_info {
@@ -981,10 +978,9 @@ func To_Msg_body_road_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.P
 	_instance.F_road_count = F_road_count_v
 
 	F_road_info_array_len := (int)(F_road_count_v)
-	F_road_info_array_arr := make([]Road2_info, F_road_info_array_len, F_road_info_array_len)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	F_road_info_array_arr := make([]*Road2_info, F_road_info_array_len, F_road_info_array_len)
 	for i := 0; i < F_road_info_array_len; i++ {
-		F_road_info_array_arr[i] = To_Road2_info(_byteBuf, _parseContext)
+		F_road_info_array_arr[i] = To_Road2_info(_byteBuf, nil)
 	}
 	_instance.F_road_info_array = F_road_info_array_arr
 	return &_instance
@@ -993,16 +989,15 @@ func To_Msg_body_road_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.P
 func (__instance *Msg_body_road_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	_byteBuf.Write_uint16(_instance.F_road_count)
-	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_road_info_array_arr := _instance.F_road_info_array
 	for i := 0; i < len(F_road_info_array_arr); i++ {
-		F_road_info_array_arr[i].Write(_byteBuf, _parseContext)
+		F_road_info_array_arr[i].Write(_byteBuf, nil)
 	}
 }
 
 type Msg_body_sensor_status_info struct {
-	F_sensor_count      uint16        `json:"sensor_count"`
-	F_sensor_info_array []Sensor_info `json:"sensor_info_array"`
+	F_sensor_count      uint16         `json:"sensor_count"`
+	F_sensor_info_array []*Sensor_info `json:"sensor_info_array"`
 }
 
 func To_Msg_body_sensor_status_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Msg_body_sensor_status_info {
@@ -1011,7 +1006,7 @@ func To_Msg_body_sensor_status_info(_byteBuf *parse.ByteBuf, _parentParseContext
 	_instance.F_sensor_count = F_sensor_count_v
 
 	F_sensor_info_array_len := (int)(F_sensor_count_v)
-	F_sensor_info_array_arr := make([]Sensor_info, F_sensor_info_array_len, F_sensor_info_array_len)
+	F_sensor_info_array_arr := make([]*Sensor_info, F_sensor_info_array_len, F_sensor_info_array_len)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_sensor_info_array_len; i++ {
 		F_sensor_info_array_arr[i] = To_Sensor_info(_byteBuf, _parseContext)
@@ -1038,9 +1033,9 @@ type Msg_body_system_runtime_info struct {
 	F_gpu_num    uint8              `json:"gpu_num"`
 	F_gpu_usage  parse.JsonUint8Arr `json:"gpu_usage"`
 	F_disk_num   uint8              `json:"disk_num"`
-	F_disk_infos []Disk_infos       `json:"disk_infos"`
+	F_disk_infos []*Disk_infos      `json:"disk_infos"`
 	F_net_num    uint8              `json:"net_num"`
-	F_net_infos  []Net_infos        `json:"net_infos"`
+	F_net_infos  []*Net_infos       `json:"net_infos"`
 	F_temp_num   uint8              `json:"temp_num"`
 	F_temp_val   parse.JsonUint8Arr `json:"temp_val"`
 	F_fans_num   uint8              `json:"fans_num"`
@@ -1071,19 +1066,18 @@ func To_Msg_body_system_runtime_info(_byteBuf *parse.ByteBuf, _parentParseContex
 	_instance.F_disk_num = F_disk_num_v
 
 	F_disk_infos_len := (int)(F_disk_num_v)
-	F_disk_infos_arr := make([]Disk_infos, F_disk_infos_len, F_disk_infos_len)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	F_disk_infos_arr := make([]*Disk_infos, F_disk_infos_len, F_disk_infos_len)
 	for i := 0; i < F_disk_infos_len; i++ {
-		F_disk_infos_arr[i] = To_Disk_infos(_byteBuf, _parseContext)
+		F_disk_infos_arr[i] = To_Disk_infos(_byteBuf, nil)
 	}
 	_instance.F_disk_infos = F_disk_infos_arr
 	F_net_num_v := _byteBuf.Read_uint8()
 	_instance.F_net_num = F_net_num_v
 
 	F_net_infos_len := (int)(F_net_num_v)
-	F_net_infos_arr := make([]Net_infos, F_net_infos_len, F_net_infos_len)
+	F_net_infos_arr := make([]*Net_infos, F_net_infos_len, F_net_infos_len)
 	for i := 0; i < F_net_infos_len; i++ {
-		F_net_infos_arr[i] = To_Net_infos(_byteBuf, _parseContext)
+		F_net_infos_arr[i] = To_Net_infos(_byteBuf, nil)
 	}
 	_instance.F_net_infos = F_net_infos_arr
 	F_temp_num_v := _byteBuf.Read_uint8()
@@ -1112,15 +1106,14 @@ func (__instance *Msg_body_system_runtime_info) Write(_byteBuf *parse.ByteBuf, _
 	F_gpu_usage_arr := _instance.F_gpu_usage
 	_byteBuf.Write_slice_uint8(F_gpu_usage_arr)
 	_byteBuf.Write_uint8(_instance.F_disk_num)
-	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_disk_infos_arr := _instance.F_disk_infos
 	for i := 0; i < len(F_disk_infos_arr); i++ {
-		F_disk_infos_arr[i].Write(_byteBuf, _parseContext)
+		F_disk_infos_arr[i].Write(_byteBuf, nil)
 	}
 	_byteBuf.Write_uint8(_instance.F_net_num)
 	F_net_infos_arr := _instance.F_net_infos
 	for i := 0; i < len(F_net_infos_arr); i++ {
-		F_net_infos_arr[i].Write(_byteBuf, _parseContext)
+		F_net_infos_arr[i].Write(_byteBuf, nil)
 	}
 	_byteBuf.Write_uint8(_instance.F_temp_num)
 	F_temp_val_arr := _instance.F_temp_val
@@ -1131,11 +1124,11 @@ func (__instance *Msg_body_system_runtime_info) Write(_byteBuf *parse.ByteBuf, _
 }
 
 type Msg_body_target_detect_info struct {
-	F_frame_id          uint32        `json:"frame_id"`
-	F_src_count         uint16        `json:"src_count"`
-	F_target_count      uint16        `json:"target_count"`
-	F_src_array         []uint32      `json:"src_array"`
-	F_target_info_array []Target_info `json:"target_info_array"`
+	F_frame_id          uint32         `json:"frame_id"`
+	F_src_count         uint16         `json:"src_count"`
+	F_target_count      uint16         `json:"target_count"`
+	F_src_array         []uint32       `json:"src_array"`
+	F_target_info_array []*Target_info `json:"target_info_array"`
 }
 
 func To_Msg_body_target_detect_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Msg_body_target_detect_info {
@@ -1163,7 +1156,7 @@ func To_Msg_body_target_detect_info(_byteBuf *parse.ByteBuf, _parentParseContext
 	}
 	_instance.F_src_array = F_src_array_arr
 	F_target_info_array_len := (int)(F_target_count_v)
-	F_target_info_array_arr := make([]Target_info, F_target_info_array_len, F_target_info_array_len)
+	F_target_info_array_arr := make([]*Target_info, F_target_info_array_len, F_target_info_array_len)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_target_info_array_len; i++ {
 		F_target_info_array_arr[i] = To_Target_info(_byteBuf, _parseContext)
@@ -1196,10 +1189,10 @@ func (__instance *Msg_body_target_detect_info) Write(_byteBuf *parse.ByteBuf, _p
 }
 
 type Msg_body_trigger_statistics_info struct {
-	F_src_count       uint16              `json:"src_count"`
-	F_lane_count      uint8               `json:"lane_count"`
-	F_src_array       []uint32            `json:"src_array"`
-	F_lane_info_array []Lane_info_trigger `json:"lane_info_array"`
+	F_src_count       uint16               `json:"src_count"`
+	F_lane_count      uint8                `json:"lane_count"`
+	F_src_array       []uint32             `json:"src_array"`
+	F_lane_info_array []*Lane_info_trigger `json:"lane_info_array"`
 }
 
 func To_Msg_body_trigger_statistics_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Msg_body_trigger_statistics_info {
@@ -1224,10 +1217,9 @@ func To_Msg_body_trigger_statistics_info(_byteBuf *parse.ByteBuf, _parentParseCo
 	}
 	_instance.F_src_array = F_src_array_arr
 	F_lane_info_array_len := (int)(F_lane_count_v)
-	F_lane_info_array_arr := make([]Lane_info_trigger, F_lane_info_array_len, F_lane_info_array_len)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	F_lane_info_array_arr := make([]*Lane_info_trigger, F_lane_info_array_len, F_lane_info_array_len)
 	for i := 0; i < F_lane_info_array_len; i++ {
-		F_lane_info_array_arr[i] = To_Lane_info_trigger(_byteBuf, _parseContext)
+		F_lane_info_array_arr[i] = To_Lane_info_trigger(_byteBuf, nil)
 	}
 	_instance.F_lane_info_array = F_lane_info_array_arr
 	return &_instance
@@ -1248,10 +1240,9 @@ func (__instance *Msg_body_trigger_statistics_info) Write(_byteBuf *parse.ByteBu
 	for i := 0; i < len(F_src_array_arr); i++ {
 		_byteBuf.Write_uint32(F_src_array_arr[i])
 	}
-	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_lane_info_array_arr := _instance.F_lane_info_array
 	for i := 0; i < len(F_lane_info_array_arr); i++ {
-		F_lane_info_array_arr[i].Write(_byteBuf, _parseContext)
+		F_lane_info_array_arr[i].Write(_byteBuf, nil)
 	}
 }
 
@@ -1370,7 +1361,7 @@ type Net_infos struct {
 	F_recv_rate    int64    `json:"recv_rate"`
 }
 
-func To_Net_infos(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Net_infos {
+func To_Net_infos(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Net_infos {
 	_instance := Net_infos{}
 	F_net_name_len := 16
 	F_net_name_v := _byteBuf.Read_slice_uint8(F_net_name_len)
@@ -1396,10 +1387,11 @@ func To_Net_infos(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseConte
 	F_recv_rate_v := _byteBuf.Read_int64()
 	_instance.F_recv_rate = F_recv_rate_v
 
-	return _instance
+	return &_instance
 }
 
-func (_instance Net_infos) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Net_infos) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	F_net_name_len := 16
 	F_net_name_v := []byte(_instance.F_net_name)
 	_byteBuf.Write_slice_uint8(F_net_name_v)
@@ -1415,16 +1407,16 @@ func (_instance Net_infos) Write(_byteBuf *parse.ByteBuf, _parentParseContext *p
 }
 
 type Road2_info struct {
-	F_road_id         uint32            `json:"road_id"`
-	F_road_type       uint8             `json:"road_type"`
-	F_road_lon        float64           `json:"road_lon"`
-	F_road_lat        float64           `json:"road_lat"`
-	F_road_alt        uint32            `json:"road_alt"`
-	F_lane_count      uint32            `json:"lane_count"`
-	F_lane_info_array []Road2_info_lane `json:"lane_info_array"`
+	F_road_id         uint32             `json:"road_id"`
+	F_road_type       uint8              `json:"road_type"`
+	F_road_lon        float64            `json:"road_lon"`
+	F_road_lat        float64            `json:"road_lat"`
+	F_road_alt        uint32             `json:"road_alt"`
+	F_lane_count      uint32             `json:"lane_count"`
+	F_lane_info_array []*Road2_info_lane `json:"lane_info_array"`
 }
 
-func To_Road2_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Road2_info {
+func To_Road2_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Road2_info {
 	_instance := Road2_info{}
 	_start_index := _byteBuf.ReaderIndex()
 	F_road_id_v := _byteBuf.Read_uint32()
@@ -1451,16 +1443,16 @@ func To_Road2_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseCont
 		_byteBuf.Skip(F_reserved_skipLen)
 	}
 	F_lane_info_array_len := (int)(F_lane_count_v)
-	F_lane_info_array_arr := make([]Road2_info_lane, F_lane_info_array_len, F_lane_info_array_len)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	F_lane_info_array_arr := make([]*Road2_info_lane, F_lane_info_array_len, F_lane_info_array_len)
 	for i := 0; i < F_lane_info_array_len; i++ {
-		F_lane_info_array_arr[i] = To_Road2_info_lane(_byteBuf, _parseContext)
+		F_lane_info_array_arr[i] = To_Road2_info_lane(_byteBuf, nil)
 	}
 	_instance.F_lane_info_array = F_lane_info_array_arr
-	return _instance
+	return &_instance
 }
 
-func (_instance Road2_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Road2_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_start_index := _byteBuf.WriterIndex()
 	_byteBuf.Write_uint32(_instance.F_road_id)
 	_byteBuf.Write_uint8(_instance.F_road_type)
@@ -1474,22 +1466,21 @@ func (_instance Road2_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext *
 		_byteBuf.Write_zero(F_reserved_skipLen)
 	}
 
-	_parseContext := parse.ToParseContext(_instance, _parentParseContext)
 	F_lane_info_array_arr := _instance.F_lane_info_array
 	for i := 0; i < len(F_lane_info_array_arr); i++ {
-		F_lane_info_array_arr[i].Write(_byteBuf, _parseContext)
+		F_lane_info_array_arr[i].Write(_byteBuf, nil)
 	}
 }
 
 type Road2_info_lane struct {
-	F_lane_id           uint32                       `json:"lane_id"`
-	F_lane_azimuth      float32                      `json:"lane_azimuth"`
-	F_lane_canalization uint8                        `json:"lane_canalization"`
-	F_area_point_count  uint16                       `json:"area_point_count"`
-	F_area_point_array  []Road2_info_lane_area_point `json:"area_point_array"`
+	F_lane_id           uint32                        `json:"lane_id"`
+	F_lane_azimuth      float32                       `json:"lane_azimuth"`
+	F_lane_canalization uint8                         `json:"lane_canalization"`
+	F_area_point_count  uint16                        `json:"area_point_count"`
+	F_area_point_array  []*Road2_info_lane_area_point `json:"area_point_array"`
 }
 
-func To_Road2_info_lane(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Road2_info_lane {
+func To_Road2_info_lane(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Road2_info_lane {
 	_instance := Road2_info_lane{}
 	_start_index := _byteBuf.ReaderIndex()
 	F_lane_id_v := _byteBuf.Read_uint32()
@@ -1510,16 +1501,16 @@ func To_Road2_info_lane(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 		_byteBuf.Skip(F_reserved_skipLen)
 	}
 	F_area_point_array_len := (int)(F_area_point_count_v)
-	F_area_point_array_arr := make([]Road2_info_lane_area_point, F_area_point_array_len, F_area_point_array_len)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	F_area_point_array_arr := make([]*Road2_info_lane_area_point, F_area_point_array_len, F_area_point_array_len)
 	for i := 0; i < F_area_point_array_len; i++ {
-		F_area_point_array_arr[i] = To_Road2_info_lane_area_point(_byteBuf, _parseContext)
+		F_area_point_array_arr[i] = To_Road2_info_lane_area_point(_byteBuf, nil)
 	}
 	_instance.F_area_point_array = F_area_point_array_arr
-	return _instance
+	return &_instance
 }
 
-func (_instance Road2_info_lane) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Road2_info_lane) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_start_index := _byteBuf.WriterIndex()
 	_byteBuf.Write_uint32(_instance.F_lane_id)
 	_byteBuf.Write_uint16(uint16(parse.Round(_instance.F_lane_azimuth * 100)))
@@ -1531,10 +1522,9 @@ func (_instance Road2_info_lane) Write(_byteBuf *parse.ByteBuf, _parentParseCont
 		_byteBuf.Write_zero(F_reserved_skipLen)
 	}
 
-	_parseContext := parse.ToParseContext(_instance, _parentParseContext)
 	F_area_point_array_arr := _instance.F_area_point_array
 	for i := 0; i < len(F_area_point_array_arr); i++ {
-		F_area_point_array_arr[i].Write(_byteBuf, _parseContext)
+		F_area_point_array_arr[i].Write(_byteBuf, nil)
 	}
 }
 
@@ -1545,7 +1535,7 @@ type Road2_info_lane_area_point struct {
 	F_area_point_alt uint32  `json:"area_point_alt"`
 }
 
-func To_Road2_info_lane_area_point(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Road2_info_lane_area_point {
+func To_Road2_info_lane_area_point(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Road2_info_lane_area_point {
 	_instance := Road2_info_lane_area_point{}
 	F_area_point_id_v := _byteBuf.Read_uint16()
 	_instance.F_area_point_id = F_area_point_id_v
@@ -1559,10 +1549,11 @@ func To_Road2_info_lane_area_point(_byteBuf *parse.ByteBuf, _parentParseContext 
 	F_area_point_alt_v := _byteBuf.Read_uint32()
 	_instance.F_area_point_alt = F_area_point_alt_v
 
-	return _instance
+	return &_instance
 }
 
-func (_instance Road2_info_lane_area_point) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Road2_info_lane_area_point) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_byteBuf.Write_uint16(_instance.F_area_point_id)
 	_byteBuf.Write_uint32(uint32(parse.Round(_instance.F_area_point_lon * 10000000)))
 	_byteBuf.Write_uint32(uint32(parse.Round(_instance.F_area_point_lat * 10000000)))
@@ -1570,12 +1561,12 @@ func (_instance Road2_info_lane_area_point) Write(_byteBuf *parse.ByteBuf, _pare
 }
 
 type Road_info struct {
-	F_road_id         uint32           `json:"road_id"`
-	F_lane_count      uint32           `json:"lane_count"`
-	F_lane_info_array []Road_info_lane `json:"lane_info_array"`
+	F_road_id         uint32            `json:"road_id"`
+	F_lane_count      uint32            `json:"lane_count"`
+	F_lane_info_array []*Road_info_lane `json:"lane_info_array"`
 }
 
-func To_Road_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Road_info {
+func To_Road_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Road_info {
 	_instance := Road_info{}
 	F_road_id_v := _byteBuf.Read_uint32()
 	_instance.F_road_id = F_road_id_v
@@ -1584,32 +1575,31 @@ func To_Road_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseConte
 	_instance.F_lane_count = F_lane_count_v
 
 	F_lane_info_array_len := (int)(F_lane_count_v)
-	F_lane_info_array_arr := make([]Road_info_lane, F_lane_info_array_len, F_lane_info_array_len)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	F_lane_info_array_arr := make([]*Road_info_lane, F_lane_info_array_len, F_lane_info_array_len)
 	for i := 0; i < F_lane_info_array_len; i++ {
-		F_lane_info_array_arr[i] = To_Road_info_lane(_byteBuf, _parseContext)
+		F_lane_info_array_arr[i] = To_Road_info_lane(_byteBuf, nil)
 	}
 	_instance.F_lane_info_array = F_lane_info_array_arr
-	return _instance
+	return &_instance
 }
 
-func (_instance Road_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Road_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_byteBuf.Write_uint32(_instance.F_road_id)
 	_byteBuf.Write_uint32(_instance.F_lane_count)
-	_parseContext := parse.ToParseContext(_instance, _parentParseContext)
 	F_lane_info_array_arr := _instance.F_lane_info_array
 	for i := 0; i < len(F_lane_info_array_arr); i++ {
-		F_lane_info_array_arr[i].Write(_byteBuf, _parseContext)
+		F_lane_info_array_arr[i].Write(_byteBuf, nil)
 	}
 }
 
 type Road_info_lane struct {
-	F_lane_id           uint32                  `json:"lane_id"`
-	F_target_count      uint16                  `json:"target_count"`
-	F_lane_target_array []Road_info_lane_target `json:"lane_target_array"`
+	F_lane_id           uint32                   `json:"lane_id"`
+	F_target_count      uint16                   `json:"target_count"`
+	F_lane_target_array []*Road_info_lane_target `json:"lane_target_array"`
 }
 
-func To_Road_info_lane(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Road_info_lane {
+func To_Road_info_lane(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Road_info_lane {
 	_instance := Road_info_lane{}
 	F_lane_id_v := _byteBuf.Read_uint32()
 	_instance.F_lane_id = F_lane_id_v
@@ -1618,22 +1608,21 @@ func To_Road_info_lane(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Parse
 	_instance.F_target_count = F_target_count_v
 
 	F_lane_target_array_len := (int)(F_target_count_v)
-	F_lane_target_array_arr := make([]Road_info_lane_target, F_lane_target_array_len, F_lane_target_array_len)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	F_lane_target_array_arr := make([]*Road_info_lane_target, F_lane_target_array_len, F_lane_target_array_len)
 	for i := 0; i < F_lane_target_array_len; i++ {
-		F_lane_target_array_arr[i] = To_Road_info_lane_target(_byteBuf, _parseContext)
+		F_lane_target_array_arr[i] = To_Road_info_lane_target(_byteBuf, nil)
 	}
 	_instance.F_lane_target_array = F_lane_target_array_arr
-	return _instance
+	return &_instance
 }
 
-func (_instance Road_info_lane) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Road_info_lane) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_byteBuf.Write_uint32(_instance.F_lane_id)
 	_byteBuf.Write_uint16(_instance.F_target_count)
-	_parseContext := parse.ToParseContext(_instance, _parentParseContext)
 	F_lane_target_array_arr := _instance.F_lane_target_array
 	for i := 0; i < len(F_lane_target_array_arr); i++ {
-		F_lane_target_array_arr[i].Write(_byteBuf, _parseContext)
+		F_lane_target_array_arr[i].Write(_byteBuf, nil)
 	}
 }
 
@@ -1643,7 +1632,7 @@ type Road_info_lane_target struct {
 	F_lane_v   uint32 `json:"lane_v"`
 }
 
-func To_Road_info_lane_target(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Road_info_lane_target {
+func To_Road_info_lane_target(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Road_info_lane_target {
 	_instance := Road_info_lane_target{}
 	_start_index := _byteBuf.ReaderIndex()
 	F_track_id_v := _byteBuf.Read_uint32()
@@ -1660,10 +1649,11 @@ func To_Road_info_lane_target(_byteBuf *parse.ByteBuf, _parentParseContext *pars
 	if F_reserved_skipLen > 0 {
 		_byteBuf.Skip(F_reserved_skipLen)
 	}
-	return _instance
+	return &_instance
 }
 
-func (_instance Road_info_lane_target) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Road_info_lane_target) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_start_index := _byteBuf.WriterIndex()
 	_byteBuf.Write_uint32(_instance.F_track_id)
 	_byteBuf.Write_uint32(_instance.F_lane_dis)
@@ -1811,7 +1801,7 @@ type Sensor_info struct {
 	F_sensor_body    any     `json:"sensor_body"`
 }
 
-func To_Sensor_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Sensor_info {
+func To_Sensor_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Sensor_info {
 	_instance := Sensor_info{}
 	_start_index := _byteBuf.ReaderIndex()
 	F_sensor_id_v := _byteBuf.Read_uint32()
@@ -1854,10 +1844,11 @@ func To_Sensor_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseCon
 	if F_reserved_skipLen > 0 {
 		_byteBuf.Skip(F_reserved_skipLen)
 	}
-	return _instance
+	return &_instance
 }
 
-func (_instance Sensor_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Sensor_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_start_index := _byteBuf.WriterIndex()
 	_byteBuf.Write_uint32(_instance.F_sensor_id)
 	_byteBuf.Write_uint32(_instance.F_sensor_sn)
@@ -1870,7 +1861,7 @@ func (_instance Sensor_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext 
 	_byteBuf.Write_uint16(uint16(parse.Round(_instance.F_sensor_pitch * 100)))
 	_byteBuf.Write_uint16(uint16(parse.Round(_instance.F_sensor_roll * 100)))
 	_byteBuf.Write_uint8(_instance.F_sensor_status)
-	_parseContext := parse.ToParseContext(_instance, _parentParseContext)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	Write_F_sensor_body(_byteBuf, _instance.F_sensor_body, _parseContext)
 	F_reserved_len := 128
 	F_reserved_skipLen := F_reserved_len + _start_index - _byteBuf.WriterIndex()
@@ -1911,7 +1902,7 @@ type Target_info struct {
 	F_extras           any     `json:"extras"`
 }
 
-func To_Target_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) Target_info {
+func To_Target_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Target_info {
 	_instance := Target_info{}
 	_start_index := _byteBuf.ReaderIndex()
 	F_target_num_v := _byteBuf.Read_uint16()
@@ -2002,10 +1993,11 @@ func To_Target_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseCon
 	if F_reserved_skipLen > 0 {
 		_byteBuf.Skip(F_reserved_skipLen)
 	}
-	return _instance
+	return &_instance
 }
 
-func (_instance Target_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+func (__instance *Target_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
+	_instance := *__instance
 	_start_index := _byteBuf.WriterIndex()
 	_byteBuf.Write_uint16(_instance.F_target_num)
 	_byteBuf.Write_uint32(_instance.F_track_id)
@@ -2034,7 +2026,7 @@ func (_instance Target_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext 
 	_byteBuf.Write_int16(_instance.F_img_direc_width * 100)
 	_byteBuf.Write_int16(_instance.F_img_direc_height * 100)
 	_byteBuf.Write_int8(_instance.F_if_extras)
-	_parseContext := parse.ToParseContext(_instance, _parentParseContext)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	Write_F_extras(_byteBuf, _instance.F_extras, _parseContext)
 	F_reserved_len := 128
 	F_reserved_skipLen := F_reserved_len + _start_index - _byteBuf.WriterIndex()

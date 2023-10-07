@@ -20,7 +20,6 @@ type VehicleCommonData struct {
 func To_F_vehicleCommonData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) any {
 	_instance := VehicleCommonData{}
 	packet := _parentParseContext.ParentContext.Instance.(*Packet)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	contentLength := int(packet.F_contentLength) - 6
 	beginLeave := _byteBuf.ReadableBytes()
 	for _byteBuf.Readable() {
@@ -31,23 +30,23 @@ func To_F_vehicleCommonData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.
 		flag := _byteBuf.Read_uint8()
 		switch flag {
 		case 1:
-			_instance.VehicleBaseData = To_VehicleBaseData(_byteBuf, _parseContext)
+			_instance.VehicleBaseData = To_VehicleBaseData(_byteBuf, _parentParseContext)
 		case 2:
-			_instance.VehicleMotorData = To_VehicleMotorData(_byteBuf, _parseContext)
+			_instance.VehicleMotorData = To_VehicleMotorData(_byteBuf, _parentParseContext)
 		case 3:
-			_instance.VehicleFuelBatteryData = To_VehicleFuelBatteryData(_byteBuf, _parseContext)
+			_instance.VehicleFuelBatteryData = To_VehicleFuelBatteryData(_byteBuf, _parentParseContext)
 		case 4:
-			_instance.VehicleEngineData = To_VehicleEngineData(_byteBuf, _parseContext)
+			_instance.VehicleEngineData = To_VehicleEngineData(_byteBuf, _parentParseContext)
 		case 5:
-			_instance.VehiclePositionData = To_VehiclePositionData(_byteBuf, _parseContext)
+			_instance.VehiclePositionData = To_VehiclePositionData(_byteBuf, _parentParseContext)
 		case 6:
-			_instance.VehicleLimitValueData = To_VehicleLimitValueData(_byteBuf, _parseContext)
+			_instance.VehicleLimitValueData = To_VehicleLimitValueData(_byteBuf, _parentParseContext)
 		case 7:
-			_instance.VehicleAlarmData = To_VehicleAlarmData(_byteBuf, _parseContext)
+			_instance.VehicleAlarmData = To_VehicleAlarmData(_byteBuf, _parentParseContext)
 		case 8:
-			_instance.VehicleStorageVoltageData = To_VehicleStorageVoltageData(_byteBuf, _parseContext)
+			_instance.VehicleStorageVoltageData = To_VehicleStorageVoltageData(_byteBuf, _parentParseContext)
 		case 9:
-			_instance.VehicleStorageTemperatureData = To_VehicleStorageTemperatureData(_byteBuf, _parseContext)
+			_instance.VehicleStorageTemperatureData = To_VehicleStorageTemperatureData(_byteBuf, _parentParseContext)
 		default:
 			util.Log.Warnf("Parse VehicleCommonData Interrupted,Unknown Flag[%d]", flag)
 			return &_instance
@@ -58,43 +57,42 @@ func To_F_vehicleCommonData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.
 
 func Write_F_vehicleCommonData(_byteBuf *parse.ByteBuf, __instance any, _parentParseContext *parse.ParseContext) {
 	_instance := __instance.(*VehicleCommonData)
-	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 
 	if _instance.VehicleBaseData != nil {
 		_byteBuf.Write_uint8(1)
-		_instance.VehicleBaseData.Write(_byteBuf, _parseContext)
+		_instance.VehicleBaseData.Write(_byteBuf, _parentParseContext)
 	}
 	if _instance.VehicleMotorData != nil {
 		_byteBuf.Write_uint8(2)
-		_instance.VehicleMotorData.Write(_byteBuf, _parseContext)
+		_instance.VehicleMotorData.Write(_byteBuf, _parentParseContext)
 	}
 	if _instance.VehicleFuelBatteryData != nil {
 		_byteBuf.Write_uint8(3)
-		_instance.VehicleFuelBatteryData.Write(_byteBuf, _parseContext)
+		_instance.VehicleFuelBatteryData.Write(_byteBuf, _parentParseContext)
 	}
 	if _instance.VehicleEngineData != nil {
 		_byteBuf.Write_uint8(4)
-		_instance.VehicleEngineData.Write(_byteBuf, _parseContext)
+		_instance.VehicleEngineData.Write(_byteBuf, _parentParseContext)
 	}
 	if _instance.VehiclePositionData != nil {
 		_byteBuf.Write_uint8(5)
-		_instance.VehiclePositionData.Write(_byteBuf, _parseContext)
+		_instance.VehiclePositionData.Write(_byteBuf, _parentParseContext)
 	}
 	if _instance.VehicleLimitValueData != nil {
 		_byteBuf.Write_uint8(6)
-		_instance.VehicleLimitValueData.Write(_byteBuf, _parseContext)
+		_instance.VehicleLimitValueData.Write(_byteBuf, _parentParseContext)
 	}
 	if _instance.VehicleAlarmData != nil {
 		_byteBuf.Write_uint8(7)
-		_instance.VehicleAlarmData.Write(_byteBuf, _parseContext)
+		_instance.VehicleAlarmData.Write(_byteBuf, _parentParseContext)
 	}
 	if _instance.VehicleStorageVoltageData != nil {
 		_byteBuf.Write_uint8(8)
-		_instance.VehicleStorageVoltageData.Write(_byteBuf, _parseContext)
+		_instance.VehicleStorageVoltageData.Write(_byteBuf, _parentParseContext)
 	}
 	if _instance.VehicleStorageTemperatureData != nil {
 		_byteBuf.Write_uint8(9)
-		_instance.VehicleStorageTemperatureData.Write(_byteBuf, _parseContext)
+		_instance.VehicleStorageTemperatureData.Write(_byteBuf, _parentParseContext)
 	}
 }
 
