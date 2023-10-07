@@ -21,7 +21,7 @@ func (e JsonUint8Arr) MarshalJSON() ([]byte, error) {
 			if i > 0 {
 				sb.WriteString(",")
 			}
-			sb.WriteString(strconv.Itoa(int(v)))
+			sb.WriteString(strconv.FormatUint(uint64(v), 10))
 		}
 		sb.WriteString("]")
 		result = sb.String()
