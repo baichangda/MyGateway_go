@@ -514,3 +514,8 @@ func (b *ByteBuf) Write_string_utf8(v string) {
 func (b *ByteBuf) Skip(n int) {
 	b.rIndex += n
 }
+
+func (b *ByteBuf) Clear() {
+	b.rIndex = 0
+	b.wIndex = 0
+}
