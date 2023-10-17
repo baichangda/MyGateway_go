@@ -6,7 +6,7 @@ import (
 	"encoding/hex"
 )
 
-func To_F_evts(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) any {
+func To_F_evts(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext, args ...any) any {
 	evts := make([]any, 0)
 	for _byteBuf.Readable() {
 		evtId := _byteBuf.Get_uint16()
@@ -80,7 +80,7 @@ func To_F_evts(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext)
 	return evts
 }
 
-func Write_F_evts(_byteBuf *parse.ByteBuf, __instance any, _parentParseContext *parse.ParseContext) {
+func Write_F_evts(_byteBuf *parse.ByteBuf, __instance any, _parentParseContext *parse.ParseContext, args ...any) {
 	evts := __instance.([]any)
 	for _, e := range evts {
 		e.(parse.Writeable).Write(_byteBuf, _parentParseContext)

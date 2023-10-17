@@ -1335,8 +1335,9 @@ func To_Evt_D00B(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContex
 
 	F_BMSCellVols_len := (int)(F_BMSCellVolSumNum_v)
 	F_BMSCellVols_arr := make([]*Evt_D00B_BMSCellVol, F_BMSCellVols_len, F_BMSCellVols_len)
+	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_BMSCellVols_len; i++ {
-		F_BMSCellVols_arr[i] = To_Evt_D00B_BMSCellVol(_byteBuf, nil)
+		F_BMSCellVols_arr[i] = To_Evt_D00B_BMSCellVol(_byteBuf, _parseContext)
 	}
 	_instance.F_BMSCellVols = F_BMSCellVols_arr
 	return &_instance
@@ -1347,9 +1348,10 @@ func (__instance *Evt_D00B) Write(_byteBuf *parse.ByteBuf, _parentParseContext *
 	_byteBuf.Write_uint16(_instance.F_evtId)
 	_byteBuf.Write_uint16(_instance.F_evtLen)
 	_byteBuf.Write_uint8(_instance.F_BMSCellVolSumNum)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_BMSCellVols_arr := _instance.F_BMSCellVols
 	for i := 0; i < len(F_BMSCellVols_arr); i++ {
-		F_BMSCellVols_arr[i].Write(_byteBuf, nil)
+		F_BMSCellVols_arr[i].Write(_byteBuf, _parseContext)
 	}
 }
 
@@ -1399,8 +1401,9 @@ func To_Evt_D00C(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContex
 
 	F_BMSCellTems_len := (int)(F_BMSCellTemSumNum_v)
 	F_BMSCellTems_arr := make([]*Evt_D00C_BMSCellTem, F_BMSCellTems_len, F_BMSCellTems_len)
+	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_BMSCellTems_len; i++ {
-		F_BMSCellTems_arr[i] = To_Evt_D00C_BMSCellTem(_byteBuf, nil)
+		F_BMSCellTems_arr[i] = To_Evt_D00C_BMSCellTem(_byteBuf, _parseContext)
 	}
 	_instance.F_BMSCellTems = F_BMSCellTems_arr
 	return &_instance
@@ -1411,9 +1414,10 @@ func (__instance *Evt_D00C) Write(_byteBuf *parse.ByteBuf, _parentParseContext *
 	_byteBuf.Write_uint16(_instance.F_evtId)
 	_byteBuf.Write_uint16(_instance.F_evtLen)
 	_byteBuf.Write_uint8(_instance.F_BMSCellTemSumNum)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_BMSCellTems_arr := _instance.F_BMSCellTems
 	for i := 0; i < len(F_BMSCellTems_arr); i++ {
-		F_BMSCellTems_arr[i].Write(_byteBuf, nil)
+		F_BMSCellTems_arr[i].Write(_byteBuf, _parseContext)
 	}
 }
 
@@ -1463,8 +1467,9 @@ func To_Evt_D00D(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContex
 
 	F_BMSBusbarTems_len := (int)(F_BMSBusbarTemSumNum_v)
 	F_BMSBusbarTems_arr := make([]*Evt_D00D_BMSBusbarTem, F_BMSBusbarTems_len, F_BMSBusbarTems_len)
+	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_BMSBusbarTems_len; i++ {
-		F_BMSBusbarTems_arr[i] = To_Evt_D00D_BMSBusbarTem(_byteBuf, nil)
+		F_BMSBusbarTems_arr[i] = To_Evt_D00D_BMSBusbarTem(_byteBuf, _parseContext)
 	}
 	_instance.F_BMSBusbarTems = F_BMSBusbarTems_arr
 	return &_instance
@@ -1475,9 +1480,10 @@ func (__instance *Evt_D00D) Write(_byteBuf *parse.ByteBuf, _parentParseContext *
 	_byteBuf.Write_uint16(_instance.F_evtId)
 	_byteBuf.Write_uint16(_instance.F_evtLen)
 	_byteBuf.Write_uint8(_instance.F_BMSBusbarTemSumNum)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_BMSBusbarTems_arr := _instance.F_BMSBusbarTems
 	for i := 0; i < len(F_BMSBusbarTems_arr); i++ {
-		F_BMSBusbarTems_arr[i].Write(_byteBuf, nil)
+		F_BMSBusbarTems_arr[i].Write(_byteBuf, _parseContext)
 	}
 }
 

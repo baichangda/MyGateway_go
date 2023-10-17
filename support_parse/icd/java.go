@@ -606,19 +606,19 @@ type Msg struct {
 
 func To_Msg(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) *Msg {
 	_instance := Msg{}
-	_instance.F_msg_header = To_Msg_header(_byteBuf, nil)
 	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	_instance.F_msg_header = To_Msg_header(_byteBuf, _parseContext)
 	_instance.F_msg_body = To_F_msg_body(_byteBuf, _parseContext)
-	_instance.F_msg_tailer = To_Msg_tailer(_byteBuf, nil)
+	_instance.F_msg_tailer = To_Msg_tailer(_byteBuf, _parseContext)
 	return &_instance
 }
 
 func (__instance *Msg) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
-	_instance.F_msg_header.Write(_byteBuf, nil)
 	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
+	_instance.F_msg_header.Write(_byteBuf, _parseContext)
 	Write_F_msg_body(_byteBuf, _instance.F_msg_body, _parseContext)
-	_instance.F_msg_tailer.Write(_byteBuf, nil)
+	_instance.F_msg_tailer.Write(_byteBuf, _parseContext)
 }
 
 type Msg_body_area_statistics_info struct {
@@ -663,8 +663,9 @@ func To_Msg_body_area_statistics_info(_byteBuf *parse.ByteBuf, _parentParseConte
 	_instance.F_src_array = F_src_array_arr
 	F_lane_info_array_len := (int)(F_lane_count_v)
 	F_lane_info_array_arr := make([]*Lane_info_area, F_lane_info_array_len, F_lane_info_array_len)
+	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_lane_info_array_len; i++ {
-		F_lane_info_array_arr[i] = To_Lane_info_area(_byteBuf, nil)
+		F_lane_info_array_arr[i] = To_Lane_info_area(_byteBuf, _parseContext)
 	}
 	_instance.F_lane_info_array = F_lane_info_array_arr
 	return &_instance
@@ -688,9 +689,10 @@ func (__instance *Msg_body_area_statistics_info) Write(_byteBuf *parse.ByteBuf, 
 	for i := 0; i < len(F_src_array_arr); i++ {
 		_byteBuf.Write_uint32(F_src_array_arr[i])
 	}
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_lane_info_array_arr := _instance.F_lane_info_array
 	for i := 0; i < len(F_lane_info_array_arr); i++ {
-		F_lane_info_array_arr[i].Write(_byteBuf, nil)
+		F_lane_info_array_arr[i].Write(_byteBuf, _parseContext)
 	}
 }
 
@@ -740,8 +742,9 @@ func To_Msg_body_cycle_statistics_info(_byteBuf *parse.ByteBuf, _parentParseCont
 	_instance.F_src_array = F_src_array_arr
 	F_lane_info_array_len := (int)(F_lane_count_v)
 	F_lane_info_array_arr := make([]*Lane_info_cycle, F_lane_info_array_len, F_lane_info_array_len)
+	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_lane_info_array_len; i++ {
-		F_lane_info_array_arr[i] = To_Lane_info_cycle(_byteBuf, nil)
+		F_lane_info_array_arr[i] = To_Lane_info_cycle(_byteBuf, _parseContext)
 	}
 	_instance.F_lane_info_array = F_lane_info_array_arr
 	return &_instance
@@ -766,9 +769,10 @@ func (__instance *Msg_body_cycle_statistics_info) Write(_byteBuf *parse.ByteBuf,
 	for i := 0; i < len(F_src_array_arr); i++ {
 		_byteBuf.Write_uint32(F_src_array_arr[i])
 	}
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_lane_info_array_arr := _instance.F_lane_info_array
 	for i := 0; i < len(F_lane_info_array_arr); i++ {
-		F_lane_info_array_arr[i].Write(_byteBuf, nil)
+		F_lane_info_array_arr[i].Write(_byteBuf, _parseContext)
 	}
 }
 
@@ -789,9 +793,10 @@ func To_Msg_body_device_status_info(_byteBuf *parse.ByteBuf, _parentParseContext
 	F_dev_status_v := _byteBuf.Read_uint8()
 	_instance.F_dev_status = F_dev_status_v
 
-	_instance.F_dev_hw_list = To_Dev_hw_list(_byteBuf, nil)
-	_instance.F_dev_sw_list = To_Dev_sw_list(_byteBuf, nil)
-	_instance.F_dev_func_list = To_Dev_func_list(_byteBuf, nil)
+	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
+	_instance.F_dev_hw_list = To_Dev_hw_list(_byteBuf, _parseContext)
+	_instance.F_dev_sw_list = To_Dev_sw_list(_byteBuf, _parseContext)
+	_instance.F_dev_func_list = To_Dev_func_list(_byteBuf, _parseContext)
 	F_reserved_len := 128
 	F_reserved_skipLen := F_reserved_len + _start_index - _byteBuf.ReaderIndex()
 	if F_reserved_skipLen > 0 {
@@ -805,9 +810,10 @@ func (__instance *Msg_body_device_status_info) Write(_byteBuf *parse.ByteBuf, _p
 	_start_index := _byteBuf.WriterIndex()
 	_byteBuf.Write_uint32(_instance.F_dev_sn)
 	_byteBuf.Write_uint8(_instance.F_dev_status)
-	_instance.F_dev_hw_list.Write(_byteBuf, nil)
-	_instance.F_dev_sw_list.Write(_byteBuf, nil)
-	_instance.F_dev_func_list.Write(_byteBuf, nil)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
+	_instance.F_dev_hw_list.Write(_byteBuf, _parseContext)
+	_instance.F_dev_sw_list.Write(_byteBuf, _parseContext)
+	_instance.F_dev_func_list.Write(_byteBuf, _parseContext)
 	F_reserved_len := 128
 	F_reserved_skipLen := F_reserved_len + _start_index - _byteBuf.WriterIndex()
 	if F_reserved_skipLen > 0 {
@@ -880,8 +886,9 @@ func To_Msg_body_lane_detect_info(_byteBuf *parse.ByteBuf, _parentParseContext *
 	_instance.F_src_array = F_src_array_arr
 	F_road_info_array_len := (int)(F_road_count_v)
 	F_road_info_array_arr := make([]*Road_info, F_road_info_array_len, F_road_info_array_len)
+	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_road_info_array_len; i++ {
-		F_road_info_array_arr[i] = To_Road_info(_byteBuf, nil)
+		F_road_info_array_arr[i] = To_Road_info(_byteBuf, _parseContext)
 	}
 	_instance.F_road_info_array = F_road_info_array_arr
 	return &_instance
@@ -903,9 +910,10 @@ func (__instance *Msg_body_lane_detect_info) Write(_byteBuf *parse.ByteBuf, _par
 	for i := 0; i < len(F_src_array_arr); i++ {
 		_byteBuf.Write_uint32(F_src_array_arr[i])
 	}
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_road_info_array_arr := _instance.F_road_info_array
 	for i := 0; i < len(F_road_info_array_arr); i++ {
-		F_road_info_array_arr[i].Write(_byteBuf, nil)
+		F_road_info_array_arr[i].Write(_byteBuf, _parseContext)
 	}
 }
 
@@ -939,8 +947,9 @@ func To_Msg_body_queue_statistics_info(_byteBuf *parse.ByteBuf, _parentParseCont
 	_instance.F_src_array = F_src_array_arr
 	F_lane_info_array_len := (int)(F_lane_count_v)
 	F_lane_info_array_arr := make([]*Lane_info_queue, F_lane_info_array_len, F_lane_info_array_len)
+	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_lane_info_array_len; i++ {
-		F_lane_info_array_arr[i] = To_Lane_info_queue(_byteBuf, nil)
+		F_lane_info_array_arr[i] = To_Lane_info_queue(_byteBuf, _parseContext)
 	}
 	_instance.F_lane_info_array = F_lane_info_array_arr
 	return &_instance
@@ -961,9 +970,10 @@ func (__instance *Msg_body_queue_statistics_info) Write(_byteBuf *parse.ByteBuf,
 	for i := 0; i < len(F_src_array_arr); i++ {
 		_byteBuf.Write_uint32(F_src_array_arr[i])
 	}
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_lane_info_array_arr := _instance.F_lane_info_array
 	for i := 0; i < len(F_lane_info_array_arr); i++ {
-		F_lane_info_array_arr[i].Write(_byteBuf, nil)
+		F_lane_info_array_arr[i].Write(_byteBuf, _parseContext)
 	}
 }
 
@@ -979,8 +989,9 @@ func To_Msg_body_road_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.P
 
 	F_road_info_array_len := (int)(F_road_count_v)
 	F_road_info_array_arr := make([]*Road2_info, F_road_info_array_len, F_road_info_array_len)
+	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_road_info_array_len; i++ {
-		F_road_info_array_arr[i] = To_Road2_info(_byteBuf, nil)
+		F_road_info_array_arr[i] = To_Road2_info(_byteBuf, _parseContext)
 	}
 	_instance.F_road_info_array = F_road_info_array_arr
 	return &_instance
@@ -989,9 +1000,10 @@ func To_Msg_body_road_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.P
 func (__instance *Msg_body_road_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) {
 	_instance := *__instance
 	_byteBuf.Write_uint16(_instance.F_road_count)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_road_info_array_arr := _instance.F_road_info_array
 	for i := 0; i < len(F_road_info_array_arr); i++ {
-		F_road_info_array_arr[i].Write(_byteBuf, nil)
+		F_road_info_array_arr[i].Write(_byteBuf, _parseContext)
 	}
 }
 
@@ -1067,8 +1079,9 @@ func To_Msg_body_system_runtime_info(_byteBuf *parse.ByteBuf, _parentParseContex
 
 	F_disk_infos_len := (int)(F_disk_num_v)
 	F_disk_infos_arr := make([]*Disk_infos, F_disk_infos_len, F_disk_infos_len)
+	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_disk_infos_len; i++ {
-		F_disk_infos_arr[i] = To_Disk_infos(_byteBuf, nil)
+		F_disk_infos_arr[i] = To_Disk_infos(_byteBuf, _parseContext)
 	}
 	_instance.F_disk_infos = F_disk_infos_arr
 	F_net_num_v := _byteBuf.Read_uint8()
@@ -1077,7 +1090,7 @@ func To_Msg_body_system_runtime_info(_byteBuf *parse.ByteBuf, _parentParseContex
 	F_net_infos_len := (int)(F_net_num_v)
 	F_net_infos_arr := make([]*Net_infos, F_net_infos_len, F_net_infos_len)
 	for i := 0; i < F_net_infos_len; i++ {
-		F_net_infos_arr[i] = To_Net_infos(_byteBuf, nil)
+		F_net_infos_arr[i] = To_Net_infos(_byteBuf, _parseContext)
 	}
 	_instance.F_net_infos = F_net_infos_arr
 	F_temp_num_v := _byteBuf.Read_uint8()
@@ -1106,14 +1119,15 @@ func (__instance *Msg_body_system_runtime_info) Write(_byteBuf *parse.ByteBuf, _
 	F_gpu_usage_arr := _instance.F_gpu_usage
 	_byteBuf.Write_slice_uint8(F_gpu_usage_arr)
 	_byteBuf.Write_uint8(_instance.F_disk_num)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_disk_infos_arr := _instance.F_disk_infos
 	for i := 0; i < len(F_disk_infos_arr); i++ {
-		F_disk_infos_arr[i].Write(_byteBuf, nil)
+		F_disk_infos_arr[i].Write(_byteBuf, _parseContext)
 	}
 	_byteBuf.Write_uint8(_instance.F_net_num)
 	F_net_infos_arr := _instance.F_net_infos
 	for i := 0; i < len(F_net_infos_arr); i++ {
-		F_net_infos_arr[i].Write(_byteBuf, nil)
+		F_net_infos_arr[i].Write(_byteBuf, _parseContext)
 	}
 	_byteBuf.Write_uint8(_instance.F_temp_num)
 	F_temp_val_arr := _instance.F_temp_val
@@ -1218,8 +1232,9 @@ func To_Msg_body_trigger_statistics_info(_byteBuf *parse.ByteBuf, _parentParseCo
 	_instance.F_src_array = F_src_array_arr
 	F_lane_info_array_len := (int)(F_lane_count_v)
 	F_lane_info_array_arr := make([]*Lane_info_trigger, F_lane_info_array_len, F_lane_info_array_len)
+	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_lane_info_array_len; i++ {
-		F_lane_info_array_arr[i] = To_Lane_info_trigger(_byteBuf, nil)
+		F_lane_info_array_arr[i] = To_Lane_info_trigger(_byteBuf, _parseContext)
 	}
 	_instance.F_lane_info_array = F_lane_info_array_arr
 	return &_instance
@@ -1240,9 +1255,10 @@ func (__instance *Msg_body_trigger_statistics_info) Write(_byteBuf *parse.ByteBu
 	for i := 0; i < len(F_src_array_arr); i++ {
 		_byteBuf.Write_uint32(F_src_array_arr[i])
 	}
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_lane_info_array_arr := _instance.F_lane_info_array
 	for i := 0; i < len(F_lane_info_array_arr); i++ {
-		F_lane_info_array_arr[i].Write(_byteBuf, nil)
+		F_lane_info_array_arr[i].Write(_byteBuf, _parseContext)
 	}
 }
 
@@ -1444,8 +1460,9 @@ func To_Road2_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseCont
 	}
 	F_lane_info_array_len := (int)(F_lane_count_v)
 	F_lane_info_array_arr := make([]*Road2_info_lane, F_lane_info_array_len, F_lane_info_array_len)
+	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_lane_info_array_len; i++ {
-		F_lane_info_array_arr[i] = To_Road2_info_lane(_byteBuf, nil)
+		F_lane_info_array_arr[i] = To_Road2_info_lane(_byteBuf, _parseContext)
 	}
 	_instance.F_lane_info_array = F_lane_info_array_arr
 	return &_instance
@@ -1466,9 +1483,10 @@ func (__instance *Road2_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext
 		_byteBuf.Write_zero(F_reserved_skipLen)
 	}
 
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_lane_info_array_arr := _instance.F_lane_info_array
 	for i := 0; i < len(F_lane_info_array_arr); i++ {
-		F_lane_info_array_arr[i].Write(_byteBuf, nil)
+		F_lane_info_array_arr[i].Write(_byteBuf, _parseContext)
 	}
 }
 
@@ -1502,8 +1520,9 @@ func To_Road2_info_lane(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Pars
 	}
 	F_area_point_array_len := (int)(F_area_point_count_v)
 	F_area_point_array_arr := make([]*Road2_info_lane_area_point, F_area_point_array_len, F_area_point_array_len)
+	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_area_point_array_len; i++ {
-		F_area_point_array_arr[i] = To_Road2_info_lane_area_point(_byteBuf, nil)
+		F_area_point_array_arr[i] = To_Road2_info_lane_area_point(_byteBuf, _parseContext)
 	}
 	_instance.F_area_point_array = F_area_point_array_arr
 	return &_instance
@@ -1522,9 +1541,10 @@ func (__instance *Road2_info_lane) Write(_byteBuf *parse.ByteBuf, _parentParseCo
 		_byteBuf.Write_zero(F_reserved_skipLen)
 	}
 
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_area_point_array_arr := _instance.F_area_point_array
 	for i := 0; i < len(F_area_point_array_arr); i++ {
-		F_area_point_array_arr[i].Write(_byteBuf, nil)
+		F_area_point_array_arr[i].Write(_byteBuf, _parseContext)
 	}
 }
 
@@ -1576,8 +1596,9 @@ func To_Road_info(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseConte
 
 	F_lane_info_array_len := (int)(F_lane_count_v)
 	F_lane_info_array_arr := make([]*Road_info_lane, F_lane_info_array_len, F_lane_info_array_len)
+	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_lane_info_array_len; i++ {
-		F_lane_info_array_arr[i] = To_Road_info_lane(_byteBuf, nil)
+		F_lane_info_array_arr[i] = To_Road_info_lane(_byteBuf, _parseContext)
 	}
 	_instance.F_lane_info_array = F_lane_info_array_arr
 	return &_instance
@@ -1587,9 +1608,10 @@ func (__instance *Road_info) Write(_byteBuf *parse.ByteBuf, _parentParseContext 
 	_instance := *__instance
 	_byteBuf.Write_uint32(_instance.F_road_id)
 	_byteBuf.Write_uint32(_instance.F_lane_count)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_lane_info_array_arr := _instance.F_lane_info_array
 	for i := 0; i < len(F_lane_info_array_arr); i++ {
-		F_lane_info_array_arr[i].Write(_byteBuf, nil)
+		F_lane_info_array_arr[i].Write(_byteBuf, _parseContext)
 	}
 }
 
@@ -1609,8 +1631,9 @@ func To_Road_info_lane(_byteBuf *parse.ByteBuf, _parentParseContext *parse.Parse
 
 	F_lane_target_array_len := (int)(F_target_count_v)
 	F_lane_target_array_arr := make([]*Road_info_lane_target, F_lane_target_array_len, F_lane_target_array_len)
+	_parseContext := parse.ToParseContext(&_instance, _parentParseContext)
 	for i := 0; i < F_lane_target_array_len; i++ {
-		F_lane_target_array_arr[i] = To_Road_info_lane_target(_byteBuf, nil)
+		F_lane_target_array_arr[i] = To_Road_info_lane_target(_byteBuf, _parseContext)
 	}
 	_instance.F_lane_target_array = F_lane_target_array_arr
 	return &_instance
@@ -1620,9 +1643,10 @@ func (__instance *Road_info_lane) Write(_byteBuf *parse.ByteBuf, _parentParseCon
 	_instance := *__instance
 	_byteBuf.Write_uint32(_instance.F_lane_id)
 	_byteBuf.Write_uint16(_instance.F_target_count)
+	_parseContext := parse.ToParseContext(__instance, _parentParseContext)
 	F_lane_target_array_arr := _instance.F_lane_target_array
 	for i := 0; i < len(F_lane_target_array_arr); i++ {
-		F_lane_target_array_arr[i].Write(_byteBuf, nil)
+		F_lane_target_array_arr[i].Write(_byteBuf, _parseContext)
 	}
 }
 

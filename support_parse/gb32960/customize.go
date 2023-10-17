@@ -17,7 +17,7 @@ type VehicleCommonData struct {
 	VehicleStorageTemperatureData *VehicleStorageTemperatureData
 }
 
-func To_F_vehicleCommonData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) any {
+func To_F_vehicleCommonData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext, args ...any) any {
 	_instance := VehicleCommonData{}
 	packet := _parentParseContext.ParentContext.Instance.(*Packet)
 	contentLength := int(packet.F_contentLength) - 6
@@ -55,7 +55,7 @@ func To_F_vehicleCommonData(_byteBuf *parse.ByteBuf, _parentParseContext *parse.
 	return &_instance
 }
 
-func Write_F_vehicleCommonData(_byteBuf *parse.ByteBuf, __instance any, _parentParseContext *parse.ParseContext) {
+func Write_F_vehicleCommonData(_byteBuf *parse.ByteBuf, __instance any, _parentParseContext *parse.ParseContext, args ...any) {
 	_instance := __instance.(*VehicleCommonData)
 
 	if _instance.VehicleBaseData != nil {
@@ -96,7 +96,7 @@ func Write_F_vehicleCommonData(_byteBuf *parse.ByteBuf, __instance any, _parentP
 	}
 }
 
-func To_F_data(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext) any {
+func To_F_data(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext, args ...any) any {
 	packet := _parentParseContext.Instance.(*Packet)
 	if packet.F_replyFlag == 0xfe {
 		switch packet.F_flag {
@@ -121,7 +121,7 @@ func To_F_data(_byteBuf *parse.ByteBuf, _parentParseContext *parse.ParseContext)
 	}
 }
 
-func Write_F_data(_byteBuf *parse.ByteBuf, __instance any, _parentParseContext *parse.ParseContext) {
+func Write_F_data(_byteBuf *parse.ByteBuf, __instance any, _parentParseContext *parse.ParseContext, args ...any) {
 	packet := _parentParseContext.Instance.(*Packet)
 	if packet.F_replyFlag == 0xfe {
 		__instance.(parse.Writeable).Write(_byteBuf, _parentParseContext)
